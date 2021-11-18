@@ -1,0 +1,16 @@
+<div id="graph-wrapper" class="graph-wrapper">
+    <div class="count-wrapper">
+        Clicks count: {{clicksCount}}
+    </div>
+    <div class="blocks-wrapper">
+        <div [id]="block.id" class="graph-block" *ngFor="let block of graphBlocks.blocks" 
+        (click)="clickOnBlock($event)" 
+        cdkDrag>
+            <app-block [value]="block.id"></app-block>
+        </div>
+    </div>
+
+    <svg>
+        <line *ngFor="let line of lines" [attr.x1]="line.x1" [attr.y1]="line.y1" [attr.x2]="line.x2" [attr.y2]="line.y2" stroke="black" />
+    </svg>
+</div>

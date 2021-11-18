@@ -1,0 +1,24 @@
+{
+    "blocks":[
+        {
+            "blockId": 1,
+            "value": "A",
+            "relations": [4]
+        },
+        {
+            "blockId": 2,
+            "value": "B",
+            "relations": [3, 4]
+        },
+        {
+            "blockId": 3,
+            "value": "C",
+            "relations": [4]
+        },
+        {
+            "blockId": 4,
+            "value": "D",
+            "relations": [3]
+        }
+    ]
+}

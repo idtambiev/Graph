@@ -1,0 +1,14 @@
+<div class="wrapper">
+    <div class="count-block">
+        Clicks count: {{clicksCount}}
+    </div>
+    <div class="list-wrapper">
+        <app-block *ngFor="let block of blocks" 
+        [value]="block.id" 
+        (click)="clickOnBlock($event)" 
+        cdkDropList
+        cdkDropListConnectedTo="graph"
+        class="block"></app-block>
+    </div>
+
+</div>
