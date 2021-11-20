@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, DoCheck, NgZone, OnChanges, OnInit } from '@angular/core';
+import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, DoCheck, NgZone, OnChanges, OnInit } from '@angular/core';
 import { take } from 'rxjs';
 import { Block } from 'src/app/core/interafaces/block.interface';
 import { Graph } from 'src/app/core/interafaces/graph.interface';
@@ -11,16 +11,14 @@ import { GraphService } from 'src/app/core/services/graph/graph.service';
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.scss']
 })
-export class GraphComponent implements OnInit, AfterContentChecked {
+export class GraphComponent implements OnInit, AfterViewInit {
   renderedBlocks: Block[] = [];
   clickedBlocks: Block[] = [];
   lines: Line[] = [];
   relations: Relations[] = [];
-  
+  markerWidth = 10;
+  markerHeight = 7;
   clicksCount = 0;
-
-  lineSvg = ''
-
 
   graphBlocks: Graph = {
     blocks: [
@@ -35,18 +33,14 @@ export class GraphComponent implements OnInit, AfterContentChecked {
       {
         id: 3,
         relations: []
+      },
+      {
+        id: 4,
+        relations: [3]
       }
     ],
-    relationsCount: 2
+    relationsCount: 3
   }
-
-  // line = {
-  //   x1: 0,
-  //   y1: 0,
-  //   x2: 0,
-  //   y2: 0
-  // }
-
 
   constructor(
     private graphService: GraphService,
@@ -59,12 +53,6 @@ export class GraphComponent implements OnInit, AfterContentChecked {
     this.graphService.clicksCount$.subscribe((val)=>{
       this.clicksCount = val;
     })
-    
-    let timeout = setInterval(() => {
-      if (this.lines.length === this.graphBlocks.relationsCount){
-        clearTimeout(timeout)
-      }
-    }, 1000);
   }
 
 
@@ -72,32 +60,52 @@ export class GraphComponent implements OnInit, AfterContentChecked {
     let clicks = this.graphService.clicksCount$.value + 1;
     this.graphService.clicksCount$.next(clicks)
     
-    this.clickedBlocks.push({
-      id: event.target.id,
-      xCoordinate: event.x,
-      yCoordinate: event.y,
-      width: event.target.offsetWidth,
-      height: event.target.offsetHeight,
-    });
+    // this.clickedBlocks.push({
+    //   id: event.target.id,
+    //   xCoordinate: event.x,
+    //   yCoordinate: event.y,
+    //   width: event.target.offsetWidth,
+    //   height: event.target.offsetHeight,
+    // });
 
-    const wrapper = document.getElementById('graph-wrapper');
-    if (wrapper && clicks === 2){
-      const div = wrapper.getBoundingClientRect()
+    // const wrapper = document.getElementById('graph-wrapper');
+    // if (wrapper && clicks === 2){
+    //   const div = wrapper.getBoundingClientRect()
 
-      // this.line = {
-      //   x1: this.clickedBlocks[0].xCoordinate - div.x,
-      //   y1: this.clickedBlocks[0].yCoordinate- div.y,
-      //   x2: this.clickedBlocks[1].xCoordinate- div.x,
-      //   y2: this.clickedBlocks[1].yCoordinate - div.y
-      // }
-      // this.ngOnInit();
-      this.clickedBlocks.splice(0,2)
-      this.graphService.clicksCount$.next(0);
-    }
+    //   // this.line = {
+    //   //   x1: this.clickedBlocks[0].xCoordinate - div.x,
+    //   //   y1: this.clickedBlocks[0].yCoordinate- div.y,
+    //   //   x2: this.clickedBlocks[1].xCoordinate- div.x,
+    //   //   y2: this.clickedBlocks[1].yCoordinate - div.y
+    //   // }
+    //   // this.ngOnInit();
+    //   this.clickedBlocks.splice(0,2)
+    //   this.graphService.clicksCount$.next(0);
+    // }
   }
 
-  ngAfterContentChecked(): void{
+  movingBlock(event: any, id: number): void{
+    const distance = event.distance;
+    this.changeRelationCoordinates(distance.x ,distance.y ,id);
+  }
+
+  changeRelationCoordinates(x: number, y: number, id: number): void{
+    this.lines.forEach((line, idx) =>{
+      if (line.startBlockId === id){
+        this.lines[idx].x1 += x;
+        this.lines[idx].y1 += y;
+      }
+
+      if (line.endBlockId === id){
+        this.lines[idx].x2 += x;
+        this.lines[idx].y2 += y;
+      }
+    })
+  }
+
+  ngAfterViewInit(): void{
     this.getBlocksCoordinates();
+    this.ref.detectChanges();
   }
 
   getBlocksCoordinates(): void{
@@ -115,6 +123,8 @@ export class GraphComponent implements OnInit, AfterContentChecked {
         })
       });
       this.createRelationLines();
+    } else {
+      console.log('blocks doesnt exist')
     }
     
   }
@@ -132,14 +142,14 @@ export class GraphComponent implements OnInit, AfterContentChecked {
         id: index + 1,
         startBlockId: relation.startBlockId,
         endBlockId: relation.endBlockId,
-        x1: startBlock!.xCoordinate - wrapper!.x + startBlock!.width,
+        x1: startBlock!.xCoordinate - wrapper!.x,
         y1: startBlock!.yCoordinate - wrapper!.y + startBlock!.height/2,
-        x2: endBlock!.xCoordinate - wrapper!.x,
+        x2: startBlock!.xCoordinate > endBlock!.xCoordinate ?
+                      endBlock!.xCoordinate - wrapper!.x + endBlock!.width + this.markerWidth : 
+                      endBlock!.xCoordinate - wrapper!.x - this.markerWidth,
         y2: endBlock!.yCoordinate - wrapper!.y + endBlock!.height/2
       });
     });
-    this.lineSvg = '<svg><line *ngFor="let line of lines" [attr.x1]="line.x1" [attr.y1]="line.y1" [attr.x2]="line.x2" [attr.y2]="line.y2" stroke="black" /></svg>'
-    console.log(this.lines)
   }
 
   createRelationsArray(): void{

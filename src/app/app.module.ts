@@ -9,13 +9,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BlocksListComponent } from './components/blocks-list/blocks-list.component';
 import { MainComponent } from './components/main/main.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     GraphComponent,
     BlockComponent,
     BlocksListComponent,
-    MainComponent
+    MainComponent,
   ],
   imports: [
     BrowserModule,

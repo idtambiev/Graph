@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { GraphService } from 'src/app/core/services/graph/graph.service';
 
 @Component({
   selector: 'app-block',
@@ -8,10 +9,9 @@ import { Component, Input, OnInit } from '@angular/core';
 export class BlockComponent implements OnInit {
   @Input() value: number = 0;
 
-  constructor() { }
+  constructor(
+  ) { }
 
   ngOnInit(): void {
   }
-
-
 }
