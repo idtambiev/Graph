@@ -19,24 +19,44 @@ export class GraphComponent implements OnInit, AfterViewInit {
   markerWidth = 10;
   markerHeight = 7;
   clicksCount = 0;
+  lineOffsetCoordinates = {
+    x: 0,
+    y: 0
+  }
 
   graphBlocks: Graph = {
     blocks: [
       {
         id: 1,
-        relations: [2]
+        value: 'A',
+        relations: [{
+          relatedBlockId: 2,
+          type: 0,
+          weight: 0
+        }]
       },
       {
         id: 2,
-        relations: [3]
+        value: 'B',
+        relations: [{
+          relatedBlockId: 3,
+          type: 0,
+          weight: 0
+        }]
       },
       {
         id: 3,
+        value: 'C',
         relations: []
       },
       {
         id: 4,
-        relations: [3]
+        value: 'D',
+        relations: [{
+          relatedBlockId: 3,
+          type: 0,
+          weight: 0
+        }]
       }
     ],
     relationsCount: 3
@@ -86,7 +106,30 @@ export class GraphComponent implements OnInit, AfterViewInit {
 
   movingBlock(event: any, id: number): void{
     const distance = event.distance;
-    this.changeRelationCoordinates(distance.x ,distance.y ,id);
+
+    if (this.lineOffsetCoordinates.x === 0 && this.lineOffsetCoordinates.y === 0){
+      this.lineOffsetCoordinates = {
+        x: distance.x,
+        y: distance.y
+      }
+    } else {
+      this.lineOffsetCoordinates = {
+        x: distance.x - this.lineOffsetCoordinates.x,
+        y: distance.y - this.lineOffsetCoordinates.y
+      }
+    }
+
+    // this.changeRelationCoordinates(
+    //   this.lineOffsetCoordinates.x,
+    //   this.lineOffsetCoordinates.y ,
+    // id);
+  }
+
+  endedMovingBlock(event: any, id: number){
+    // this.getBlocksCoordinates();
+    const distance = event.distance;
+
+    this.changeRelationCoordinates(distance.x, distance.y, id);
   }
 
   changeRelationCoordinates(x: number, y: number, id: number): void{
@@ -126,7 +169,6 @@ export class GraphComponent implements OnInit, AfterViewInit {
     } else {
       console.log('blocks doesnt exist')
     }
-    
   }
 
 
@@ -137,12 +179,14 @@ export class GraphComponent implements OnInit, AfterViewInit {
     this.relations.forEach((relation, index) => {
       let startBlock = this.getRelationBlockById(relation.startBlockId);
       let endBlock = this.getRelationBlockById(relation.endBlockId);
-
+      
       this.lines.push({
         id: index + 1,
         startBlockId: relation.startBlockId,
         endBlockId: relation.endBlockId,
-        x1: startBlock!.xCoordinate - wrapper!.x,
+        x1: startBlock!.xCoordinate < endBlock!.xCoordinate ?
+                      startBlock!.xCoordinate - wrapper!.x + startBlock!.width: 
+                      startBlock!.xCoordinate - wrapper!.x,
         y1: startBlock!.yCoordinate - wrapper!.y + startBlock!.height/2,
         x2: startBlock!.xCoordinate > endBlock!.xCoordinate ?
                       endBlock!.xCoordinate - wrapper!.x + endBlock!.width + this.markerWidth : 
@@ -157,8 +201,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
     this.graphBlocks.blocks
     .forEach((block)=>{
       if (block.relations.length){
-        block.relations.forEach((relationBlockId) =>{
-          this.relations.push({startBlockId: block.id, endBlockId: relationBlockId})
+        block.relations.forEach((relation) =>{
+          this.relations.push({startBlockId: block.id, endBlockId: relation.relatedBlockId})
         })
       }
     });

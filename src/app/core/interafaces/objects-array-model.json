@@ -3,23 +3,36 @@
         {
             "id": 1,
             "value": "A",
-            "relations": [4]
+            "relations": [{
+                "relatedBlockId": 2,
+                "type": 0,
+                "weight": 0
+            }]
         },
         {
             "id": 2,
             "value": "B",
-            "relations": [3, 4]
+            "relations": [{
+                "relatedBlockId": 2,
+                "type": 0,
+                "weight": 0
+            }]
         },
         {
             "id": 3,
             "value": "C",
-            "relations": [4]
+            "relations": [{
+                "relatedBlockId": 4,
+                "type": 0,
+                "weight": 0
+            }]
         },
         {
             "id": 4,
             "value": "D",
-            "relations": [3]
+            "relations": []
         }
-    ]
+    ],
+    "relationsCount": 3
 }
 
