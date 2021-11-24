@@ -1,5 +1,4 @@
-import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, DoCheck, NgZone, OnChanges, OnInit } from '@angular/core';
-import { take } from 'rxjs';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Block } from 'src/app/core/interafaces/block.interface';
 import { Graph } from 'src/app/core/interafaces/graph.interface';
 import { Line } from 'src/app/core/interafaces/line.interface';
@@ -79,29 +78,6 @@ export class GraphComponent implements OnInit, AfterViewInit {
   clickOnBlock(event: any): void{
     let clicks = this.graphService.clicksCount$.value + 1;
     this.graphService.clicksCount$.next(clicks)
-    
-    // this.clickedBlocks.push({
-    //   id: event.target.id,
-    //   xCoordinate: event.x,
-    //   yCoordinate: event.y,
-    //   width: event.target.offsetWidth,
-    //   height: event.target.offsetHeight,
-    // });
-
-    // const wrapper = document.getElementById('graph-wrapper');
-    // if (wrapper && clicks === 2){
-    //   const div = wrapper.getBoundingClientRect()
-
-    //   // this.line = {
-    //   //   x1: this.clickedBlocks[0].xCoordinate - div.x,
-    //   //   y1: this.clickedBlocks[0].yCoordinate- div.y,
-    //   //   x2: this.clickedBlocks[1].xCoordinate- div.x,
-    //   //   y2: this.clickedBlocks[1].yCoordinate - div.y
-    //   // }
-    //   // this.ngOnInit();
-    //   this.clickedBlocks.splice(0,2)
-    //   this.graphService.clicksCount$.next(0);
-    // }
   }
 
   movingBlock(event: any, id: number): void{
@@ -118,15 +94,9 @@ export class GraphComponent implements OnInit, AfterViewInit {
         y: distance.y - this.lineOffsetCoordinates.y
       }
     }
-
-    // this.changeRelationCoordinates(
-    //   this.lineOffsetCoordinates.x,
-    //   this.lineOffsetCoordinates.y ,
-    // id);
   }
 
   endedMovingBlock(event: any, id: number){
-    // this.getBlocksCoordinates();
     const distance = event.distance;
 
     this.changeRelationCoordinates(distance.x, distance.y, id);
@@ -219,5 +189,14 @@ export class GraphComponent implements OnInit, AfterViewInit {
 
   clickOnLine(line: any){
     console.log(line);
+  }
+
+  addNewBlock(){
+    this.graphBlocks.blocks.push({
+      id: this.graphBlocks.blocks.length+1,
+      value: '',
+      relations: []
+    });
+    this.graphBlocks.relationsCount++;
   }
 }

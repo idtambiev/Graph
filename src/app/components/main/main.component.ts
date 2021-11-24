@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { GraphComponent } from '../graph/graph.component';
 
 @Component({
   selector: 'app-main',
@@ -6,14 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-
+  @ViewChild(GraphComponent) graphComponent!: GraphComponent;
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  getNewBlock(value: number): void{
-
+  addNewBlock(): void{
+    this.graphComponent.addNewBlock();
   }
 
 }

@@ -9,7 +9,7 @@ import { GraphService } from 'src/app/core/services/graph/graph.service';
   styleUrls: ['./blocks-list.component.scss']
 })
 export class BlocksListComponent implements OnInit {
-  @Output() returnEvent = new EventEmitter<number>();
+  @Output() newBlockOutput = new EventEmitter<number>();
 
   clicksCount = 0;
   // clickedBlock: Block = {id: -1}
@@ -26,17 +26,10 @@ export class BlocksListComponent implements OnInit {
   }
 
   clickOnBlock(event: any): void{
-    // this.clickedBlock = {
-    //   id: event.target.id,
-    //   xCoordinate: event.x,
-    //   yCoordinate: event.y,
-    //   width: event.target.offsetWidth,
-    //   height: event.target.offsetHeight
-    // }
-    // console.log(this.clickedBlock)
+  }
 
-    // let clicks = this.graphService.clicksCount$.value+1;
-    // this.graphService.clicksCount$.next(clicks)
+  addNewBlock(){
+    this.newBlockOutput.emit();
   }
 
 }
