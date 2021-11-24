@@ -216,4 +216,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
     const wrapper = document.getElementById('graph-wrapper');
     return wrapper!.getBoundingClientRect();
   }
+
+  clickOnLine(line: any){
+    console.log(line);
+  }
 }
