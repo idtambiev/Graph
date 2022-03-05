@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { GraphComponent } from '../graph/graph.component';
+import { GraphComponent } from './components/graph/graph.component';
 
 @Component({
   selector: 'app-main',

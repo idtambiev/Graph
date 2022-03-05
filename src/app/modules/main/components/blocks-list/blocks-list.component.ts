@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Block } from 'src/app/core/interafaces/block.interface';
-import { GraphService } from 'src/app/core/services/graph/graph.service';
+import { Block } from '@interfaces/render-models/block.interface';
+import { GraphService } from '@services/graph/graph.service';
 
 
 @Component({

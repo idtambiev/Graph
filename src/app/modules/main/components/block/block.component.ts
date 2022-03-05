@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { GraphService } from 'src/app/core/services/graph/graph.service';
 
 @Component({
   selector: 'app-block',

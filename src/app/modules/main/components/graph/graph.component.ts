@@ -1,9 +1,9 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { Block } from 'src/app/core/interafaces/block.interface';
-import { Graph } from 'src/app/core/interafaces/graph.interface';
-import { Line } from 'src/app/core/interafaces/line.interface';
-import { Relations } from 'src/app/core/interafaces/relation.interface';
-import { GraphService } from 'src/app/core/services/graph/graph.service';
+import { Graph } from '@interfaces/models/graph.interface';
+import { Block } from '@interfaces/render-models/block.interface';
+import { Line } from '@interfaces/render-models/line.interface';
+import { Relations } from '@interfaces/render-models/relation.interface';
+import { GraphService } from '@services/graph/graph.service';
 
 @Component({
   selector: 'app-graph',
@@ -65,7 +65,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
     private graphService: GraphService,
     private ref: ChangeDetectorRef,
   ) {
-    
+
    }
 
   ngOnInit(): void {
@@ -126,7 +126,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
     if (blocks.length){
       Array.from(blocks).forEach((block) => {
         const div = block.getBoundingClientRect()
-  
+
         this.renderedBlocks.push({
           id: parseInt(block.id),
           xCoordinate: div.x,
@@ -149,17 +149,17 @@ export class GraphComponent implements OnInit, AfterViewInit {
     this.relations.forEach((relation, index) => {
       let startBlock = this.getRelationBlockById(relation.startBlockId);
       let endBlock = this.getRelationBlockById(relation.endBlockId);
-      
+
       this.lines.push({
         id: index + 1,
         startBlockId: relation.startBlockId,
         endBlockId: relation.endBlockId,
         x1: startBlock!.xCoordinate < endBlock!.xCoordinate ?
-                      startBlock!.xCoordinate - wrapper!.x + startBlock!.width: 
+                      startBlock!.xCoordinate - wrapper!.x + startBlock!.width:
                       startBlock!.xCoordinate - wrapper!.x,
         y1: startBlock!.yCoordinate - wrapper!.y + startBlock!.height/2,
         x2: startBlock!.xCoordinate > endBlock!.xCoordinate ?
-                      endBlock!.xCoordinate - wrapper!.x + endBlock!.width + this.markerWidth : 
+                      endBlock!.xCoordinate - wrapper!.x + endBlock!.width + this.markerWidth :
                       endBlock!.xCoordinate - wrapper!.x - this.markerWidth,
         y2: endBlock!.yCoordinate - wrapper!.y + endBlock!.height/2
       });
@@ -181,7 +181,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
   getRelationBlockById(id: number){
     return this.renderedBlocks.find((block)=> block.id === id);
   }
-  
+
   getWrapperCoordinates(){
     const wrapper = document.getElementById('graph-wrapper');
     return wrapper!.getBoundingClientRect();
