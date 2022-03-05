@@ -7,6 +7,7 @@ import { MainComponent } from './main.component';
 import { GraphComponent } from './components/graph/graph.component';
 import { BlocksListComponent } from './components/blocks-list/blocks-list.component';
 import { CoreModule } from '@core/core.module';
+import { LinesSvgComponent } from './components/lines-svg/lines-svg.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { CoreModule } from '@core/core.module';
     BlockComponent,
     BlocksListComponent,
     GraphComponent,
+    LinesSvgComponent,
   ],
   imports: [
     CommonModule,

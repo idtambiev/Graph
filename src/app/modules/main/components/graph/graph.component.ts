@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '
 import { Graph } from '@interfaces/models/graph.interface';
 import { Block } from '@interfaces/render-models/block.interface';
 import { Line } from '@interfaces/render-models/line.interface';
-import { Relations } from '@interfaces/render-models/relation.interface';
+import { Relation } from '@interfaces/render-models/relation.interface';
 import { GraphService } from '@services/graph/graph.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
   renderedBlocks: Block[] = [];
   clickedBlocks: Block[] = [];
   lines: Line[] = [];
-  relations: Relations[] = [];
+  relations: Relation[] = [];
   markerWidth = 10;
   markerHeight = 7;
   clicksCount = 0;
@@ -161,7 +161,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
         x2: startBlock!.xCoordinate > endBlock!.xCoordinate ?
                       endBlock!.xCoordinate - wrapper!.x + endBlock!.width + this.markerWidth :
                       endBlock!.xCoordinate - wrapper!.x - this.markerWidth,
-        y2: endBlock!.yCoordinate - wrapper!.y + endBlock!.height/2
+        y2: endBlock!.yCoordinate - wrapper!.y + endBlock!.height/2,
+        type: relation.type
       });
     });
   }
@@ -172,7 +173,12 @@ export class GraphComponent implements OnInit, AfterViewInit {
     .forEach((block)=>{
       if (block.relations.length){
         block.relations.forEach((relation) =>{
-          this.relations.push({startBlockId: block.id, endBlockId: relation.relatedBlockId})
+          this.relations
+          .push({
+            startBlockId: block.id,
+            endBlockId: relation.relatedBlockId,
+            type: relation.type
+          })
         })
       }
     });

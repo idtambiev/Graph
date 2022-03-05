@@ -5,8 +5,8 @@
     <div class="blocks-wrapper">
         <div [id]="block.id"
         cdkDragBoundary=".wrapper"
-        class="graph-block" 
-        *ngFor="let block of graphBlocks.blocks" 
+        class="graph-block"
+        *ngFor="let block of graphBlocks.blocks"
         (click)="clickOnBlock($event)"
         (cdkDragMoved)="movingBlock($event, block.id)"
         (cdkDragEnded)="endedMovingBlock($event, block.id)"
@@ -15,21 +15,5 @@
         </div>
     </div>
 
-    <svg>
-        <defs>
-            <marker id="arrowhead" [attr.markerWidth]="markerWidth" 
-            [attr.markerHeight]="markerHeight" 
-            refX="0" refY="3.5" orient="auto">
-              <polygon points="0 0, 10 3.5, 0 7" />
-            </marker>
-        </defs>
-        <line *ngFor="let line of lines" 
-        [attr.x1]="line.x1" 
-        [attr.y1]="line.y1" 
-        [attr.x2]="line.x2" 
-        [attr.y2]="line.y2" 
-        (click)="clickOnLine(line)"
-        stroke="black" 
-        marker-end="url(#arrowhead)"/>
-    </svg>
+    <app-lines-svg [lines]="lines"></app-lines-svg>
 </div>
