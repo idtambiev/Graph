@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '
 import { Graph } from '@interfaces/models/graph.interface';
 import { Block } from '@interfaces/render-models/block.interface';
 import { Line } from '@interfaces/render-models/line.interface';
-import { Relation } from '@interfaces/render-models/relation.interface';
+import { RenderedRelation } from '@interfaces/render-models/rendered-relation.interface';
 import { GraphService } from '@services/graph/graph.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
   renderedBlocks: Block[] = [];
   clickedBlocks: Block[] = [];
   lines: Line[] = [];
-  relations: Relation[] = [];
+  relations: RenderedRelation[] = [];
   markerWidth = 10;
   markerHeight = 7;
   clicksCount = 0;
