@@ -1,10 +1,7 @@
 <div id="graph-wrapper" class="graph-wrapper">
-    <!-- <div class="count-wrapper">
-        Clicks count: {{clicksCount}}
-    </div> -->
     <div class="blocks-wrapper">
         <div [id]="block.id"
-        cdkDragBoundary=".wrapper"
+        cdkDragBoundary=".graph-wrapper"
         class="graph-block"
         *ngFor="let block of graphBlocks.blocks"
         (click)="clickOnBlock($event)"
