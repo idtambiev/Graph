@@ -69,15 +69,11 @@ export class GraphComponent implements OnInit, AfterViewInit {
    }
 
   ngOnInit(): void {
-    this.graphService.clicksCount$.subscribe((val)=>{
-      this.clicksCount = val;
-    })
+
   }
 
 
   clickOnBlock(event: any): void{
-    let clicks = this.graphService.clicksCount$.value + 1;
-    this.graphService.clicksCount$.next(clicks)
   }
 
   movingBlock(event: any, id: number): void{

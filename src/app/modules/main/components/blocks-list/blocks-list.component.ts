@@ -20,9 +20,7 @@ export class BlocksListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.graphService.clicksCount$.subscribe((val)=>{
-      this.clicksCount = val;
-    })
+
   }
 
   clickOnBlock(event: any): void{
