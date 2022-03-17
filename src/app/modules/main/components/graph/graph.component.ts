@@ -72,30 +72,36 @@ export class GraphComponent implements OnInit, AfterViewInit {
 
   }
 
-
   clickOnBlock(event: any): void{
   }
 
   movingBlock(event: any, id: number): void{
     const distance = event.distance;
 
-    if (this.lineOffsetCoordinates.x === 0 && this.lineOffsetCoordinates.y === 0){
-      this.lineOffsetCoordinates = {
-        x: distance.x,
-        y: distance.y
-      }
-    } else {
-      this.lineOffsetCoordinates = {
-        x: distance.x - this.lineOffsetCoordinates.x,
-        y: distance.y - this.lineOffsetCoordinates.y
-      }
+    this.changeRelationCoordinates(
+      distance.x - this.lineOffsetCoordinates.x,
+      distance.y - this.lineOffsetCoordinates.y, id
+    );
+
+    this.lineOffsetCoordinates = {
+      x: distance.x,
+      y: distance.y
     }
+
   }
 
-  endedMovingBlock(event: any, id: number){
+  endedMovingBlock(event: any, id: number): void{
     const distance = event.distance;
 
-    this.changeRelationCoordinates(distance.x, distance.y, id);
+    this.changeRelationCoordinates(
+      distance.x - this.lineOffsetCoordinates.x,
+      distance.y - this.lineOffsetCoordinates.y, id
+    );
+
+    this.lineOffsetCoordinates = {
+      x : 0,
+      y : 0
+    }
   }
 
   changeRelationCoordinates(x: number, y: number, id: number): void{
@@ -137,7 +143,6 @@ export class GraphComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   createRelationLines(): void{
     this.createRelationsArray();
     const wrapper = this.getWrapperCoordinates();
@@ -150,14 +155,19 @@ export class GraphComponent implements OnInit, AfterViewInit {
         id: index + 1,
         startBlockId: relation.startBlockId,
         endBlockId: relation.endBlockId,
+
         x1: startBlock!.xCoordinate < endBlock!.xCoordinate ?
                       startBlock!.xCoordinate - wrapper!.x + startBlock!.width:
                       startBlock!.xCoordinate - wrapper!.x,
+
         y1: startBlock!.yCoordinate - wrapper!.y + startBlock!.height/2,
+
         x2: startBlock!.xCoordinate > endBlock!.xCoordinate ?
                       endBlock!.xCoordinate - wrapper!.x + endBlock!.width + this.markerWidth :
                       endBlock!.xCoordinate - wrapper!.x - this.markerWidth,
+
         y2: endBlock!.yCoordinate - wrapper!.y + endBlock!.height/2,
+
         type: relation.type
       });
     });
