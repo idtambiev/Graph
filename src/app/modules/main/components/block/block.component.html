@@ -1,8 +1,8 @@
 <div class="block-wrapper" [id]="value" (click)="addNewBlock()">
-    <ng-container *ngIf="!isGraphBlock;else block">
-        Add block
-    </ng-container>
-    <ng-template #block>
-        Block №{{value}}
-    </ng-template>
+  <ng-container *ngIf="!isGraphBlock;else block">
+      Add block
+  </ng-container>
+  <ng-template #block>
+      Block №{{value}}
+  </ng-template>
 </div>

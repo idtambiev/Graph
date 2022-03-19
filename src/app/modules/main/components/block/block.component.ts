@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { GraphService } from '@services/graph/graph.service';
 
 @Component({
   selector: 'app-block',
@@ -8,20 +9,18 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class BlockComponent implements OnInit {
   @Input() value: number = 0;
   @Input() isGraphBlock: boolean = true;
-  @Output() newBlockOutput = new EventEmitter<number>();
   lineTypes = [
 
   ]
   constructor(
+    private graphService: GraphService
   ) { }
 
   ngOnInit(): void {
   }
 
   addNewBlock(){
-    if (!this.isGraphBlock){
-      this.newBlockOutput.emit();
-    }
-
+    if (!this.isGraphBlock) this.graphService.newBlock$.next(true);
   }
+
 }

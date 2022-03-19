@@ -69,7 +69,10 @@ export class GraphComponent implements OnInit, AfterViewInit {
    }
 
   ngOnInit(): void {
-
+    this.graphService.newBlock$
+    .subscribe((res) => {
+      if (res) this.addNewBlock();
+    })
   }
 
   clickOnBlock(event: any): void{

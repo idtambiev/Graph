@@ -1,11 +1,8 @@
 <div class="wrapper">
-    <div>
-        <app-block [isGraphBlock]="false" (newBlockOutput)="addNewBlock()"></app-block>
-    </div>
     <div class="list-wrapper">
-        <app-block *ngFor="let block of blocks" 
-        [value]="block.id" 
-        (click)="clickOnBlock($event)" 
+        <app-block *ngFor="let block of blocks"
+        [value]="block.id"
+        (click)="clickOnBlock($event)"
         cdkDropList
         cdkDropListConnectedTo="graph"
         class="block"></app-block>
