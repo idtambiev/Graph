@@ -8,8 +8,8 @@ import { CoreModule } from '@core/core.module';
 import { LinesSvgComponent } from './components/lines-svg/lines-svg.component';
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { BlockComponent } from './components/block/block.component';
-import { LinesListComponent } from './components/lines-list/lines-list.component';
-import { LineComponent } from './components/line/line.component';
+import { TopMenuRelationsListComponent } from './components/top-menu/components/top-menu-relations-list/top-menu-relations-list.component';
+import { TopMenuRelationComponent } from './components/top-menu/components/top-menu-relation/top-menu-relation.component';
 
 
 @NgModule({
@@ -19,8 +19,8 @@ import { LineComponent } from './components/line/line.component';
     LinesSvgComponent,
     TopMenuComponent,
     BlockComponent,
-    LinesListComponent,
-    LineComponent,
+    TopMenuRelationsListComponent,
+    TopMenuRelationComponent
   ],
   imports: [
     CommonModule,
