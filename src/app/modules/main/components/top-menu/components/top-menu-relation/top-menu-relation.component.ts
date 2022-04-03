@@ -23,7 +23,7 @@ export class TopMenuRelationComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.graphService.createRelation$.subscribe((res) => {
+    this.graphService.selectedRelationType$.subscribe((res) => {
       if (res != null && res == this.relation?.relationType){
         this.choosed = true;
       } else {
@@ -33,7 +33,7 @@ export class TopMenuRelationComponent implements OnInit {
   }
 
   chooseType(): void{
-    this.graphService.createRelation$.next(this.relation?.relationType);
+    this.graphService.selectedRelationType$.next(this.relation?.relationType);
   }
 
 }

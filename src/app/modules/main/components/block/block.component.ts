@@ -20,7 +20,9 @@ export class BlockComponent implements OnInit {
   }
 
   addNewBlock(){
-    if (!this.isGraphBlock) this.graphService.newBlock$.next(true);
+    if (!this.isGraphBlock) {
+      this.graphService.newBlock$.next(true);
+    }
   }
 
 }

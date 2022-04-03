@@ -1,4 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { RelationsType } from '@core/enums/relations-types.enum';
 import { Graph } from '@interfaces/models/graph.interface';
 import { Block } from '@interfaces/render-models/block.interface';
 import { Line } from '@interfaces/render-models/line.interface';
@@ -12,7 +13,7 @@ import { GraphService } from '@services/graph/graph.service';
 })
 export class GraphComponent implements OnInit, AfterViewInit {
   renderedBlocks: Block[] = [];
-  clickedBlocks: Block[] = [];
+  clickedBlocksCount = 0;
   lines: Line[] = [];
   relations: RenderedRelation[] = [];
   markerWidth = 10;
@@ -73,15 +74,31 @@ export class GraphComponent implements OnInit, AfterViewInit {
     .subscribe((res) => {
       if (res) this.addNewBlock();
     })
-
-    this.graphService.createRelation$.subscribe((res) => console.log(res));
   }
 
-  clickOnBlock(event: any): void{
-    const relationType = this.graphService.createRelation$.value;
+  clickOnBlock(blockId: number): void{
+    const relationType = this.graphService.selectedRelationType$.value;
+    this.clickedBlocksCount++;
     if (relationType != null){
-
+      if (this.clickedBlocksCount < 2){
+        this.graphService.selectedFirstBlock$.next(blockId);
+      } else {
+        this.createNewRelation(blockId, relationType);
+      }
     }
+  }
+
+  createNewRelation(secondBlockId: number, relationType: RelationsType): void{
+      const firstBlockId = this.graphService.selectedFirstBlock$.value;
+      const idx = this.graphBlocks.blocks.findIndex((val) => val.id == firstBlockId);
+      this.graphBlocks.blocks[idx].relations.push({
+        relatedBlockId: secondBlockId,
+          type: relationType,
+          weight: 0
+      });
+      this.graphService.selectedFirstBlock$.next(null);
+      this.clickedBlocksCount = 0;
+      this.ngAfterViewInit()
   }
 
   movingBlock(event: any, id: number): void{
@@ -96,7 +113,6 @@ export class GraphComponent implements OnInit, AfterViewInit {
       x: distance.x,
       y: distance.y
     }
-
   }
 
   endedMovingBlock(event: any, id: number): void{

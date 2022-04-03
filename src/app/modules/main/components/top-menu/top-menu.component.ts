@@ -20,6 +20,6 @@ export class TopMenuComponent implements OnInit {
 
   showRelations(): void{
     this.show = !this.show;
-    this.graphService.createRelation$.next(null);
+    this.graphService.selectedRelationType$.next(null);
   }
 }
