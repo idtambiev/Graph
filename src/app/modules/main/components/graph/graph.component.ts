@@ -78,6 +78,10 @@ export class GraphComponent implements OnInit, AfterViewInit {
   }
 
   clickOnBlock(event: any): void{
+    const relationType = this.graphService.createRelation$.value;
+    if (relationType != null){
+
+    }
   }
 
   movingBlock(event: any, id: number): void{
