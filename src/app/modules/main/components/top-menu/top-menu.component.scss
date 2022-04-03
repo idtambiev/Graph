@@ -1,9 +1,24 @@
 .top-menu-wrapper{
   height: 80px;
   display: flex;
+  flex-direction: row;
   align-items: center;
   padding: 0 20px;
   background-color: aliceblue;
   margin-top: 20px;
-  display: flex;
+
+  .relations-wrapper{
+    padding: 0 20px;
+    font-size: 14pt;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    user-select: none;
+
+    &:hover{
+      cursor: pointer;
+      color: rgb(249, 144, 144);
+    }
+  }
+
 }

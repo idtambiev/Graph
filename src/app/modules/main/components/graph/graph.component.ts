@@ -73,6 +73,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
     .subscribe((res) => {
       if (res) this.addNewBlock();
     })
+
+    this.graphService.createRelation$.subscribe((res) => console.log(res));
   }
 
   clickOnBlock(event: any): void{

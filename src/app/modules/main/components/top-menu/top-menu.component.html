@@ -1,4 +1,10 @@
 <div class="top-menu-wrapper">
   <app-block [isGraphBlock]="false"></app-block>
-  <app-top-menu-relations-list></app-top-menu-relations-list>
+  <div class="relations-wrapper"  (click)="showRelations()">
+    <a>Relations</a>
+    <mat-icon *ngIf="!show">keyboard_arrow_right</mat-icon>
+    <mat-icon *ngIf="show">keyboard_arrow_left</mat-icon>
+  </div>
+
+  <app-top-menu-relations-list *ngIf="show"></app-top-menu-relations-list>
 </div>

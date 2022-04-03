@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { GraphService } from '@services/graph/graph.service';
 
 @Component({
   selector: 'app-top-menu',
@@ -8,12 +9,17 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class TopMenuComponent implements OnInit {
   @Input() isGraphBlock: boolean = true;
   @Output() newBlockOutput = new EventEmitter<number>();
-  lineTypes = [
+  show: boolean = false;
 
-  ]
   constructor(
+    private graphService: GraphService
   ) { }
 
   ngOnInit(): void {
+  }
+
+  showRelations(): void{
+    this.show = !this.show;
+    this.graphService.createRelation$.next(null);
   }
 }

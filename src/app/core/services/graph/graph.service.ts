@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class GraphService {
   newBlock$: BehaviorSubject<any> = new BehaviorSubject(null);
+  createRelation$: BehaviorSubject<any> = new BehaviorSubject(null);
   constructor() { }
 
   selectBlock(): void{

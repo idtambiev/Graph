@@ -1,3 +1,26 @@
 .top-menu-relation-wrapper{
+  border: 1px solid black;
+  margin: 0 30px;
+  min-width: 70px;
+  height: 40px;
+  max-width: 120px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 
+  &.choosed{
+    border: 2px solid black;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  }
+
+  .relation-block{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
 }

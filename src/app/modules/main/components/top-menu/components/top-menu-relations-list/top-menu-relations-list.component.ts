@@ -12,34 +12,29 @@ export class TopMenuRelationsListComponent implements OnInit {
     {
       text: "One Type Undirected",
       relationType: RelationsType.oneTypeUndirected,
-      icon: "string"
     },
     {
       text: "One Type Oriented",
       relationType: RelationsType.oneTypeOriented,
-      icon: "string"
     },
     {
       text: "Diverse Undirected",
       relationType: RelationsType.diverseUndirected,
-      icon: "string"
     },
     {
       text: "Diverse Oriented",
       relationType: RelationsType.diverseOriented,
-      icon: "string"
     },
     {
       text: "Multiple Undirected Vector",
       relationType: RelationsType.multipleUndirectedVector,
-      icon: "string"
     },
     {
       text: "Multiple Oriented Vector",
       relationType: RelationsType.multipleOrientedVector,
-      icon: "string"
     },
   ]
+
   constructor() { }
 
   ngOnInit(): void {
