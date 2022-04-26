@@ -8,8 +8,8 @@ import { Line } from '@interfaces/render-models/line.interface';
 })
 export class LinesSvgComponent implements OnInit {
   @Input() lines: Line[] = [];
-  markerWidth = 10;
-  markerHeight = 7;
+  markerWidth = -10;
+  markerHeight = -7;
 
   constructor() { }
 

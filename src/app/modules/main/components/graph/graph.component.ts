@@ -16,8 +16,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
   clickedBlocksCount = 0;
   lines: Line[] = [];
   relations: RenderedRelation[] = [];
-  markerWidth = 10;
-  markerHeight = 7;
+  markerWidth = -10;
+  markerHeight = -7;
   clicksCount = 0;
   lineOffsetCoordinates = {
     x: 0,
@@ -78,8 +78,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
 
   clickOnBlock(blockId: number): void{
     const relationType = this.graphService.selectedRelationType$.value;
-    this.clickedBlocksCount++;
     if (relationType != null){
+      this.clickedBlocksCount++;
       if (this.clickedBlocksCount < 2){
         this.graphService.selectedFirstBlock$.next(blockId);
       } else {
@@ -91,11 +91,13 @@ export class GraphComponent implements OnInit, AfterViewInit {
   createNewRelation(secondBlockId: number, relationType: RelationsType): void{
       const firstBlockId = this.graphService.selectedFirstBlock$.value;
       const idx = this.graphBlocks.blocks.findIndex((val) => val.id == firstBlockId);
+      console.log(this.graphService.selectedFirstBlock$.value);
       this.graphBlocks.blocks[idx].relations.push({
         relatedBlockId: secondBlockId,
           type: relationType,
           weight: 0
       });
+
       this.graphService.selectedFirstBlock$.next(null);
       this.clickedBlocksCount = 0;
       this.ngAfterViewInit()
