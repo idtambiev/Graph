@@ -76,7 +76,12 @@ export class GraphComponent implements OnInit, AfterViewInit {
     })
   }
 
-  clickOnBlock(blockId: number): void{
+  clickOnBlock(event: any, blockId: number): void{
+    const block = this.renderedBlocks.find((x) => x.id == blockId)
+    console.log(block, event)
+    if (this.renderedBlocks){
+
+    }
     const relationType = this.graphService.selectedRelationType$.value;
     if (relationType != null){
       this.clickedBlocksCount++;
@@ -91,7 +96,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
   createNewRelation(secondBlockId: number, relationType: RelationsType): void{
       const firstBlockId = this.graphService.selectedFirstBlock$.value;
       const idx = this.graphBlocks.blocks.findIndex((val) => val.id == firstBlockId);
-      console.log(this.graphService.selectedFirstBlock$.value);
+
       this.graphBlocks.blocks[idx].relations.push({
         relatedBlockId: secondBlockId,
           type: relationType,
@@ -143,6 +148,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
         this.lines[idx].y2 += y;
       }
     })
+
+    this.updateBlocksCoordinates();
   }
 
   ngAfterViewInit(): void{
@@ -165,6 +172,27 @@ export class GraphComponent implements OnInit, AfterViewInit {
         })
       });
       this.createRelationLines();
+    } else {
+      console.log('blocks doesnt exist')
+    }
+  }
+
+  updateBlocksCoordinates(): void{
+    const blocks = Array.from(document.querySelectorAll('.graph-block'));
+    if (blocks.length){
+      Array.from(blocks).forEach((block) => {
+        const div = block.getBoundingClientRect()
+        const idx = this.renderedBlocks.findIndex((x) => x.id === parseInt(block.id))
+        const wrapper = this.getWrapperCoordinates();
+
+        this.renderedBlocks[idx] = {
+          id: parseInt(block.id),
+          xCoordinate: div.x - wrapper.x,
+          yCoordinate: div.y - wrapper.y,
+          width: div.width,
+          height: div.height,
+        }
+      });
     } else {
       console.log('blocks doesnt exist')
     }
