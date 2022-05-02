@@ -1,0 +1,16 @@
+<div class="auth-wrapper">
+  <div class="form-wrapper">
+    <div class="logo">
+      <img src="../../../assets/logos/graph-logo.png">
+      <span>GRAPH</span>
+    </div>
+
+    <div class="navigate-buttons">
+      <div class="navigate" [ngClass]="{'active': showLogin}" (click)="showDifferent(true)">Login</div>
+      <div class="navigate" [ngClass]="{'active': !showLogin}" (click)="showDifferent(false)">Registration</div>
+    </div>
+
+    <app-sign-in *ngIf="showLogin"></app-sign-in>
+    <app-sign-up *ngIf="!showLogin"></app-sign-up>
+  </div>
+</div>

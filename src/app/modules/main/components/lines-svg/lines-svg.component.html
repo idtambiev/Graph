@@ -1,16 +1,25 @@
 <svg>
   <defs>
-      <!-- <marker id="arrowhead" [attr.markerWidth]="markerWidth"
+      <marker id="arrowhead" [attr.markerWidth]="markerWidth"
       [attr.markerHeight]="markerHeight"
       refX="0" refY="3.5" orient="auto">
         <polygon points="0 0, 10 3.5, 0 7" />
-      </marker> -->
+      </marker>
   </defs>
-  <line *ngFor="let line of lines"
+  <line *ngFor="let line of oneTypeUndirectedLines"
   [attr.x1]="line.x1"
   [attr.y1]="line.y1"
   [attr.x2]="line.x2"
   [attr.y2]="line.y2"
   stroke="black"
+  stroke-width="1"/>
+
+  <line *ngFor="let line of oneTypeOrientedLines"
+  [attr.x1]="line.x1"
+  [attr.y1]="line.y1"
+  [attr.x2]="line.x2"
+  [attr.y2]="line.y2"
+  stroke="black"
+  stroke-width="1"
   marker-end="url(#arrowhead)"/>
 </svg>

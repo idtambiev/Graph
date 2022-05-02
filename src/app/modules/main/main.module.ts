@@ -20,7 +20,7 @@ import { TopMenuRelationComponent } from './components/top-menu/components/top-m
     TopMenuComponent,
     BlockComponent,
     TopMenuRelationsListComponent,
-    TopMenuRelationComponent
+    TopMenuRelationComponent,
   ],
   imports: [
     CommonModule,

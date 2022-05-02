@@ -15,9 +15,15 @@ export class GraphComponent implements OnInit, AfterViewInit {
   renderedBlocks: Block[] = [];
   clickedBlocksCount = 0;
   lines: Line[] = [];
+  oneTypeUndirectedLines: Line[] = [];
+  oneTypeOrientedLines: Line[] = [];
+  diverseUndirectedLines: Line[] = [];
+  diverseOrientedLines: Line[] = [];
+  multipleUndirectedVectorLines: Line[] = [];
+  multipleOrientedVectorLines: Line[] = [];
   relations: RenderedRelation[] = [];
-  markerWidth = -10;
-  markerHeight = -7;
+  markerWidth = 10;
+  markerHeight = 7;
   clicksCount = 0;
   lineOffsetCoordinates = {
     x: 0,
@@ -40,26 +46,53 @@ export class GraphComponent implements OnInit, AfterViewInit {
         value: 'B',
         relations: [{
           relatedBlockId: 3,
-          type: 0,
+          type: 1,
           weight: 0
         }]
       },
       {
         id: 3,
         value: 'C',
-        relations: []
+        relations: [{
+          relatedBlockId: 4,
+          type: 2,
+          weight: 0
+        }]
       },
       {
         id: 4,
         value: 'D',
         relations: [{
-          relatedBlockId: 3,
-          type: 0,
+          relatedBlockId: 5,
+          type: 3,
           weight: 0
         }]
+      },
+      {
+        id: 5,
+        value: 'F',
+        relations: [{
+          relatedBlockId: 6,
+          type: 4,
+          weight: 0
+        }]
+      },
+      {
+        id: 6,
+        value: 'F',
+        relations: [{
+          relatedBlockId: 7,
+          type: 5,
+          weight: 0
+        }]
+      },
+      {
+        id: 7,
+        value: 'F',
+        relations: []
       }
     ],
-    relationsCount: 3
+    relationsCount: 4
   }
 
   constructor(
@@ -149,6 +182,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
       }
     })
 
+    this.createLinesArrays();
     this.updateBlocksCoordinates();
   }
 
@@ -225,6 +259,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
 
         type: relation.type
       });
+
+      this.createLinesArrays();
     });
   }
 
@@ -265,5 +301,14 @@ export class GraphComponent implements OnInit, AfterViewInit {
       relations: []
     });
     this.graphBlocks.relationsCount++;
+  }
+
+  createLinesArrays(): void{
+    this.oneTypeUndirectedLines = this.lines.filter((x) => x.type === RelationsType.oneTypeUndirected);
+    this.oneTypeOrientedLines = this.lines.filter((x) => x.type === RelationsType.oneTypeOriented);
+    this.diverseUndirectedLines = this.lines.filter((x) => x.type === RelationsType.diverseUndirected);
+    this.diverseOrientedLines = this.lines.filter((x) => x.type === RelationsType.diverseOriented);
+    this.multipleUndirectedVectorLines = this.lines.filter((x) => x.type === RelationsType.multipleUndirectedVector);
+    this.multipleOrientedVectorLines = this.lines.filter((x) => x.type === RelationsType.multipleOrientedVector);
   }
 }

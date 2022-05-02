@@ -1,0 +1,12 @@
+
+<div class="wrapper">
+  <app-auth-input label="Login" [ctrl]="signInFormGroup.controls['login']" type="text"></app-auth-input>
+
+  <app-auth-input label="Password" [ctrl]="signInFormGroup.controls['password']" type="password"></app-auth-input>
+
+  <div class="problems">
+    <span>Have problems with logging in?</span>
+  </div>
+
+  <app-auth-button (click)="submit()"></app-auth-button>
+</div>

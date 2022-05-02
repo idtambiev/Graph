@@ -1,0 +1,17 @@
+.wrapper{
+  display: flex;
+  flex-direction: column;
+
+  .problems{
+    display: flex;
+    width: 100%;
+    border-bottom: solid;
+    margin-bottom: 30px;
+
+    span{
+      cursor: pointer;
+      color: #9d009d;
+      margin-bottom: 10px;
+    }
+  }
+}

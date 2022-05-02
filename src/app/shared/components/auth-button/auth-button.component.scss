@@ -1,0 +1,12 @@
+.login-buttons-wrapper{
+  display: flex;
+  justify-content: center;
+  input{
+    width: 90px;
+    height: 36px;
+    background-color: #9d009d;
+    color: white;
+    font-size: 13pt;
+    cursor: pointer;
+  }
+}
