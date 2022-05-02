@@ -7,6 +7,7 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { CoreModule } from '@core/core.module';
 import { AuthComponent } from './auth.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     SignInComponent,
     SignUpComponent,
     AuthComponent,
+    ForgotPasswordComponent,
 
   ],
   imports: [

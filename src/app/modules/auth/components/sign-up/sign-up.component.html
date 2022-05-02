@@ -1,1 +1,13 @@
-<p>sign-up works!</p>
+<div class="wrapper">
+  <app-auth-input label="First Name*" [ctrl]="signInFormGroup.controls['firstName']" type="text"></app-auth-input>
+
+  <app-auth-input label="Last Name*" [ctrl]="signInFormGroup.controls['lastName']" type="text"></app-auth-input>
+
+  <app-auth-input label="Login*" [ctrl]="signInFormGroup.controls['login']" type="text"></app-auth-input>
+
+  <app-auth-input label="Password*" [ctrl]="signInFormGroup.controls['password']" type="password"></app-auth-input>
+
+  <app-auth-input label="Password*" [ctrl]="signInFormGroup.controls['confirmPassword']" type="password"></app-auth-input>
+
+  <app-auth-button value="Registration" (click)="submit()"></app-auth-button>
+</div>

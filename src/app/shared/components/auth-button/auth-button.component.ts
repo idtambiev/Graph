@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-auth-button',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./auth-button.component.scss']
 })
 export class AuthButtonComponent implements OnInit {
-
+  @Input() value: string = '';
   constructor() { }
 
   ngOnInit(): void {
