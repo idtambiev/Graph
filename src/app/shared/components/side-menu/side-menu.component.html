@@ -1,4 +1,24 @@
 <div class="wrapper">
+
+  <div class="actions" (click)="changeActionsStatus()">
+    <span>Actions</span>
+    <mat-icon *ngIf="!showActions">expand_more</mat-icon>
+    <mat-icon *ngIf="showActions">expand_less</mat-icon>
+  </div>
+
+  <div class="icons" *ngIf="showActions">
+    <ng-container *ngIf="!showRelations" >
+      <mat-icon matTooltip="Add new graph">note_add</mat-icon>
+      <mat-icon matTooltip="Remove selected graph">delete</mat-icon>
+    </ng-container>
+    <ng-container *ngIf="showRelations" >
+      <mat-icon matTooltip="Add new block">add_circle</mat-icon>
+      <mat-icon matTooltip="Remove selected block">delete</mat-icon>
+    </ng-container>
+
+
+  </div>
+
   <app-graphs-list *ngIf="!showRelations"></app-graphs-list>
   <app-relations-list *ngIf="showRelations"></app-relations-list>
 </div>

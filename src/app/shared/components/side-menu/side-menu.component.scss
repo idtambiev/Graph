@@ -2,4 +2,35 @@
   width: 225px;
   height: 630px;
   background-color: aliceblue;
+
+  .actions{
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    align-items: center;
+    padding-top: 15px;
+
+    span{
+      font-size: 15pt;
+      font-weight: 500;
+    }
+
+  }
+  .icons{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
+    color: purple;
+    width: 50%;
+    margin: 0 auto;
+
+    mat-icon{
+      font-size: 27pt;
+      height: auto;
+      width: auto;
+      cursor: pointer;
+    }
+  }
 }

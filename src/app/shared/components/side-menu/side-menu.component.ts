@@ -8,6 +8,7 @@ import { GraphService } from '@services/graph/graph.service';
 })
 export class SideMenuComponent implements OnInit {
   showRelations: boolean = false;
+  showActions: boolean = false;
   constructor(private graphService: GraphService) { }
 
   ngOnInit(): void {
@@ -15,6 +16,10 @@ export class SideMenuComponent implements OnInit {
     .subscribe((res) => {
       this.showRelations = res;
     })
+  }
+
+  changeActionsStatus(): void{
+    this.showActions = !this.showActions;
   }
 
 }
