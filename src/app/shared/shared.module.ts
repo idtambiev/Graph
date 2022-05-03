@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { AuthInputComponent } from './components/auth-input/auth-input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthButtonComponent } from './components/auth-button/auth-button.component';
+import { LogoComponent } from './components/logo/logo.component';
 
 
 
 @NgModule({
   declarations: [
     AuthInputComponent,
-    AuthButtonComponent
+    AuthButtonComponent,
+    LogoComponent
   ],
   imports: [
     CommonModule,
@@ -18,7 +20,8 @@ import { AuthButtonComponent } from './components/auth-button/auth-button.compon
   ],
   exports: [
     AuthInputComponent,
-    AuthButtonComponent
+    AuthButtonComponent,
+    LogoComponent
   ]
 })
 export class SharedModule { }

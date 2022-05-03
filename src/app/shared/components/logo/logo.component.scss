@@ -1,0 +1,19 @@
+.logo{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 90px;
+
+  img{
+    height: 100px;
+    margin-right: 20px;
+  }
+
+  span{
+    font-size: 40px;
+    font-weight: bold;
+    color: #9d009d;
+  }
+}
