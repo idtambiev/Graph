@@ -3,11 +3,11 @@ import { RelationsType } from '@core/enums/relations-types.enum';
 import { NewRelation } from '@interfaces/render-models/new-relation';
 
 @Component({
-  selector: 'app-top-menu-relations-list',
-  templateUrl: './top-menu-relations-list.component.html',
-  styleUrls: ['./top-menu-relations-list.component.scss']
+  selector: 'app-relations-list',
+  templateUrl: './relations-list.component.html',
+  styleUrls: ['./relations-list.component.scss']
 })
-export class TopMenuRelationsListComponent implements OnInit {
+export class RelationsListComponent implements OnInit {
   relationsList: NewRelation[] =[
     {
       text: "One Type Undirected",
@@ -34,7 +34,6 @@ export class TopMenuRelationsListComponent implements OnInit {
       relationType: RelationsType.multipleOrientedVector,
     },
   ]
-
   constructor() { }
 
   ngOnInit(): void {

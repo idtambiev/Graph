@@ -18,8 +18,9 @@ export class TopMenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  showRelations(): void{
-    this.show = !this.show;
-    this.graphService.selectedRelationType$.next(null);
+  showRelations(status: boolean): void{
+    this.show = status;
+    this.graphService.showRelations$.next(status);
+    //this.graphService.selectedRelationType$.next(null);
   }
 }

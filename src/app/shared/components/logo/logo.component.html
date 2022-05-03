@@ -1,4 +1,4 @@
-<div class="logo">
+<div class="logo" [ngClass]="{'side-logo': isSideMenuLogo, 'auth-logo': !isSideMenuLogo}" (click)="returnToGraphs()">
   <img src="../../../assets/logos/graph-logo.png">
   <span>GRAPH DE</span>
 </div>

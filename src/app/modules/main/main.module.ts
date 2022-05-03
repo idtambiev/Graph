@@ -8,8 +8,7 @@ import { CoreModule } from '@core/core.module';
 import { LinesSvgComponent } from './components/lines-svg/lines-svg.component';
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { BlockComponent } from './components/block/block.component';
-import { TopMenuRelationsListComponent } from './components/top-menu/components/top-menu-relations-list/top-menu-relations-list.component';
-import { TopMenuRelationComponent } from './components/top-menu/components/top-menu-relation/top-menu-relation.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -18,14 +17,13 @@ import { TopMenuRelationComponent } from './components/top-menu/components/top-m
     GraphComponent,
     LinesSvgComponent,
     TopMenuComponent,
-    BlockComponent,
-    TopMenuRelationsListComponent,
-    TopMenuRelationComponent,
+    BlockComponent
   ],
   imports: [
     CommonModule,
     MainRoutingModule,
-    CoreModule
+    CoreModule,
+    SharedModule
   ],
 })
 export class MainModule { }

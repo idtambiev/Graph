@@ -1,7 +1,7 @@
 <div class="auth-wrapper">
   <div class="form-wrapper">
 
-    <app-logo></app-logo>
+    <app-logo [isSideMenuLogo]="false"></app-logo>
 
     <div class="navigate-buttons">
       <div class="navigate" [ngClass]="{'active': showLogin}" (click)="showDifferent(true)">Login</div>

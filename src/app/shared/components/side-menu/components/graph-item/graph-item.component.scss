@@ -1,0 +1,28 @@
+.wrapper{
+  display: flex;
+  flex-direction: row;
+  padding: 0 20px;
+  //justify-content: center;
+  align-items: center;
+  font-size: 14pt;
+  text-decoration: dotted;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 10px;
+  height: 65px;
+
+
+  img{
+    height: 50px;
+    margin-right: 10px;
+  }
+
+  &.active{
+    background-color: purple;
+    color: white;
+    //color: purple;
+  }
+  &:not(.active):hover{
+    background-color: #ad6aad;
+  }
+}

@@ -1,0 +1,5 @@
+<div class="wrapper" [ngClass]="{'active': item?.active}">
+  <img src="/assets/logos/graph-item-logo-white.svg" *ngIf="item?.active">
+  <img src="/assets/logos/graph-item-logo-black.svg" *ngIf="!item?.active">
+  <span>{{item!.name}}</span>
+</div>
