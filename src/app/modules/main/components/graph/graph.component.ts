@@ -38,7 +38,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
         relations: [{
           relatedBlockId: 2,
           type: 0,
-          weight: 0
+          weight: 0,
+          oriented: false
         }]
       },
       {
@@ -47,7 +48,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
         relations: [{
           relatedBlockId: 3,
           type: 1,
-          weight: 0
+          weight: 0,
+          oriented: true
         }]
       },
       {
@@ -55,8 +57,9 @@ export class GraphComponent implements OnInit, AfterViewInit {
         value: 'C',
         relations: [{
           relatedBlockId: 4,
-          type: 2,
-          weight: 0
+          type: 0,
+          weight: 0,
+          oriented: false
         }]
       },
       {
@@ -64,8 +67,9 @@ export class GraphComponent implements OnInit, AfterViewInit {
         value: 'D',
         relations: [{
           relatedBlockId: 5,
-          type: 3,
-          weight: 0
+          type: 1,
+          weight: 0,
+          oriented: true
         }]
       },
       {
@@ -73,23 +77,27 @@ export class GraphComponent implements OnInit, AfterViewInit {
         value: 'F',
         relations: [{
           relatedBlockId: 6,
-          type: 4,
-          weight: 0
+          type: 0,
+          weight: 0,
+          oriented: false
         }]
       },
       {
         id: 6,
         value: 'F',
-        relations: [{
-          relatedBlockId: 7,
-          type: 5,
-          weight: 0
-        }]
+        relations: []
       },
       {
         id: 7,
         value: 'F',
-        relations: []
+        relations: [
+          {
+            relatedBlockId: 3,
+            type: 1,
+            weight: 0,
+            oriented: true
+          }
+        ]
       }
     ],
     relationsCount: 4
@@ -252,8 +260,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
         y1: startBlock!.yCoordinate - wrapper!.y + startBlock!.height/2,
 
         x2: startBlock!.xCoordinate > endBlock!.xCoordinate ?
-                      endBlock!.xCoordinate - wrapper!.x + endBlock!.width + this.markerWidth :
-                      endBlock!.xCoordinate - wrapper!.x - this.markerWidth,
+                      endBlock!.xCoordinate - wrapper!.x + endBlock!.width + (relation?.oriented ? this.markerWidth: 0) :
+                      endBlock!.xCoordinate - wrapper!.x - (relation?.oriented ? this.markerWidth: 0),
 
         y2: endBlock!.yCoordinate - wrapper!.y + endBlock!.height/2,
 
@@ -274,7 +282,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
           .push({
             startBlockId: block.id,
             endBlockId: relation.relatedBlockId,
-            type: relation.type
+            type: relation.type,
+            oriented: relation.oriented
           })
         })
       }

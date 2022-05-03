@@ -1,6 +1,17 @@
-.top-menu-relations-wrapper{
+.relations-wrapper{
   display: flex;
   flex-direction: column;
+  text-align: center;
+  padding-top: 20px;
+
+  span{
+    font-size: 20px;
+    font-weight: 500;
+    color: purple;
+    margin-bottom: 15px;
+    user-select: none;
+  }
+
   // justify-content: space-between;
   // width: 100%;
 }

@@ -1,39 +1,45 @@
-<div class="top-menu-relation-wrapper"
-    [matTooltip]="relation!.text"
-    (click)="chooseType()"
-    [ngClass]="{'choosed': choosed}">
-  <div [ngSwitch]="relation?.relationType">
+<div class="container"
+  [ngClass]="{'choosed': choosed}"
+  [matTooltip]="relation!.text"
+  (click)="chooseType()"
+>
+  <div class="relation-wrapper"
 
-    <div class="relation-block" *ngSwitchCase="relationsType.oneTypeUndirected">
-      <mat-icon>{{horizontalLineIcon}}</mat-icon>
-    </div>
+>
+<div [ngSwitch]="relation?.relationType">
 
-    <div *ngSwitchCase="relationsType.oneTypeOriented">
-      <mat-icon>{{arrowIcon}}</mat-icon>
-    </div>
+  <div class="relation-block" *ngSwitchCase="relationsType.oneTypeUndirected">
+    <mat-icon>{{horizontalLineIcon}}</mat-icon>
+  </div>
 
-    <div *ngSwitchCase="relationsType.diverseUndirected">
-      <mat-icon>{{horizontalLineIcon}}</mat-icon>
-      tp
-      <mat-icon>{{horizontalLineIcon}}</mat-icon>
-    </div>
+  <div *ngSwitchCase="relationsType.oneTypeOriented">
+    <mat-icon>{{arrowIcon}}</mat-icon>
+  </div>
 
-    <div *ngSwitchCase="relationsType.diverseOriented">
-      <mat-icon>{{horizontalLineIcon}}</mat-icon>
-      tp
-      <mat-icon>{{arrowIcon}}</mat-icon>
-    </div>
+  <div *ngSwitchCase="relationsType.diverseUndirected">
+    <mat-icon>{{horizontalLineIcon}}</mat-icon>
+    tp
+    <mat-icon>{{horizontalLineIcon}}</mat-icon>
+  </div>
 
-    <div *ngSwitchCase="relationsType.multipleUndirectedVector">
-      <mat-icon>{{horizontalLineIcon}}</mat-icon>
-      <span>v</span>
-      <mat-icon>{{horizontalLineIcon}}</mat-icon>
-    </div>
+  <div *ngSwitchCase="relationsType.diverseOriented">
+    <mat-icon>{{horizontalLineIcon}}</mat-icon>
+    tp
+    <mat-icon>{{arrowIcon}}</mat-icon>
+  </div>
 
-    <div *ngSwitchCase="relationsType.multipleOrientedVector">
-      <mat-icon>{{horizontalLineIcon}}</mat-icon>
-      v
-      <mat-icon>{{arrowIcon}}</mat-icon>
-    </div>
+  <div *ngSwitchCase="relationsType.multipleUndirectedVector">
+    <mat-icon>{{horizontalLineIcon}}</mat-icon>
+    <span>v</span>
+    <mat-icon>{{horizontalLineIcon}}</mat-icon>
+  </div>
+
+  <div *ngSwitchCase="relationsType.multipleOrientedVector">
+    <mat-icon>{{horizontalLineIcon}}</mat-icon>
+    v
+    <mat-icon>{{arrowIcon}}</mat-icon>
   </div>
 </div>
+</div>
+</div>
+

@@ -15,5 +15,6 @@ export interface Relation{
     relatedBlockId: number;
     type: RelationsType;
     weight: number;
+    oriented?: boolean;
 }
 

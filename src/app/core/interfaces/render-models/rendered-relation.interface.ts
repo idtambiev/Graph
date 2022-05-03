@@ -4,4 +4,5 @@ export interface RenderedRelation{
     startBlockId: number;
     endBlockId: number;
     type: RelationsType;
+    oriented?: boolean;
 }

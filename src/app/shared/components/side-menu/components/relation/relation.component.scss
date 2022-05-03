@@ -1,28 +1,48 @@
-.top-menu-relation-wrapper{
-  border: 1px solid black;
-  margin: 0 auto;
-  min-width: 50px;
-  height: 40px;
-  max-width: 95px;
-  border-radius: 5px;
+.container{
+  width: 100%;
+  height: 70px;
+  margin-bottom: 10px;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   cursor: pointer;
-  margin-bottom: 15px;
 
   &.choosed{
-    border: 2px solid black;
-    box-shadow: 0 5px 5px -3px purple,
-    0 1px 3px 1px purple,
-    0 2px 0px 2px purple
+    background-color: purple;
+
+    color: purple;
+
+    .relation-wrapper{
+      background-color: aliceblue;
+      color: purple;
+    }
+
+    // box-shadow: 0 5px 5px -3px purple,
+    // 0 1px 3px 1px purple,
+    // 0 2px 0px 2px purple
   }
 
-  .relation-block{
+  .relation-wrapper{
+    border: 1px solid black;
+    min-width: 80px;
+    height: 36px;
+    max-width: 95px;
+    border-radius: 15px;
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    font-size: 15pt;
 
+
+
+    .relation-block{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+    }
   }
 }
+
