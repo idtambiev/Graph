@@ -16,6 +16,10 @@ export class TopMenuComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.graphService.showRelations$
+    .subscribe((res) => {
+      this.show = res;
+    });
   }
 
   showRelations(status: boolean): void{

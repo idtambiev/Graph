@@ -10,7 +10,7 @@ import { RelationComponent } from './components/side-menu/components/relation/re
 import { CoreModule } from '@core/core.module';
 import { GraphsListComponent } from './components/side-menu/components/graphs-list/graphs-list.component';
 import { GraphItemComponent } from './components/side-menu/components/graph-item/graph-item.component';
-
+import { TopMenuComponent } from './components/top-menu/top-menu.component';
 
 
 @NgModule({
@@ -22,7 +22,8 @@ import { GraphItemComponent } from './components/side-menu/components/graph-item
     RelationsListComponent,
     RelationComponent,
     GraphsListComponent,
-    GraphItemComponent
+    GraphItemComponent,
+    TopMenuComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +35,8 @@ import { GraphItemComponent } from './components/side-menu/components/graph-item
     AuthInputComponent,
     AuthButtonComponent,
     LogoComponent,
-    SideMenuComponent
+    SideMenuComponent,
+    TopMenuComponent
   ]
 })
 export class SharedModule { }
