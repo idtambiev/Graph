@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-sign-in',
@@ -12,8 +12,8 @@ export class SignInComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.signInFormGroup = this.fb.group({
-      login: null,
-      password:  null
+      email: [null, Validators.required],
+      password:  [null, Validators.required]
     })
    }
 
@@ -21,7 +21,11 @@ export class SignInComponent implements OnInit {
   }
 
   submit(){
-    this.loginEvent.emit();
+    if (this.signInFormGroup.valid){
+      var value = this.signInFormGroup.value
+      this.loginEvent.emit(value);
+    }
+
   }
 
 }

@@ -8,7 +8,7 @@
       <div class="navigate" [ngClass]="{'active': !showLogin}" (click)="showDifferent(false)">Registration</div>
     </div>
 
-    <app-sign-in *ngIf="showLogin"></app-sign-in>
+    <app-sign-in *ngIf="showLogin" (loginEvent)="login($event)"></app-sign-in>
     <app-sign-up *ngIf="!showLogin"></app-sign-up>
   </div>
 </div>
