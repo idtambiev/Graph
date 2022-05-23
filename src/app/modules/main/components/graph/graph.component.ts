@@ -45,7 +45,12 @@ export class GraphComponent implements OnInit, AfterViewInit {
         {
           relatedBlockId: 3,
           type: 1,
-          weight:  0.2,
+          weight:  0.7,
+          oriented: true
+        },{
+          relatedBlockId: 2,
+          type: 1,
+          weight:  0.4,
           oriented: true
         }]
       },
@@ -55,7 +60,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
         relations: [{
           relatedBlockId: 2,
           type: 1,
-          weight:  0.3,
+          weight:  0.1,
           oriented: true
         },{
           relatedBlockId: 3,
@@ -70,7 +75,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
         relations: [{
           relatedBlockId: 3,
           type: 1,
-          weight:  0.4,
+          weight:  0.1,
           oriented: true
         }]
       },
