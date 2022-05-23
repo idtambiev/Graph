@@ -67,7 +67,7 @@ export class MainComponent implements OnInit {
     })
 
     this.graphService.selectedGraph$.subscribe((res)=>{
-      console.log(res)
+      //console.log(res)
     })
   }
 
