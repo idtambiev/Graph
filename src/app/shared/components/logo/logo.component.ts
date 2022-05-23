@@ -14,6 +14,6 @@ export class LogoComponent implements OnInit {
   }
 
   returnToGraphs(): void{
-    if (this.isSideMenuLogo) this.graphService.showRelations$.next(false);
+    if (this.isSideMenuLogo) this.graphService.showSelected$.next(0);
   }
 }

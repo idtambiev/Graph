@@ -24,7 +24,7 @@ export class AuthComponent implements OnInit {
   }
 
   login(eventResult: LoginModel){
-    console.log(eventResult);
+    //console.log(eventResult);
     this.authService.login(eventResult).subscribe(
       (res)=> {
       this.storageService.set('accessToken', res.accessToken);

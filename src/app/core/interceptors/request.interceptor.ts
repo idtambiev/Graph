@@ -23,7 +23,7 @@ export class RequestInterceptor implements HttpInterceptor {
     //       Authorization: `Bearer ${token ? token : ''}`
     //     }
     //   });
-    console.log(`Bearer ${token ? token : ''}`)
+    //console.log(`Bearer ${token ? token : ''}`)
     return next.handle(request);
   }
 }

@@ -27,7 +27,7 @@ export class LinesSvgComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    console.log(this.lines)
+   // console.log(this.lines)
   }
 
   ngAfterViewInit(): void {

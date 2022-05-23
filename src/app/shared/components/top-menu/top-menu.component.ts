@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { GraphService } from '@services/graph/graph.service';
+import { GraphService, ShowTypes } from '@services/graph/graph.service';
 
 @Component({
   selector: 'app-top-menu',
@@ -16,15 +16,15 @@ export class TopMenuComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.graphService.showRelations$
+    this.graphService.showSelected$
     .subscribe((res) => {
-      this.show = res;
+      //this.show = res;
     });
   }
 
-  showRelations(status: boolean): void{
-    this.show = status;
-    this.graphService.showRelations$.next(status);
+  showRelations(status: ShowTypes): void{
+    //this.show = status;
+    this.graphService.showSelected$.next(status);
     //this.graphService.selectedRelationType$.next(null);
   }
 }

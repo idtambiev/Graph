@@ -19,10 +19,10 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   ): boolean {
 
     if (!this.storageService.get('accessToken')) {
-        this.router.navigateByUrl('/authorization');
-        return false;
-    } else {
+        //this.router.navigateByUrl('/authorization');
         return true;
+    } else {
+        return false;
     }
   }
 

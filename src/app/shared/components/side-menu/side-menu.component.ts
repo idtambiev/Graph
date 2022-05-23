@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { GraphService } from '@services/graph/graph.service';
+import { Graph } from '@interfaces/models/graph.interface';
+import { GraphService, ShowTypes } from '@services/graph/graph.service';
 
 @Component({
   selector: 'app-side-menu',
@@ -7,14 +8,15 @@ import { GraphService } from '@services/graph/graph.service';
   styleUrls: ['./side-menu.component.scss']
 })
 export class SideMenuComponent implements OnInit {
-  showRelations: boolean = false;
+  showType: ShowTypes = ShowTypes.Graphs;
   showActions: boolean = false;
   constructor(private graphService: GraphService) { }
 
   ngOnInit(): void {
-    this.graphService.showRelations$
+    this.graphService.showSelected$
     .subscribe((res) => {
-      this.showRelations = res;
+      this.showType = res;
+      //this.showRelations = res;
     })
   }
 

@@ -12,7 +12,7 @@ export class AppComponent {
   test(){
     this.authService.test()
     .subscribe((res) => {
-      console.log(res);
+      //console.log(res);
     })
   }
 }

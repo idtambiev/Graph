@@ -7,18 +7,19 @@
   </div>
 
   <div class="icons" *ngIf="showActions">
-    <ng-container *ngIf="!showRelations" >
-      <mat-icon matTooltip="Add new graph">note_add</mat-icon>
-      <mat-icon matTooltip="Remove selected graph">delete</mat-icon>
+    <ng-container [ngSwitch]="showType">
+      <ng-container *ngSwitchCase="0" >
+        <mat-icon matTooltip="Add new graph">note_add</mat-icon>
+        <mat-icon matTooltip="Remove selected graph">delete</mat-icon>
+      </ng-container>
+      <ng-container *ngSwitchCase="1">
+        <mat-icon matTooltip="Add new block">add_circle</mat-icon>
+        <mat-icon matTooltip="Remove selected block">delete</mat-icon>
+      </ng-container>
     </ng-container>
-    <ng-container *ngIf="showRelations" >
-      <mat-icon matTooltip="Add new block">add_circle</mat-icon>
-      <mat-icon matTooltip="Remove selected block">delete</mat-icon>
-    </ng-container>
-
-
   </div>
 
-  <app-graphs-list *ngIf="!showRelations"></app-graphs-list>
-  <app-relations-list *ngIf="showRelations"></app-relations-list>
+  <app-graphs-list *ngIf="showType === 0"></app-graphs-list>
+  <app-relations-list *ngIf="showType === 1"></app-relations-list>
+  <app-edges-list *ngIf="showType === 2"></app-edges-list>
 </div>

@@ -11,6 +11,8 @@ import { CoreModule } from '@core/core.module';
 import { GraphsListComponent } from './components/side-menu/components/graphs-list/graphs-list.component';
 import { GraphItemComponent } from './components/side-menu/components/graph-item/graph-item.component';
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
+import { EdgesListComponent } from './components/side-menu/components/edges-list/edges-list.component';
+import { EdgeComponent } from './components/side-menu/components/edge/edge.component';
 
 
 @NgModule({
@@ -23,7 +25,9 @@ import { TopMenuComponent } from './components/top-menu/top-menu.component';
     RelationComponent,
     GraphsListComponent,
     GraphItemComponent,
-    TopMenuComponent
+    TopMenuComponent,
+    EdgesListComponent,
+    EdgeComponent
   ],
   imports: [
     CommonModule,

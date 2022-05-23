@@ -4,6 +4,7 @@ import { Graph } from '@interfaces/models/graph.interface';
 import { Block } from '@interfaces/render-models/block.interface';
 import { Line } from '@interfaces/render-models/line.interface';
 import { RenderedRelation } from '@interfaces/render-models/rendered-relation.interface';
+import { BellmanFordAlgorythmService } from '@services/graph/bellman-ford-algorythm.service';
 import { GraphService } from '@services/graph/graph.service';
 
 @Component({
@@ -33,71 +34,50 @@ export class GraphComponent implements OnInit, AfterViewInit {
   graphBlocks: Graph = {
     blocks: [
       {
-        id: 1,
+        id: 0,
         value: 'A',
         relations: [{
+          relatedBlockId: 1,
+          type: 1,
+          weight: 0.1,
+          oriented: true
+        },
+        {
+          relatedBlockId: 3,
+          type: 1,
+          weight:  0.2,
+          oriented: true
+        }]
+      },
+      {
+        id: 1,
+        value: 'B',
+        relations: [{
           relatedBlockId: 2,
-          type: 0,
-          weight: 0,
-          oriented: false
+          type: 1,
+          weight:  0.3,
+          oriented: true
+        },{
+          relatedBlockId: 3,
+          type: 1,
+          weight:  0.5,
+          oriented: true
         }]
       },
       {
         id: 2,
-        value: 'B',
+        value: 'C',
         relations: [{
           relatedBlockId: 3,
           type: 1,
-          weight: 0,
+          weight:  0.4,
           oriented: true
         }]
       },
       {
         id: 3,
-        value: 'C',
-        relations: [{
-          relatedBlockId: 4,
-          type: 0,
-          weight: 0,
-          oriented: false
-        }]
-      },
-      {
-        id: 4,
         value: 'D',
-        relations: [{
-          relatedBlockId: 5,
-          type: 1,
-          weight: 0,
-          oriented: true
-        }]
-      },
-      {
-        id: 5,
-        value: 'F',
-        relations: [{
-          relatedBlockId: 6,
-          type: 0,
-          weight: 0,
-          oriented: false
-        }]
-      },
-      {
-        id: 6,
-        value: 'F',
-        relations: []
-      },
-      {
-        id: 7,
-        value: 'F',
-        relations: [
-          {
-            relatedBlockId: 3,
-            type: 1,
-            weight: 0,
-            oriented: true
-          }
-        ]
+        relations:[]
       }
     ],
     relationsCount: 4
@@ -106,20 +86,24 @@ export class GraphComponent implements OnInit, AfterViewInit {
   constructor(
     private graphService: GraphService,
     private ref: ChangeDetectorRef,
+    private algorythmService: BellmanFordAlgorythmService
   ) {
 
    }
 
   ngOnInit(): void {
+    this.graphService.selectedGraph$.next(this.graphBlocks);
     this.graphService.newBlock$
     .subscribe((res) => {
       if (res) this.addNewBlock();
     })
+
+    this.algorythmService.algorythm(this.graphBlocks);
   }
 
   clickOnBlock(event: any, blockId: number): void{
     const block = this.renderedBlocks.find((x) => x.id == blockId)
-    console.log(block, event)
+   // console.log(block, event)
     if (this.renderedBlocks){
 
     }
@@ -195,6 +179,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void{
+    this.graphService.selectedGraph$.next(this.graphBlocks)
     this.getBlocksCoordinates();
     this.ref.detectChanges();
   }
