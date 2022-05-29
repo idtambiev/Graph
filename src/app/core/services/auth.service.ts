@@ -17,6 +17,6 @@ export class AuthService {
   }
 
   test(): Observable<any>{
-    return this.http.get('');
+    return this.http.get(this.url+'test');
   }
 }
