@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { GraphItemDto } from '@interfaces/DTOs/graph-item.dto';
+import { GraphService } from '@services/api/graph.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-graphs-list',
@@ -7,27 +9,13 @@ import { GraphItemDto } from '@interfaces/DTOs/graph-item.dto';
   styleUrls: ['./graphs-list.component.scss']
 })
 export class GraphsListComponent implements OnInit {
-  graphs: GraphItemDto[] = [
-    {
-      id: 0,
-      name: 'Graph №1',
-      active: true,
-    },
-    {
-      id: 1,
-      name: 'Graph №2',
-      active: false
-    },
-    {
-      id: 2,
-      name: 'Graph №3',
-      active: false
-    }
+  @Input() reload: boolean = false;
 
-  ]
-  constructor() { }
+  graphs: GraphItemDto[] = [];
+  constructor(private graphService: GraphService) { }
 
   ngOnInit(): void {
+    this.getList();
   }
 
   chooseActive(id: number): void{
@@ -37,6 +25,14 @@ export class GraphsListComponent implements OnInit {
       } else {
         x.active = false;
       }
+    })
+  }
+
+  getList(): void{
+    this.graphService.getList()
+    .subscribe((res) => {
+      this.graphs = res.items;
+      this.graphs.map((x) => x.active == false);
     })
   }
 

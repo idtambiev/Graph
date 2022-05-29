@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { GraphService } from '@services/graph/graph.service';
+import { GraphHelper } from '@services/graph/graph.helper';
 
 @Component({
   selector: 'app-logo',
@@ -8,7 +8,7 @@ import { GraphService } from '@services/graph/graph.service';
 })
 export class LogoComponent implements OnInit {
   @Input() isSideMenuLogo: boolean = true;
-  constructor(private graphService: GraphService) { }
+  constructor(private graphService: GraphHelper) { }
 
   ngOnInit(): void {
   }

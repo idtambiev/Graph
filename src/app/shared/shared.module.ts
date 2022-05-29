@@ -13,7 +13,8 @@ import { GraphItemComponent } from './components/side-menu/components/graph-item
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { EdgesListComponent } from './components/side-menu/components/edges-list/edges-list.component';
 import { EdgeComponent } from './components/side-menu/components/edge/edge.component';
-
+import { CreateGraphDialogComponent } from './dialogs/create-graph-dialog/create-graph-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -27,20 +28,23 @@ import { EdgeComponent } from './components/side-menu/components/edge/edge.compo
     GraphItemComponent,
     TopMenuComponent,
     EdgesListComponent,
-    EdgeComponent
+    EdgeComponent,
+    CreateGraphDialogComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    CoreModule
+    CoreModule,
+    MatDialogModule
   ],
   exports: [
     AuthInputComponent,
     AuthButtonComponent,
     LogoComponent,
     SideMenuComponent,
-    TopMenuComponent
+    TopMenuComponent,
+    MatDialogModule
   ]
 })
 export class SharedModule { }

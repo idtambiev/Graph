@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GraphEdgeModel } from '@interfaces/models/graph-edge.model';
 import { Graph } from '@interfaces/models/graph.interface';
-import { GraphService } from '@services/graph/graph.service';
+import { GraphHelper } from '@services/graph/graph.helper';
 
 @Component({
   selector: 'app-edges-list',
@@ -12,7 +12,7 @@ export class EdgesListComponent implements OnInit {
   graph: Graph | null = null;
   edges: GraphEdgeModel[] = [];
 
-  constructor(private graphService: GraphService) { }
+  constructor(private graphService: GraphHelper) { }
 
   ngOnInit(): void {
     this.graphService.selectedGraph$.subscribe((res) => {

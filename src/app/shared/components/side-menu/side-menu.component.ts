@@ -1,16 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Graph } from '@interfaces/models/graph.interface';
-import { GraphService, ShowTypes } from '@services/graph/graph.service';
-
+import { GraphHelper, ShowTypes } from '@services/graph/graph.helper';
+import { CreateGraphDialogComponent } from '@dialogs/create-graph-dialog/create-graph-dialog.component';
+import { GraphsListComponent } from './components/graphs-list/graphs-list.component';
 @Component({
   selector: 'app-side-menu',
   templateUrl: './side-menu.component.html',
   styleUrls: ['./side-menu.component.scss']
 })
 export class SideMenuComponent implements OnInit {
+  @ViewChild(GraphsListComponent) child!: GraphsListComponent;
+
   showType: ShowTypes = ShowTypes.Graphs;
   showActions: boolean = false;
-  constructor(private graphService: GraphService) { }
+  constructor(private graphService: GraphHelper, private ref: MatDialog) { }
 
   ngOnInit(): void {
     this.graphService.showSelected$
@@ -22,6 +26,18 @@ export class SideMenuComponent implements OnInit {
 
   changeActionsStatus(): void{
     this.showActions = !this.showActions;
+  }
+
+  createNewgraph(): void{
+    this.ref.open(CreateGraphDialogComponent,
+    {
+        width: '450px',
+        height: '250px'
+    }).afterClosed().subscribe((res)=> {
+      if (res){
+        this.child.getList();
+      }
+    });
   }
 
 }

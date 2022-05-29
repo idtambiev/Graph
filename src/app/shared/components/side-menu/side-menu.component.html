@@ -9,7 +9,7 @@
   <div class="icons" *ngIf="showActions">
     <ng-container [ngSwitch]="showType">
       <ng-container *ngSwitchCase="0" >
-        <mat-icon matTooltip="Add new graph">note_add</mat-icon>
+        <mat-icon matTooltip="Add new graph" (click)="createNewgraph()">note_add</mat-icon>
         <mat-icon matTooltip="Remove selected graph">delete</mat-icon>
       </ng-container>
       <ng-container *ngSwitchCase="1">

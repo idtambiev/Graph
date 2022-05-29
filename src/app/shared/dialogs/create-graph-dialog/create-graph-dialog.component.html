@@ -1,0 +1,14 @@
+<div class="dialog-wrapper">
+  <div class="dialog-header">
+    <h3>Create Graph</h3>
+    <mat-icon matTooltip="Close" (click)="close()">close</mat-icon>
+  </div>
+  <div class="dialog-body">
+    <span >Graph name</span>
+    <input type="text" name="" id="" [(ngModel)]="name">
+  </div>
+  <div class="dialog-footer">
+    <button (click)="submit()">Save</button>
+    <button (click)="close()">cancel</button>
+  </div>
+</div>

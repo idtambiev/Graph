@@ -27,7 +27,8 @@
       "@services/*": ["src/app/core/services/*"],
       "@modules/*": ["src/app/modules/*"],
       "@core/*": ["src/app/core/*"],
-      "@enums/*": ["src/app/core/enums/*"]
+      "@enums/*": ["src/app/core/enums/*"],
+      "@dialogs/*": ["src/app/shared/dialogs/*"]
     }
   },
   "angularCompilerOptions": {

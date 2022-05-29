@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { GraphService, ShowTypes } from '@services/graph/graph.service';
+import { GraphHelper, ShowTypes } from '@services/graph/graph.helper';
 
 @Component({
   selector: 'app-top-menu',
@@ -12,7 +12,7 @@ export class TopMenuComponent implements OnInit {
   show: boolean = false;
 
   constructor(
-    private graphService: GraphService
+    private graphService: GraphHelper
   ) { }
 
   ngOnInit(): void {

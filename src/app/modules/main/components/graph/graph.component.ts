@@ -5,7 +5,7 @@ import { Block } from '@interfaces/render-models/block.interface';
 import { Line } from '@interfaces/render-models/line.interface';
 import { RenderedRelation } from '@interfaces/render-models/rendered-relation.interface';
 import { BellmanFordAlgorythmService } from '@services/graph/bellman-ford-algorythm.service';
-import { GraphService } from '@services/graph/graph.service';
+import { GraphHelper } from '@services/graph/graph.helper';
 
 @Component({
   selector: 'app-graph',
@@ -89,7 +89,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
   }
 
   constructor(
-    private graphService: GraphService,
+    private graphService: GraphHelper,
     private ref: ChangeDetectorRef,
     private algorythmService: BellmanFordAlgorythmService
   ) {

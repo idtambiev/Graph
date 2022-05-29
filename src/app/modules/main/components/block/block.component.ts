@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { GraphService } from '@services/graph/graph.service';
+import { GraphHelper } from '@services/graph/graph.helper';
 
 @Component({
   selector: 'app-block',
@@ -13,7 +13,7 @@ export class BlockComponent implements OnInit {
 
   ]
   constructor(
-    private graphService: GraphService
+    private graphService: GraphHelper
   ) { }
 
   ngOnInit(): void {

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RelationsType } from '@core/enums/relations-types.enum';
 import { NewRelation } from '@interfaces/render-models/new-relation';
-import { GraphService } from '@services/graph/graph.service';
+import { GraphHelper } from '@services/graph/graph.helper';
 
 @Component({
   selector: 'app-relation',
@@ -18,7 +18,7 @@ export class RelationComponent implements OnInit {
   horizontalLineIcon: string = "horizontal_rule";
   arrowIcon: string = "trending_flat";
 
-  constructor(private graphService: GraphService) {
+  constructor(private graphService: GraphHelper) {
 
    }
 

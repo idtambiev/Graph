@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BellmanFordAlgorythmService } from '@services/graph/bellman-ford-algorythm.service';
-import { GraphService } from '@services/graph/graph.service';
+import { GraphHelper } from '@services/graph/graph.helper';
 
 @Component({
   selector: 'app-algorythm',
@@ -9,7 +9,7 @@ import { GraphService } from '@services/graph/graph.service';
 })
 export class AlgorythmComponent implements OnInit {
 
-  constructor(private graphService: GraphService,
+  constructor(private graphService: GraphHelper,
     private algorythmService: BellmanFordAlgorythmService) { }
 
   ngOnInit(): void {
