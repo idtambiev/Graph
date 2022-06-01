@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { RelationsType } from '@core/enums/relations-types.enum';
+import { SelectVectorComponent } from '@dialogs/select-vector/select-vector.component';
 import { NewRelation } from '@interfaces/render-models/new-relation';
 
 @Component({
@@ -36,13 +38,22 @@ export class RelationsListComponent implements OnInit {
   ]
 
   showRelations: boolean = false;
-  constructor() { }
+  constructor(private ref: MatDialog) { }
 
   ngOnInit(): void {
+    this.openVectorsDialog();
   }
 
   changeActionsStatus(): void{
     this.showRelations = !this.showRelations;
+  }
+
+  openVectorsDialog(){
+    this.ref.open(SelectVectorComponent,
+      {
+        width: '900px',
+        height: '700px'
+      })
   }
 
 }

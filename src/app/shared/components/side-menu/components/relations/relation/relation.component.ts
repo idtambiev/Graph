@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { RelationsType } from '@core/enums/relations-types.enum';
 import { NewRelation } from '@interfaces/render-models/new-relation';
 import { GraphHelper } from '@services/graph/graph.helper';
+import { SelectVectorComponent } from '../../../../../dialogs/select-vector/select-vector.component';
 
 @Component({
   selector: 'app-relation',
@@ -18,7 +20,7 @@ export class RelationComponent implements OnInit {
   horizontalLineIcon: string = "horizontal_rule";
   arrowIcon: string = "trending_flat";
 
-  constructor(private graphService: GraphHelper) {
+  constructor(private graphService: GraphHelper, private ref: MatDialog) {
 
    }
 
@@ -34,5 +36,18 @@ export class RelationComponent implements OnInit {
 
   chooseType(): void{
     this.graphService.selectedRelationType$.next(this.relation?.relationType);
+    if (this.relation?.relationType == this.relationsType.multipleUndirectedVector
+        || this.relation?.relationType == this.relationsType.multipleOrientedVector){
+          this.openVectorsDialog();
+    }
+
+  }
+
+  openVectorsDialog(){
+    this.ref.open(SelectVectorComponent,
+      {
+        width: '650px',
+        height: '600px'
+      })
   }
 }

@@ -22,6 +22,9 @@ import { VectorsListComponent } from './components/side-menu/components/vector/v
 import { VectorItemComponent } from './components/side-menu/components/vector/vector-item/vector-item.component';
 import { CreateVectorComponent } from './components/side-menu/components/vector/create-vector/create-vector.component';
 import { MatSelectModule } from '@angular/material/select';
+import { SelectVectorComponent } from '@dialogs/select-vector/select-vector.component';
+import {MatTableModule} from '@angular/material/table';
+import { VectorItemsTableComponent } from './dialogs/select-vector/vector-items-table/vector-items-table.component';
 @NgModule({
   declarations: [
     AuthInputComponent,
@@ -41,6 +44,8 @@ import { MatSelectModule } from '@angular/material/select';
     VectorsListComponent,
     VectorItemComponent,
     CreateVectorComponent,
+    SelectVectorComponent,
+    VectorItemsTableComponent,
   ],
   imports: [
     CommonModule,
@@ -49,7 +54,8 @@ import { MatSelectModule } from '@angular/material/select';
     CoreModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTableModule
   ],
   exports: [
     AuthInputComponent,
@@ -58,7 +64,8 @@ import { MatSelectModule } from '@angular/material/select';
     SideMenuComponent,
     TopMenuComponent,
     MatDialogModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTableModule
   ]
 })
 export class SharedModule { }
