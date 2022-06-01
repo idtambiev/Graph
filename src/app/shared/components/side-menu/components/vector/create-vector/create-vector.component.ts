@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { RelationsType } from '@core/enums/relations-types.enum';
 import { CreateGraphDialogComponent } from '@dialogs/create-graph-dialog/create-graph-dialog.component';
@@ -19,7 +19,9 @@ export class CreateVectorComponent implements OnInit {
     type: 0
   }];
 
-  itemsForm : FormGroup;
+
+
+  vectorForm : FormGroup;
   //itemsFormArray: FormArray;
 
   relationsList: NewRelation[] =[
@@ -31,40 +33,26 @@ export class CreateVectorComponent implements OnInit {
       text: "One Type Oriented",
       relationType: RelationsType.oneTypeOriented,
     },
-    {
-      text: "Diverse Undirected",
-      relationType: RelationsType.diverseUndirected,
-    },
-    {
-      text: "Diverse Oriented",
-      relationType: RelationsType.diverseOriented,
-    },
-    {
-      text: "Multiple Undirected Vector",
-      relationType: RelationsType.multipleUndirectedVector,
-    },
-    {
-      text: "Multiple Oriented Vector",
-      relationType: RelationsType.multipleOrientedVector,
-    },
   ]
+
+  get vectorItems(): FormArray {
+    return this.vectorForm.get('items') as FormArray;
+  }
 
   constructor(private dialogRef: MatDialogRef<CreateGraphDialogComponent>,
     private graphService: GraphService,
     private fb: FormBuilder) {
-      this.itemsForm = this.fb.group(
+      this.vectorForm = this.fb.group(
       {
+        name: ['', Validators.required],
         items: this.fb.array([
-          {
-            weight: '',
-            type: ''
-          }
+
         ])
-      })
+      });
     }
 
   ngOnInit(): void {
-    //this.addItem();
+    this.addItem();
   }
 
   // submit(){
@@ -78,19 +66,28 @@ export class CreateVectorComponent implements OnInit {
 
 
   addItem(){
-    (<FormArray>this.itemsForm.get('items')).push(
+    (<FormArray>this.vectorForm.get('items')).push(
       this.fb.group({
+        value: '',
         type: '',
         weight: 0
       })
     );
   }
 
+  removeItem(i: number): void{
+    (<FormArray>this.vectorForm.get('items')).removeAt(i);
+  }
+
   getFormsControls() : FormArray{
-    return this.itemsForm.controls['items'] as FormArray;
+    return this.vectorForm.controls['items'] as FormArray;
 }
 
   close(): void{
     this.dialogRef.close();
+  }
+
+  submit(): void{
+    console.log(this.vectorForm.value)
   }
 }

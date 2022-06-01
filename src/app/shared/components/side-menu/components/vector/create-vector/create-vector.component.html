@@ -3,22 +3,49 @@
     <h3>Create Vector</h3>
     <mat-icon matTooltip="Close" (click)="close()">close</mat-icon>
   </div>
-  <div class="dialog-body">
-    <span >Graph name</span>
-    <div *ngFor="let item of getFormsControls()['controls']; let i = index" class="item-wrapper">
-      <select>
-        <option *ngFor="let relation of relationsList">{{relation.text}}</option>
-      </select>
-      <div>
-        <label for="">Weight</label>
-        <input type="text">
+  <form [formGroup]="vectorForm" class="dialog-body">
+    <div class="name-wrapper">
+      <label for="">Vector Name</label>
+      <input formControlName="name">
+    </div>
+
+    <ng-container formArrayName="items">
+      <div
+        *ngFor="let item of vectorItems.controls; let i = index"
+        [formGroupName]="i"
+        class="item-wrapper"
+        [ngClass]="{gray: i%2 ==0}">
+        <div class="count-wrapper">
+          <span>{{i+1}}</span>
+        </div>
+
+          <div class="input-wrapper">
+            <label for="">Value</label>
+            <input type="text" placeholder="v1" formControlName="value">
+          </div>
+          <div class="type-wrapper">
+            <label for="">Type</label>
+            <select formControlName="type">
+              <option *ngFor="let relation of relationsList">{{relation.text}}</option>
+            </select>
+          </div>
+
+          <div class="input-wrapper">
+            <label for="">Weight</label>
+            <input type="text" placeholder="0.0" formControlName="weight">
+          </div>
+          <div>
+          <mat-icon (click)="removeItem(i)" matTooltip="Remove Vector Item">close</mat-icon>
       </div>
 
     </div>
-    <div style="cursor: pointer;" (click)="addItem()">+ Add item</div>
-  </div>
+    </ng-container>
+
+    <!-- <div style="cursor: pointer;" >+ Add item</div> -->
+  </form>
   <div class="dialog-footer">
-    <button >Save</button>
+    <button (click)="submit()">Save</button>
+    <button (click)="addItem()">Add Vector Item</button>
     <button (click)="close()">Cancel</button>
   </div>
 </div>

@@ -24,8 +24,8 @@ export class VectorsListComponent implements OnInit {
 
   openCreateVectorDialog(): void{
     this.ref.open(CreateVectorComponent,{
-      width: '600px',
-      height: '500px'
+      width: '630px',
+      height: '550px'
     })
   }
 
