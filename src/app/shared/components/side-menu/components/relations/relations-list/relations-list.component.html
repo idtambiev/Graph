@@ -1,0 +1,13 @@
+<div class="relations-wrapper">
+  <div class="actions" (click)="changeActionsStatus()">
+    <span>Choose relation type</span>
+    <mat-icon *ngIf="!showRelations">expand_more</mat-icon>
+    <mat-icon *ngIf="showRelations">expand_less</mat-icon>
+  </div>
+  <ng-container *ngIf="showRelations">
+    <app-relation *ngFor="let relation of relationsList" [relation]="relation"></app-relation>
+  </ng-container>
+
+
+
+</div>

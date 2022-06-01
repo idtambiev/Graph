@@ -10,6 +10,7 @@ export class TopMenuComponent implements OnInit {
   @Input() isGraphBlock: boolean = true;
   @Output() newBlockOutput = new EventEmitter<number>();
   show: boolean = false;
+  status: ShowTypes = ShowTypes.Graphs
 
   constructor(
     private graphService: GraphHelper
@@ -25,6 +26,7 @@ export class TopMenuComponent implements OnInit {
   showRelations(status: ShowTypes): void{
     //this.show = status;
     this.graphService.showSelected$.next(status);
+    this.status = status;
     //this.graphService.selectedRelationType$.next(null);
   }
 }

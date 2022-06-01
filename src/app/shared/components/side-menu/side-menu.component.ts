@@ -3,7 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Graph } from '@interfaces/models/graph.interface';
 import { GraphHelper, ShowTypes } from '@services/graph/graph.helper';
 import { CreateGraphDialogComponent } from '@dialogs/create-graph-dialog/create-graph-dialog.component';
-import { GraphsListComponent } from './components/graphs-list/graphs-list.component';
+import { GraphsListComponent } from './components/graph/graphs-list/graphs-list.component';
+import { GraphService } from '@services/api/graph.service';
+import { SaveGraphDTO, SaveRelationDTO } from '@interfaces/DTOs/save-graph.dto';
+import { DeleteGraphComponent } from '@dialogs/delete-graph/delete-graph.component';
 @Component({
   selector: 'app-side-menu',
   templateUrl: './side-menu.component.html',
@@ -14,10 +17,12 @@ export class SideMenuComponent implements OnInit {
 
   showType: ShowTypes = ShowTypes.Graphs;
   showActions: boolean = false;
-  constructor(private graphService: GraphHelper, private ref: MatDialog) { }
+  constructor(private graphHelper: GraphHelper,
+    private graphService: GraphService,
+    private ref: MatDialog) { }
 
   ngOnInit(): void {
-    this.graphService.showSelected$
+    this.graphHelper.showSelected$
     .subscribe((res) => {
       this.showType = res;
       //this.showRelations = res;
@@ -38,6 +43,58 @@ export class SideMenuComponent implements OnInit {
         this.child.getList();
       }
     });
+  }
+
+  deleteGraph(): void{
+    this.ref.open(DeleteGraphComponent,
+      {
+          width: '450px',
+          height: '250px'
+      }).afterClosed().subscribe((res)=> {
+        if (res){
+          this.child.getList();
+        }
+      });
+  }
+
+  addNewBlock(){
+    this.graphHelper.newBlock$.next(true);
+  }
+
+  saveGraph(): void{
+    const graph: Graph | null = this.graphHelper.selectedGraph$.value;
+    if (graph){
+
+      let dto: SaveGraphDTO = {
+        id: graph.id,
+        blocks: []
+      }
+
+      graph.blocks.forEach(x =>
+        {
+          let relations: SaveRelationDTO[] = [];
+
+          x.relations.forEach((rel) => {
+            let relationDto: SaveRelationDTO = {
+              id: rel.id,
+              blockId: x.id,
+              relatedBlockId: rel.relatedBlockId,
+              type: rel.type,
+              weight: rel.weight,
+              isNew: rel.isNew
+            }
+
+            relations.push(relationDto);
+          })
+          dto.blocks.push({id: x.id, value: x.value, isNewBlock: x.isNewBlock!, relations: relations})
+        }
+      )
+
+      this.graphService.saveGraph(dto)
+      .subscribe((res) => {
+        console.log('save')
+      })
+    }
   }
 
 }

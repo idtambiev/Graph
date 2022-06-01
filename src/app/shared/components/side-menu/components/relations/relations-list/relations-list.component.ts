@@ -34,9 +34,15 @@ export class RelationsListComponent implements OnInit {
       relationType: RelationsType.multipleOrientedVector,
     },
   ]
+
+  showRelations: boolean = false;
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  changeActionsStatus(): void{
+    this.showRelations = !this.showRelations;
   }
 
 }

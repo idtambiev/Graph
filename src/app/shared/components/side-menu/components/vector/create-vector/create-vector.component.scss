@@ -23,6 +23,13 @@
     justify-content: start;
     margin-bottom: 45px;
 
+    .item-wrapper{
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      justify-content: space-between;
+    }
+
     span{
       margin-bottom: 10px;
     }

@@ -1,8 +1,8 @@
-<div class="block-wrapper" [id]="value" (click)="addNewBlock()">
+<div class="block-wrapper" [id]="blockInput?.id" (click)="addNewBlock()">
   <ng-container *ngIf="!isGraphBlock;else block">
       Add block
   </ng-container>
   <ng-template #block>
-      gv{{value+1}}
+      {{blockInput?.value}}
   </ng-template>
 </div>

@@ -3,9 +3,9 @@
   <app-logo [isSideMenuLogo]="true"></app-logo>
 
   <div class="relations-wrapper">
-    <div class="navigate" [ngClass]="{'active': !show}" (click)="showRelations(0)">Graphs</div>
-    <div class="navigate" [ngClass]="{'active': show}" (click)="showRelations(1)">Relations</div>
-    <div class="navigate" [ngClass]="{'active': show}" (click)="showRelations(2)">Bellman-Ford algorythm</div>
+    <div class="navigate" [ngClass]="{'active': status == 0}" (click)="showRelations(0)">Graphs</div>
+    <div class="navigate" [ngClass]="{'active': status == 1}" (click)="showRelations(1)">Edit Graph</div>
+    <div class="navigate" [ngClass]="{'active': status == 2}" (click)="showRelations(2)">Bellman-Ford algorythm</div>
     <!-- <mat-icon *ngIf="!show">keyboard_arrow_right</mat-icon>
     <mat-icon *ngIf="show">keyboard_arrow_left</mat-icon> -->
   </div>

@@ -10,10 +10,11 @@
     <ng-container [ngSwitch]="showType">
       <ng-container *ngSwitchCase="0" >
         <mat-icon matTooltip="Add new graph" (click)="createNewgraph()">note_add</mat-icon>
-        <mat-icon matTooltip="Remove selected graph">delete</mat-icon>
+        <mat-icon matTooltip="Remove selected graph" (click)="deleteGraph()">delete</mat-icon>
       </ng-container>
       <ng-container *ngSwitchCase="1">
-        <mat-icon matTooltip="Add new block">add_circle</mat-icon>
+        <mat-icon matTooltip="Add new block" (click)="addNewBlock()">add_circle</mat-icon>
+        <mat-icon matTooltip="Save Graph" (click)="saveGraph()">save</mat-icon>
         <mat-icon matTooltip="Remove selected block">delete</mat-icon>
       </ng-container>
     </ng-container>
@@ -22,4 +23,5 @@
   <app-graphs-list *ngIf="showType === 0"></app-graphs-list>
   <app-relations-list *ngIf="showType === 1"></app-relations-list>
   <app-edges-list *ngIf="showType === 2"></app-edges-list>
+  <app-vectors-list *ngIf="showType === 1"></app-vectors-list>
 </div>

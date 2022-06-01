@@ -17,7 +17,7 @@ import { AlgorythmComponent } from './components/algorythm/algorythm.component';
     GraphComponent,
     LinesSvgComponent,
     BlockComponent,
-    AlgorythmComponent
+    AlgorythmComponent,
   ],
   imports: [
     CommonModule,

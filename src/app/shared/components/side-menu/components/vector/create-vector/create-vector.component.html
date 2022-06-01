@@ -1,0 +1,24 @@
+<div class="dialog-wrapper">
+  <div class="dialog-header">
+    <h3>Create Vector</h3>
+    <mat-icon matTooltip="Close" (click)="close()">close</mat-icon>
+  </div>
+  <div class="dialog-body">
+    <span >Graph name</span>
+    <div *ngFor="let item of getFormsControls()['controls']; let i = index" class="item-wrapper">
+      <select>
+        <option *ngFor="let relation of relationsList">{{relation.text}}</option>
+      </select>
+      <div>
+        <label for="">Weight</label>
+        <input type="text">
+      </div>
+
+    </div>
+    <div style="cursor: pointer;" (click)="addItem()">+ Add item</div>
+  </div>
+  <div class="dialog-footer">
+    <button >Save</button>
+    <button (click)="close()">Cancel</button>
+  </div>
+</div>

@@ -20,7 +20,7 @@ export class GraphHelper {
   selectedRelationType$: BehaviorSubject<any> = new BehaviorSubject(null);
   showSelected$: BehaviorSubject<number> = new BehaviorSubject(ShowTypes.Graphs);
   selectedGraph$: BehaviorSubject<any> = new BehaviorSubject(null);
-
+  selectedGraphId$: BehaviorSubject<any> = new BehaviorSubject(null);
 
   constructor() { }
 

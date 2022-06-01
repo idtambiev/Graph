@@ -3,6 +3,19 @@
   flex-direction: column;
   text-align: center;
   padding-top: 20px;
+  .actions{
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    align-items: center;
+    padding-top: 15px;
+
+    span{
+      font-size: 15pt;
+      font-weight: 500;
+    }
+
+  }
 
   span{
     font-size: 20px;

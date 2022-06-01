@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { GraphBlock } from '@interfaces/models/graph.interface';
 import { GraphHelper } from '@services/graph/graph.helper';
 
 @Component({
@@ -7,7 +8,7 @@ import { GraphHelper } from '@services/graph/graph.helper';
   styleUrls: ['./block.component.scss']
 })
 export class BlockComponent implements OnInit {
-  @Input() value: number = 0;
+  @Input() blockInput: GraphBlock | null = null;
   @Input() isGraphBlock: boolean = true;
   lineTypes = [
 

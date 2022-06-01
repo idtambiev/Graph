@@ -1,9 +1,11 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { typeWithParameters } from '@angular/compiler/src/render3/util';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RelationsType } from '@core/enums/relations-types.enum';
 import { Graph } from '@interfaces/models/graph.interface';
 import { Block } from '@interfaces/render-models/block.interface';
 import { Line } from '@interfaces/render-models/line.interface';
 import { RenderedRelation } from '@interfaces/render-models/rendered-relation.interface';
+import { GraphService } from '@services/api/graph.service';
 import { BellmanFordAlgorythmService } from '@services/graph/bellman-ford-algorythm.service';
 import { GraphHelper } from '@services/graph/graph.helper';
 
@@ -12,7 +14,8 @@ import { GraphHelper } from '@services/graph/graph.helper';
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.scss']
 })
-export class GraphComponent implements OnInit, AfterViewInit {
+export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
+  loading = false;
   renderedBlocks: Block[] = [];
   clickedBlocksCount = 0;
   lines: Line[] = [];
@@ -31,65 +34,70 @@ export class GraphComponent implements OnInit, AfterViewInit {
     y: 0
   }
 
-  graphBlocks: Graph = {
-    blocks: [
-      {
-        id: 0,
-        value: 'A',
-        relations: [{
-          relatedBlockId: 1,
-          type: 1,
-          weight: 0.1,
-          oriented: true
-        },
-        {
-          relatedBlockId: 3,
-          type: 1,
-          weight:  0.7,
-          oriented: true
-        },{
-          relatedBlockId: 2,
-          type: 1,
-          weight:  0.4,
-          oriented: true
-        }]
-      },
-      {
-        id: 1,
-        value: 'B',
-        relations: [{
-          relatedBlockId: 2,
-          type: 1,
-          weight:  0.1,
-          oriented: true
-        },{
-          relatedBlockId: 3,
-          type: 1,
-          weight:  0.5,
-          oriented: true
-        }]
-      },
-      {
-        id: 2,
-        value: 'C',
-        relations: [{
-          relatedBlockId: 3,
-          type: 1,
-          weight:  0.1,
-          oriented: true
-        }]
-      },
-      {
-        id: 3,
-        value: 'D',
-        relations:[]
-      }
-    ],
-    relationsCount: 4
-  }
+  graphBlocks: Graph | null = null;
+
+  // graphBlocks: Graph = {
+  //   id: 0,
+  //   name: '',
+  //   blocks: [
+  //     {
+  //       id: 0,
+  //       value: 'A',
+  //       relations: [{
+  //         relatedBlockId: 1,
+  //         type: 1,
+  //         weight: 0.1,
+  //         oriented: true
+  //       },
+  //       {
+  //         relatedBlockId: 3,
+  //         type: 1,
+  //         weight:  0.7,
+  //         oriented: true
+  //       },{
+  //         relatedBlockId: 2,
+  //         type: 1,
+  //         weight:  0.4,
+  //         oriented: true
+  //       }]
+  //     },
+  //     {
+  //       id: 1,
+  //       value: 'B',
+  //       relations: [{
+  //         relatedBlockId: 2,
+  //         type: 1,
+  //         weight:  0.1,
+  //         oriented: true
+  //       },{
+  //         relatedBlockId: 3,
+  //         type: 1,
+  //         weight:  0.5,
+  //         oriented: true
+  //       }]
+  //     },
+  //     {
+  //       id: 2,
+  //       value: 'C',
+  //       relations: [{
+  //         relatedBlockId: 3,
+  //         type: 1,
+  //         weight:  0.1,
+  //         oriented: true
+  //       }]
+  //     },
+  //     {
+  //       id: 3,
+  //       value: 'D',
+  //       relations:[]
+  //     }
+  //   ],
+  //   relationsCount: 4
+  // }
 
   constructor(
-    private graphService: GraphHelper,
+    private graphHelper: GraphHelper,
+    private graphService: GraphService,
     private ref: ChangeDetectorRef,
     private algorythmService: BellmanFordAlgorythmService
   ) {
@@ -97,26 +105,54 @@ export class GraphComponent implements OnInit, AfterViewInit {
    }
 
   ngOnInit(): void {
-    this.graphService.selectedGraph$.next(this.graphBlocks);
-    this.graphService.newBlock$
+    this.selectGraph();
+
+    this.graphHelper.newBlock$
     .subscribe((res) => {
       if (res) this.addNewBlock();
-    })
+    });
 
-    this.algorythmService.algorythm(this.graphBlocks);
+    this.graphHelper.selectedGraphId$.subscribe((id)=> {
+      if (id){
+        this.loadGraph(id);
+      }
+    });
+
+    //this.algorythmService.algorythm(this.graphBlocks);
+  }
+
+  selectGraph(): void{
+    this.graphHelper.selectedGraph$.next(this.graphBlocks);
+    //this.getBlocksCoordinates();
+  }
+
+  loadGraph(id: number): void{
+    this.loading = true;
+    this.graphService.getById(id)
+    .subscribe((res) => {
+      console.log(res);
+
+      this.graphBlocks = res;
+      this.selectGraph();
+
+      setTimeout(() => {
+        this.ngAfterViewInit()
+        this.loading = false;
+      }, 100);
+    });
   }
 
   clickOnBlock(event: any, blockId: number): void{
     const block = this.renderedBlocks.find((x) => x.id == blockId)
-   // console.log(block, event)
+
     if (this.renderedBlocks){
 
     }
-    const relationType = this.graphService.selectedRelationType$.value;
+    const relationType = this.graphHelper.selectedRelationType$.value;
     if (relationType != null){
       this.clickedBlocksCount++;
       if (this.clickedBlocksCount < 2){
-        this.graphService.selectedFirstBlock$.next(blockId);
+        this.graphHelper.selectedFirstBlock$.next(blockId);
       } else {
         this.createNewRelation(blockId, relationType);
       }
@@ -124,16 +160,21 @@ export class GraphComponent implements OnInit, AfterViewInit {
   }
 
   createNewRelation(secondBlockId: number, relationType: RelationsType): void{
-      const firstBlockId = this.graphService.selectedFirstBlock$.value;
+    if (this.graphBlocks){
+      const firstBlockId = this.graphHelper.selectedFirstBlock$.value;
       const idx = this.graphBlocks.blocks.findIndex((val) => val.id == firstBlockId);
 
       this.graphBlocks.blocks[idx].relations.push({
+        id: this.relations.length+1,
         relatedBlockId: secondBlockId,
-          type: relationType,
-          weight: 0
+        type: relationType,
+        weight: 0,
+        isNew: true
       });
+    }
 
-      this.graphService.selectedFirstBlock$.next(null);
+      this.selectGraph();
+      this.graphHelper.selectedFirstBlock$.next(null);
       this.clickedBlocksCount = 0;
       this.ngAfterViewInit()
   }
@@ -184,13 +225,14 @@ export class GraphComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void{
-    this.graphService.selectedGraph$.next(this.graphBlocks)
+    this.graphHelper.selectedGraph$.next(this.graphBlocks)
     this.getBlocksCoordinates();
     this.ref.detectChanges();
   }
 
   getBlocksCoordinates(): void{
     const blocks = Array.from(document.querySelectorAll('.graph-block'));
+    console.log(blocks)
     if (blocks.length){
       Array.from(blocks).forEach((block) => {
         const div = block.getBoundingClientRect()
@@ -264,7 +306,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
 
   createRelationsArray(): void{
     this.relations = [];
-    this.graphBlocks.blocks
+
+    this.graphBlocks?.blocks
     .forEach((block)=>{
       if (block.relations.length){
         block.relations.forEach((relation) =>{
@@ -278,6 +321,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
         })
       }
     });
+
+    console.log(this.relations)
   }
 
   getRelationBlockById(id: number){
@@ -294,12 +339,16 @@ export class GraphComponent implements OnInit, AfterViewInit {
   }
 
   addNewBlock(){
-    this.graphBlocks.blocks.push({
+    this.graphBlocks?.blocks.push({
       id: this.graphBlocks.blocks.length+1,
-      value: '',
-      relations: []
+      value: `gv${this.graphBlocks.blocks.length+1}`,
+      relations: [],
+      isNewBlock: true
     });
-    this.graphBlocks.relationsCount++;
+    if (this.graphBlocks){
+      this.graphBlocks.relationsCount++;
+    }
+
   }
 
   createLinesArrays(): void{
@@ -309,5 +358,11 @@ export class GraphComponent implements OnInit, AfterViewInit {
     this.diverseOrientedLines = this.lines.filter((x) => x.type === RelationsType.diverseOriented);
     this.multipleUndirectedVectorLines = this.lines.filter((x) => x.type === RelationsType.multipleUndirectedVector);
     this.multipleOrientedVectorLines = this.lines.filter((x) => x.type === RelationsType.multipleOrientedVector);
+  }
+
+
+
+  ngOnDestroy(): void {
+
   }
 }
