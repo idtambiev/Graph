@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { VectorService } from '@services/api/vector.service';
+import { GraphHelper } from '@services/graph/graph.helper';
 import { CreateVectorComponent } from '../create-vector/create-vector.component';
 
 @Component({
@@ -11,11 +13,13 @@ export class VectorsListComponent implements OnInit {
   showVectors: boolean = false;
   vectors: any[] = [];
 
-  constructor(private ref: MatDialog) { }
+  constructor(private ref: MatDialog,
+    private vectorService: VectorService,
+    private graphHelper: GraphHelper) { }
 
   ngOnInit(): void {
-
-    this.openCreateVectorDialog();
+    //this.openCreateVectorDialog();
+    this.loadVectors()
   }
 
   changeShowStatus(): void{
@@ -27,6 +31,16 @@ export class VectorsListComponent implements OnInit {
       width: '630px',
       height: '550px'
     })
+  }
+
+  loadVectors(): void{
+    if (this.graphHelper.selectedGraphId$.value){
+      this.vectorService.getList(this.graphHelper.selectedGraphId$.value)
+      .subscribe((res) => {
+        console.log(res)
+      })
+    }
+
   }
 
 }

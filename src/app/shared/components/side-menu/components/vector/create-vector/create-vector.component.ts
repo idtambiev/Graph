@@ -3,9 +3,12 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { RelationsType } from '@core/enums/relations-types.enum';
 import { CreateGraphDialogComponent } from '@dialogs/create-graph-dialog/create-graph-dialog.component';
+import { CreateVectorDTO } from '@interfaces/DTOs/create-vector.dto';
 import { VectorItem } from '@interfaces/models/graph.interface';
 import { NewRelation } from '@interfaces/render-models/new-relation';
 import { GraphService } from '@services/api/graph.service';
+import { VectorService } from '@services/api/vector.service';
+import { GraphHelper } from '@services/graph/graph.helper';
 
 @Component({
   selector: 'app-create-vector',
@@ -41,12 +44,13 @@ export class CreateVectorComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<CreateGraphDialogComponent>,
     private graphService: GraphService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private vectorService: VectorService,
+    private graphHelper: GraphHelper) {
       this.vectorForm = this.fb.group(
       {
-        name: ['', Validators.required],
+        value: ['', Validators.required],
         items: this.fb.array([
-
         ])
       });
     }
@@ -54,15 +58,6 @@ export class CreateVectorComponent implements OnInit {
   ngOnInit(): void {
     this.addItem();
   }
-
-  // submit(){
-  //   if (this.name){
-  //     this.graphService.create(this.name)
-  //     .subscribe((res)=> {
-  //       this.dialogRef.close(true);
-  //     })
-  //   }
-  //}
 
 
   addItem(){
@@ -88,6 +83,12 @@ export class CreateVectorComponent implements OnInit {
   }
 
   submit(): void{
-    console.log(this.vectorForm.value)
+    let data: CreateVectorDTO = this.vectorForm.value;
+    data.graphId = this.graphHelper.selectedGraphId$.value;
+    this.vectorService.createVector(data)
+    .subscribe((res) => {
+      console.log('Saved')
+    })
+
   }
 }

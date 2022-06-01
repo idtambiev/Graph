@@ -6,7 +6,7 @@
   <form [formGroup]="vectorForm" class="dialog-body">
     <div class="name-wrapper">
       <label for="">Vector Name</label>
-      <input formControlName="name">
+      <input formControlName="value">
     </div>
 
     <ng-container formArrayName="items">
@@ -26,7 +26,7 @@
           <div class="type-wrapper">
             <label for="">Type</label>
             <select formControlName="type">
-              <option *ngFor="let relation of relationsList">{{relation.text}}</option>
+              <option *ngFor="let relation of relationsList" [value]="relation.relationType">{{relation.text}}</option>
             </select>
           </div>
 
