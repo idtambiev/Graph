@@ -23,7 +23,9 @@ export class EdgesListComponent implements OnInit {
               this.edges.push(
                 {
                   edgeStart: block.id,
+                  startValue: block.value,
                   edgeEnd: relation.relatedBlockId,
+                  endValue: this.graph?.blocks.find(x => x.id == relation.relatedBlockId)?.value,
                   weight: relation.weight
                 })
             })

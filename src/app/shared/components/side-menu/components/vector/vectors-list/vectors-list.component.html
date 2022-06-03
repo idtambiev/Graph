@@ -4,9 +4,11 @@
     <mat-icon *ngIf="!showVectors">expand_more</mat-icon>
     <mat-icon *ngIf="showVectors">expand_less</mat-icon>
   </div>
-  <ng-container *ngIf="showVectors">
+  <ng-container *ngIf="showVectors" style="display: flex; flex-direction: row; justify-content: space-between;">
     <mat-icon (click)="openCreateVectorDialog()">note_add</mat-icon>
-    <app-vector-item *ngFor="let vector of vectors" [vector]="vector"></app-vector-item>
+    <mat-icon (click)="openVectorsList()">list_alt</mat-icon>
+
+    <!-- <app-vector-item *ngFor="let vector of vectors" [vector]="vector"></app-vector-item> -->
   </ng-container>
 
 </div>

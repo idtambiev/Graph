@@ -41,7 +41,7 @@ export class RelationsListComponent implements OnInit {
   constructor(private ref: MatDialog) { }
 
   ngOnInit(): void {
-    this.openVectorsDialog();
+    //this.openVectorsDialog();
   }
 
   changeActionsStatus(): void{

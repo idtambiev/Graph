@@ -36,10 +36,10 @@ export class RelationComponent implements OnInit {
 
   chooseType(): void{
     this.graphService.selectedRelationType$.next(this.relation?.relationType);
-    if (this.relation?.relationType == this.relationsType.multipleUndirectedVector
-        || this.relation?.relationType == this.relationsType.multipleOrientedVector){
-          this.openVectorsDialog();
-    }
+    // if (this.relation?.relationType == this.relationsType.multipleUndirectedVector
+    //     || this.relation?.relationType == this.relationsType.multipleOrientedVector){
+    //       this.openVectorsDialog();
+    // }
 
   }
 

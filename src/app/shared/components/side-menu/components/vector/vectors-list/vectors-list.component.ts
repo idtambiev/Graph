@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { SelectVectorComponent } from '@dialogs/select-vector/select-vector.component';
 import { VectorService } from '@services/api/vector.service';
 import { GraphHelper } from '@services/graph/graph.helper';
 import { CreateVectorComponent } from '../create-vector/create-vector.component';
@@ -30,6 +31,13 @@ export class VectorsListComponent implements OnInit {
     this.ref.open(CreateVectorComponent,{
       width: '630px',
       height: '550px'
+    })
+  }
+
+  openVectorsList(): void{
+    this.ref.open(SelectVectorComponent,{
+      width: '900px',
+      height: '700px'
     })
   }
 

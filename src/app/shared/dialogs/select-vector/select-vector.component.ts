@@ -42,8 +42,12 @@ export class SelectVectorComponent implements OnInit {
     this.matDialogRef.close();
   }
 
-  submit(){
+  choose(id: number): void{
+    this.graphHelper.selectedVectorId$.next(id);
+  }
 
+  submit(){
+    this.close();
   }
 
 

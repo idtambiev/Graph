@@ -17,6 +17,7 @@ export interface SaveRelationDTO{
   blockId: number;
   relatedBlockId: number;
   type: RelationsType;
+  vectorId?: number;
   weight: number;
   isNew: boolean;
 }

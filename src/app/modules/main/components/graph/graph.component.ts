@@ -164,12 +164,14 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
       const firstBlockId = this.graphHelper.selectedFirstBlock$.value;
       const idx = this.graphBlocks.blocks.findIndex((val) => val.id == firstBlockId);
 
+
       this.graphBlocks.blocks[idx].relations.push({
         id: this.relations.length+1,
         relatedBlockId: secondBlockId,
         type: relationType,
         weight: 0,
-        isNew: true
+        isNew: true,
+        vectorId: relationType == 5 ? this.graphHelper.selectedVectorId$.value: null
       });
     }
 

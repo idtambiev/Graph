@@ -6,6 +6,7 @@
 .hidden{
   display: none;
 }
+
 .dialog-wrapper{
   @include flex-column();
   height: 100%;
