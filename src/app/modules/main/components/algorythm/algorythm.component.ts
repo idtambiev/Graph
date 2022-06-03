@@ -93,11 +93,12 @@ export class AlgorythmComponent implements OnInit {
   }
 
   sendEdgesList(){
+    this.edges=[]
     this.createEdgesList();
-    console.log(JSON.stringify(this.edges))
-
     const formData = new FormData();
     formData.append('edges', JSON.stringify(this.edges));
+    formData.append('count', this.graph.blocks.length.toString())
+    formData.append('start', this.graph.blocks[0].id.toString())
     this.pythonService.sendEdgesList(formData)
     .subscribe((res) => {
       console.log(res)
@@ -109,8 +110,12 @@ export class AlgorythmComponent implements OnInit {
       block.relations.forEach((relation) => {
         this.edges.push(
           {
+            startIdx: this.graph?.blocks.findIndex(x => x.id == block.id),
             edgeStart: block.id,
+            startValue: block.value,
+            endIdx: this.graph?.blocks.findIndex(x => x.id == relation.relatedBlockId),
             edgeEnd: relation.relatedBlockId,
+            endValue: this.graph?.blocks.find(x => x.id == relation.relatedBlockId)?.value,
             weight: relation.weight
           })
       })

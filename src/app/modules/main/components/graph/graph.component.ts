@@ -34,8 +34,77 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     y: 0
   }
 
-  graphBlocks: Graph | null = null;
-
+  //graphBlocks: Graph | null = null;
+  graphBlocks: Graph = {
+    id: 0,
+    name: '',
+    blocks: [
+      {
+        id: 0,
+        value: 'A',
+        relations: [{
+          id: 0,
+          relatedBlockId: 1,
+          type: 1,
+          weight: 0.1,
+          oriented: true,
+          isNew: false,
+        },
+        {
+          id: 1,
+          relatedBlockId: 3,
+          type: 1,
+          weight:  0.7,
+          oriented: true,
+          isNew: false,
+        },{
+          id: 2,
+          relatedBlockId: 2,
+          type: 1,
+          weight:  0.4,
+          oriented: true,
+          isNew: false,
+        }]
+      },
+      {
+        id: 1,
+        value: 'B',
+        relations: [{
+          id: 3,
+          relatedBlockId: 2,
+          type: 1,
+          weight:  0.1,
+          oriented: true,
+          isNew: false,
+        },{
+          id: 4,
+          relatedBlockId: 3,
+          type: 1,
+          weight:  0.5,
+          oriented: true,
+          isNew: false,
+        }]
+      },
+      {
+        id: 2,
+        value: 'C',
+        relations: [{
+          id: 5,
+          relatedBlockId: 3,
+          type: 1,
+          weight:  0.1,
+          oriented: true,
+          isNew: false,
+        }]
+      },
+      {
+        id: 3,
+        value: 'D',
+        relations:[]
+      }
+    ],
+    relationsCount: 4
+  }
   // graphBlocks: Graph = {
   //   id: 0,
   //   name: '',

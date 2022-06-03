@@ -43,12 +43,16 @@ export class BellmanFordAlgorythmService {
 
   createEdgesList(graph: Graph){
     graph.blocks.forEach((block) => {
-      block.relations.forEach((relation) => {
+      block.relations.forEach((relation, index) => {
         this.edges.push(
           {
-            edgeStart: block.id,
-            edgeEnd: relation.relatedBlockId,
-            weight: relation.weight
+            startIdx: index,
+                  edgeStart: block.id,
+                  startValue: block.value,
+                  endIdx: this.graph?.blocks.findIndex(x => x.id == relation.relatedBlockId),
+                  edgeEnd: relation.relatedBlockId,
+                  endValue: this.graph?.blocks.find(x => x.id == relation.relatedBlockId)?.value,
+                  weight: relation.weight
           })
       })
     });

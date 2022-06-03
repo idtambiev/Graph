@@ -19,11 +19,13 @@ export class EdgesListComponent implements OnInit {
         this.graph = res;
         if (this.graph){
           this.graph.blocks.forEach((block) => {
-            block.relations.forEach((relation) => {
+            block.relations.forEach((relation, index) => {
               this.edges.push(
                 {
+                  startIdx: index,
                   edgeStart: block.id,
                   startValue: block.value,
+                  endIdx: this.graph?.blocks.findIndex(x => x.id == relation.relatedBlockId),
                   edgeEnd: relation.relatedBlockId,
                   endValue: this.graph?.blocks.find(x => x.id == relation.relatedBlockId)?.value,
                   weight: relation.weight

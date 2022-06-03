@@ -10,6 +10,8 @@ export class PythonService {
   constructor(private http: HttpClient) { }
 
   sendEdgesList(formData: FormData): Observable<any>{
-    return this.http.post(this.url, formData);
+    return this.http.post(this.url, formData, {
+
+    });
   }
 }
