@@ -1,0 +1,35 @@
+.wrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: purple;
+  height: 40px;
+  color: white;
+
+
+  .td{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(255, 255, 255);
+    height: 40px;
+    &.value{
+      width: 20%;
+    }
+
+    &.vertices{
+      width: 30%;
+    }
+
+    &.type{
+      width: 20%;
+    }
+
+    &.weight{
+      width: 30%;
+    }
+  }
+}

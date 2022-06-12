@@ -1,7 +1,12 @@
-<div>
+<div class="list-wrapper">
+  <div class="list-header">
+    <div class="header value">Value</div>
+    <div class="header vertices">Vertices</div>
+    <div class="header type">Type</div>
+    <div class="header weight">Weight</div>
+  </div>
   <app-edge
   *ngFor="let edge of edges"
   [edge]="edge"
   ></app-edge>
-
 </div>

@@ -10,6 +10,8 @@ import { NewRelation } from '@interfaces/render-models/new-relation';
   styleUrls: ['./relations-list.component.scss']
 })
 export class RelationsListComponent implements OnInit {
+  value: string ='';
+  type: string ='';
   relationsList: NewRelation[] =[
     {
       text: "One Type Undirected",
@@ -19,22 +21,22 @@ export class RelationsListComponent implements OnInit {
       text: "One Type Oriented",
       relationType: RelationsType.oneTypeOriented,
     },
-    {
-      text: "Diverse Undirected",
-      relationType: RelationsType.diverseUndirected,
-    },
-    {
-      text: "Diverse Oriented",
-      relationType: RelationsType.diverseOriented,
-    },
-    {
-      text: "Multiple Undirected Vector",
-      relationType: RelationsType.multipleUndirectedVector,
-    },
-    {
-      text: "Multiple Oriented Vector",
-      relationType: RelationsType.multipleOrientedVector,
-    },
+    // {
+    //   text: "Diverse Undirected",
+    //   relationType: RelationsType.diverseUndirected,
+    // },
+    // {
+    //   text: "Diverse Oriented",
+    //   relationType: RelationsType.diverseOriented,
+    // },
+    // {
+    //   text: "Multiple Undirected Vector",
+    //   relationType: RelationsType.multipleUndirectedVector,
+    // },
+    // {
+    //   text: "Multiple Oriented Vector",
+    //   relationType: RelationsType.multipleOrientedVector,
+    // },
   ]
 
   showRelations: boolean = false;
@@ -46,6 +48,15 @@ export class RelationsListComponent implements OnInit {
 
   changeActionsStatus(): void{
     this.showRelations = !this.showRelations;
+  }
+
+  add(){
+
+  }
+
+  clear(){
+    this.value = ''
+    this.type = ''
   }
 
   openVectorsDialog(){

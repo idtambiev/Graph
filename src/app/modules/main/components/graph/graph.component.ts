@@ -1,6 +1,8 @@
 import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { RelationsType } from '@core/enums/relations-types.enum';
+import { AddRelationDialogComponent } from '@dialogs/add-relation-dialog/add-relation-dialog.component';
 import { Graph } from '@interfaces/models/graph.interface';
 import { Block } from '@interfaces/render-models/block.interface';
 import { Line } from '@interfaces/render-models/line.interface';
@@ -14,6 +16,7 @@ import { GraphHelper } from '@services/graph/graph.helper';
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.scss']
 })
+
 export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
   loading = false;
   renderedBlocks: Block[] = [];
@@ -34,77 +37,77 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     y: 0
   }
 
-  //graphBlocks: Graph | null = null;
-  graphBlocks: Graph = {
-    id: 0,
-    name: '',
-    blocks: [
-      {
-        id: 0,
-        value: 'A',
-        relations: [{
-          id: 0,
-          relatedBlockId: 1,
-          type: 1,
-          weight: 0.1,
-          oriented: true,
-          isNew: false,
-        },
-        {
-          id: 1,
-          relatedBlockId: 3,
-          type: 1,
-          weight:  0.7,
-          oriented: true,
-          isNew: false,
-        },{
-          id: 2,
-          relatedBlockId: 2,
-          type: 1,
-          weight:  0.4,
-          oriented: true,
-          isNew: false,
-        }]
-      },
-      {
-        id: 1,
-        value: 'B',
-        relations: [{
-          id: 3,
-          relatedBlockId: 2,
-          type: 1,
-          weight:  0.1,
-          oriented: true,
-          isNew: false,
-        },{
-          id: 4,
-          relatedBlockId: 3,
-          type: 1,
-          weight:  0.5,
-          oriented: true,
-          isNew: false,
-        }]
-      },
-      {
-        id: 2,
-        value: 'C',
-        relations: [{
-          id: 5,
-          relatedBlockId: 3,
-          type: 1,
-          weight:  0.1,
-          oriented: true,
-          isNew: false,
-        }]
-      },
-      {
-        id: 3,
-        value: 'D',
-        relations:[]
-      }
-    ],
-    relationsCount: 4
-  }
+  graphBlocks: Graph | null = null;
+  // graphBlocks: Graph = {
+  //   id: 0,
+  //   name: '',
+  //   blocks: [
+  //     {
+  //       id: 0,
+  //       value: 'A',
+  //       relations: [{
+  //         id: 0,
+  //         relatedBlockId: 1,
+  //         type: 1,
+  //         weight: 0.1,
+  //         oriented: true,
+  //         isNew: false,
+  //       },
+  //       {
+  //         id: 1,
+  //         relatedBlockId: 3,
+  //         type: 1,
+  //         weight:  0.7,
+  //         oriented: true,
+  //         isNew: false,
+  //       },{
+  //         id: 2,
+  //         relatedBlockId: 2,
+  //         type: 1,
+  //         weight:  0.4,
+  //         oriented: true,
+  //         isNew: false,
+  //       }]
+  //     },
+  //     {
+  //       id: 1,
+  //       value: 'B',
+  //       relations: [{
+  //         id: 3,
+  //         relatedBlockId: 2,
+  //         type: 1,
+  //         weight:  0.1,
+  //         oriented: true,
+  //         isNew: false,
+  //       },{
+  //         id: 4,
+  //         relatedBlockId: 3,
+  //         type: 1,
+  //         weight:  0.5,
+  //         oriented: true,
+  //         isNew: false,
+  //       }]
+  //     },
+  //     {
+  //       id: 2,
+  //       value: 'C',
+  //       relations: [{
+  //         id: 5,
+  //         relatedBlockId: 3,
+  //         type: 1,
+  //         weight:  0.1,
+  //         oriented: true,
+  //         isNew: false,
+  //       }]
+  //     },
+  //     {
+  //       id: 3,
+  //       value: 'D',
+  //       relations:[]
+  //     }
+  //   ],
+  //   relationsCount: 4
+  // }
   // graphBlocks: Graph = {
   //   id: 0,
   //   name: '',
@@ -168,18 +171,14 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     private graphHelper: GraphHelper,
     private graphService: GraphService,
     private ref: ChangeDetectorRef,
-    private algorythmService: BellmanFordAlgorythmService
+    private algorythmService: BellmanFordAlgorythmService,
+    private dialog: MatDialog
   ) {
 
    }
 
   ngOnInit(): void {
     this.selectGraph();
-
-    this.graphHelper.newBlock$
-    .subscribe((res) => {
-      if (res) this.addNewBlock();
-    });
 
     this.graphHelper.selectedGraphId$.subscribe((id)=> {
       if (id){
@@ -217,7 +216,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.renderedBlocks){
 
     }
-    const relationType = this.graphHelper.selectedRelationType$.value;
+    const relationType = this.graphHelper.addRelation$.value;
     if (relationType != null){
       this.clickedBlocksCount++;
       if (this.clickedBlocksCount < 2){
@@ -233,14 +232,15 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
       const firstBlockId = this.graphHelper.selectedFirstBlock$.value;
       const idx = this.graphBlocks.blocks.findIndex((val) => val.id == firstBlockId);
 
-
       this.graphBlocks.blocks[idx].relations.push({
         id: this.relations.length+1,
         relatedBlockId: secondBlockId,
         type: relationType,
         weight: 0,
         isNew: true,
-        vectorId: relationType == 5 ? this.graphHelper.selectedVectorId$.value: null
+        value: '',
+        vectorId: relationType == 5 ? this.graphHelper.selectedVectorId$.value: null,
+        oriented: false
       });
     }
 
@@ -303,7 +303,6 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getBlocksCoordinates(): void{
     const blocks = Array.from(document.querySelectorAll('.graph-block'));
-    console.log(blocks)
     if (blocks.length){
       Array.from(blocks).forEach((block) => {
         const div = block.getBoundingClientRect()
@@ -351,25 +350,30 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
       let startBlock = this.getRelationBlockById(relation.startBlockId);
       let endBlock = this.getRelationBlockById(relation.endBlockId);
 
-      this.lines.push({
-        id: index + 1,
-        startBlockId: relation.startBlockId,
-        endBlockId: relation.endBlockId,
+      if (startBlock?.xCoordinate && endBlock?.xCoordinate){
+        this.lines.push({
+          id: index + 1,
+          startBlockId: relation.startBlockId,
+          endBlockId: relation.endBlockId,
 
-        x1: startBlock!.xCoordinate < endBlock!.xCoordinate ?
-                      startBlock!.xCoordinate - wrapper!.x + startBlock!.width:
-                      startBlock!.xCoordinate - wrapper!.x,
+          x1: startBlock!.xCoordinate < endBlock!.xCoordinate ?
+                        startBlock!.xCoordinate - wrapper!.x + startBlock!.width:
+                        startBlock!.xCoordinate - wrapper!.x,
 
-        y1: startBlock!.yCoordinate - wrapper!.y + startBlock!.height/2,
+          y1: startBlock!.yCoordinate - wrapper!.y + startBlock!.height/2,
 
-        x2: startBlock!.xCoordinate > endBlock!.xCoordinate ?
-                      endBlock!.xCoordinate - wrapper!.x + endBlock!.width + (relation?.oriented ? this.markerWidth: 0) :
-                      endBlock!.xCoordinate - wrapper!.x - (relation?.oriented ? this.markerWidth: 0),
+          x2: startBlock!.xCoordinate > endBlock!.xCoordinate ?
+                        endBlock!.xCoordinate - wrapper!.x + endBlock!.width + (relation?.oriented ? this.markerWidth: 0) :
+                        endBlock!.xCoordinate - wrapper!.x - (relation?.oriented ? this.markerWidth: 0),
 
-        y2: endBlock!.yCoordinate - wrapper!.y + endBlock!.height/2,
+          y2: endBlock!.yCoordinate - wrapper!.y + endBlock!.height/2,
 
-        type: relation.type
-      });
+          type: relation.type,
+          oriented: relation.oriented,
+          vectorId: relation.vectorId
+        });
+      }
+
 
       this.createLinesArrays();
     });
@@ -380,20 +384,20 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.graphBlocks?.blocks
     .forEach((block)=>{
-      if (block.relations.length){
+      if (block.relations.length>0){
         block.relations.forEach((relation) =>{
           this.relations
           .push({
             startBlockId: block.id,
             endBlockId: relation.relatedBlockId,
             type: relation.type,
-            oriented: relation.oriented
+            oriented: relation.oriented,
+            vectorId: relation?.vectorId
           })
         })
       }
     });
 
-    console.log(this.relations)
   }
 
   getRelationBlockById(id: number){
@@ -423,12 +427,11 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   createLinesArrays(): void{
-    this.oneTypeUndirectedLines = this.lines.filter((x) => x.type === RelationsType.oneTypeUndirected);
-    this.oneTypeOrientedLines = this.lines.filter((x) => x.type === RelationsType.oneTypeOriented);
-    this.diverseUndirectedLines = this.lines.filter((x) => x.type === RelationsType.diverseUndirected);
-    this.diverseOrientedLines = this.lines.filter((x) => x.type === RelationsType.diverseOriented);
-    this.multipleUndirectedVectorLines = this.lines.filter((x) => x.type === RelationsType.multipleUndirectedVector);
-    this.multipleOrientedVectorLines = this.lines.filter((x) => x.type === RelationsType.multipleOrientedVector);
+    this.oneTypeUndirectedLines = this.lines.filter((x) => !x.oriented && !x.vectorId);
+    this.oneTypeOrientedLines = this.lines.filter((x) => x.oriented && !x.vectorId);
+   // console.log(this.lines)
+    this.multipleUndirectedVectorLines = this.lines.filter((x) => !x.oriented && x.vectorId);
+    this.multipleOrientedVectorLines = this.lines.filter((x) => x.oriented && x.vectorId);
   }
 
 

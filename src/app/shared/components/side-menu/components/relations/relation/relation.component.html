@@ -3,10 +3,8 @@
   [matTooltip]="relation!.text"
   (click)="chooseType()"
 >
-  <div class="relation-wrapper"
-
->
-<div [ngSwitch]="relation?.relationType">
+  <div class="relation-wrapper">
+    <div [ngSwitch]="relation?.relationType">
 
   <div class="relation-block" *ngSwitchCase="relationsType.oneTypeUndirected">
     <mat-icon>{{horizontalLineIcon}}</mat-icon>
@@ -34,12 +32,12 @@
     <mat-icon>{{horizontalLineIcon}}</mat-icon>
   </div>
 
-  <div *ngSwitchCase="relationsType.multipleOrientedVector">
-    <mat-icon>{{horizontalLineIcon}}</mat-icon>
-    v
-    <mat-icon>{{arrowIcon}}</mat-icon>
+      <div *ngSwitchCase="relationsType.multipleOrientedVector">
+      <mat-icon>{{horizontalLineIcon}}</mat-icon>
+      v
+      <mat-icon>{{arrowIcon}}</mat-icon>
+    </div>
+    </div>
   </div>
-</div>
-</div>
 </div>
 

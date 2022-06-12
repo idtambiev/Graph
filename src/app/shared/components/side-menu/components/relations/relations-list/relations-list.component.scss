@@ -28,3 +28,22 @@
   // justify-content: space-between;
   // width: 100%;
 }
+.dialog-body{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+
+  span{
+    margin-bottom: 10px;
+  }
+
+  input{
+    width: 250px;
+  }
+
+  .checkbox{
+    width: 30px;
+  }
+}

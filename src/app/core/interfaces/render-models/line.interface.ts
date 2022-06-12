@@ -8,5 +8,7 @@ export interface Line{
     x2: number;
     y1: number;
     y2: number;
-    type: RelationsType
+    type: RelationsType;
+    oriented: boolean;
+    vectorId?: number;
 }

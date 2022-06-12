@@ -25,6 +25,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { SelectVectorComponent } from '@dialogs/select-vector/select-vector.component';
 import {MatTableModule} from '@angular/material/table';
 import { VectorItemsTableComponent } from './dialogs/select-vector/vector-items-table/vector-items-table.component';
+import { AddFilterDialogComponent } from './dialogs/add-filter-dialog/add-filter-dialog.component';
+import { AddRelationDialogComponent } from './dialogs/add-relation-dialog/add-relation-dialog.component';
+import { AddVertexComponent } from './dialogs/add-vertex/add-vertex.component';
 @NgModule({
   declarations: [
     AuthInputComponent,
@@ -46,6 +49,9 @@ import { VectorItemsTableComponent } from './dialogs/select-vector/vector-items-
     CreateVectorComponent,
     SelectVectorComponent,
     VectorItemsTableComponent,
+    AddFilterDialogComponent,
+    AddRelationDialogComponent,
+    AddVertexComponent,
   ],
   imports: [
     CommonModule,
@@ -65,7 +71,8 @@ import { VectorItemsTableComponent } from './dialogs/select-vector/vector-items-
     TopMenuComponent,
     MatDialogModule,
     MatProgressSpinnerModule,
-    MatTableModule
+    MatTableModule,
+    AddRelationDialogComponent
   ]
 })
 export class SharedModule { }

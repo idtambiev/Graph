@@ -6,7 +6,8 @@ import { environment } from 'src/environments/environment';
 export enum ShowTypes{
   Graphs = 0,
   Relations = 1,
-  Algorythm = 2
+  Algorythm = 2,
+  Features = 3
 }
 @Injectable({
   providedIn: 'root'
@@ -17,11 +18,13 @@ export class GraphHelper {
 
   newBlock$: BehaviorSubject<any> = new BehaviorSubject(null);
   selectedFirstBlock$: BehaviorSubject<any> = new BehaviorSubject(null);
-  selectedRelationType$: BehaviorSubject<any> = new BehaviorSubject(null);
+  addRelation$: BehaviorSubject<any> = new BehaviorSubject(null);
   showSelected$: BehaviorSubject<number> = new BehaviorSubject(ShowTypes.Graphs);
   selectedGraph$: BehaviorSubject<any> = new BehaviorSubject(null);
   selectedGraphId$: BehaviorSubject<any> = new BehaviorSubject(null);
   selectedVectorId$: BehaviorSubject<any> = new BehaviorSubject(null);
+
+
 
   constructor() { }
 

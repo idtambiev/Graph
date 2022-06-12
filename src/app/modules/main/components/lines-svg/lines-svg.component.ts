@@ -27,11 +27,11 @@ export class LinesSvgComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-   // console.log(this.lines)
+   console.log(this.multipleOrientedVectorLines)
   }
 
   ngAfterViewInit(): void {
-
+    //console.log(this.multipleOrientedVectorLines)
   }
 
 }

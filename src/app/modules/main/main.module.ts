@@ -9,6 +9,7 @@ import { LinesSvgComponent } from './components/lines-svg/lines-svg.component';
 import { BlockComponent } from './components/block/block.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AlgorythmComponent } from './components/algorythm/algorythm.component';
+import { FeaturesComponent } from './components/features/features.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { AlgorythmComponent } from './components/algorythm/algorythm.component';
     LinesSvgComponent,
     BlockComponent,
     AlgorythmComponent,
+    FeaturesComponent,
   ],
   imports: [
     CommonModule,

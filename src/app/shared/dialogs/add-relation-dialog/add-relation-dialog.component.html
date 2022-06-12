@@ -1,0 +1,20 @@
+<div class="dialog-wrapper">
+  <div class="dialog-header">
+    <h3>Add Relation</h3>
+    <mat-icon matTooltip="Close" (click)="close()">close</mat-icon>
+  </div>
+  <div class="dialog-body">
+    <span >Relation Value</span>
+    <input type="text" name="" id="" [(ngModel)]="value">
+    <span >Relation Type</span>
+    <input type="text" name="" id="" [(ngModel)]="type">
+    <br>
+    <div>
+      <input class="checkbox" type="checkbox" name="" id=""> Oriented
+    </div>
+  </div>
+  <div class="dialog-footer">
+    <button (click)="submit()">Save</button>
+    <button (click)="close()">Cancel</button>
+  </div>
+</div>

@@ -6,6 +6,16 @@
   </div>
   <ng-container *ngIf="showRelations">
     <app-relation *ngFor="let relation of relationsList" [relation]="relation"></app-relation>
+    <div class="dialog-body">
+      <span >Relation Value</span>
+      <input type="text" name="" id="" [(ngModel)]="value">
+      <span >Relation Type</span>
+      <input type="text" name="" id="" [(ngModel)]="type">
+    </div>
+    <div class="actions-button">
+      <mat-icon matTooltip="Add" (click)="add()">check</mat-icon>
+      <mat-icon matTooltip="Clear" (click)="clear()">clear</mat-icon>
+    </div>
   </ng-container>
 
 

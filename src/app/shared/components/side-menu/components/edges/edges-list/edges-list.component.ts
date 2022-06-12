@@ -28,7 +28,9 @@ export class EdgesListComponent implements OnInit {
                   endIdx: this.graph?.blocks.findIndex(x => x.id == relation.relatedBlockId),
                   edgeEnd: relation.relatedBlockId,
                   endValue: this.graph?.blocks.find(x => x.id == relation.relatedBlockId)?.value,
-                  weight: relation.weight
+                  weight: relation.weight,
+                  value: relation.value,
+                  type: relation.type
                 })
             })
           });

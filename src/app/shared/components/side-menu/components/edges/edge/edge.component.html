@@ -1,6 +1,6 @@
-<div *ngIf="edge">
-  <span>{{edge.startValue}}</span>
-  <span> - </span>
-  <span>{{edge.endValue}}: </span>
-  <span>{{edge.weight}}</span>
+<div *ngIf="edge" class="wrapper">
+  <div class="td value">{{edge.value  }} </div>
+  <div class="td vertices">{{edge.startValue+ '-' +edge.endValue}}</div>
+  <div class="td type">{{edge.type}}</div>
+  <div class="td weight">{{edge.weight}}</div>
 </div>

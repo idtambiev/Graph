@@ -7,4 +7,5 @@ export interface GraphEdgeModel{
   endValue?: string;
   weight: number;
   type?: number;
+  value: string;
 }

@@ -13,7 +13,9 @@ import { SelectVectorComponent } from '../../../../../dialogs/select-vector/sele
 export class RelationComponent implements OnInit {
   @Input() relation: NewRelation | null = null;
 
-  choosed: boolean = false
+  choosed: boolean = false;
+  value: string ='';
+  type: string ='';
 
   relationsType = RelationsType;
 
@@ -25,7 +27,7 @@ export class RelationComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.graphService.selectedRelationType$.subscribe((res) => {
+    this.graphService.addRelation$.subscribe((res) => {
       if (res != null && res == this.relation?.relationType){
         this.choosed = true;
       } else {
@@ -35,7 +37,7 @@ export class RelationComponent implements OnInit {
   }
 
   chooseType(): void{
-    this.graphService.selectedRelationType$.next(this.relation?.relationType);
+    this.graphService.addRelation$.next(this.relation?.relationType);
     // if (this.relation?.relationType == this.relationsType.multipleUndirectedVector
     //     || this.relation?.relationType == this.relationsType.multipleOrientedVector){
     //       this.openVectorsDialog();

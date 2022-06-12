@@ -1,0 +1,48 @@
+.dialog-wrapper{
+  display: flex;
+  flex-direction: column;
+
+  .dialog-header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    justify-content: space-between;
+    color: #9d009d;
+    margin-bottom: 25px;
+
+    mat-icon{
+      cursor: pointer;
+    }
+  }
+
+  .dialog-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin-bottom: 45px;
+
+    span{
+      margin-bottom: 10px;
+    }
+
+    input{
+      width: 250px;
+    }
+  }
+
+  .dialog-footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    button{
+      width: 90px;
+      height: 38px;
+      background-color: purple;
+      color: white;
+      cursor: pointer;
+    }
+  }
+}

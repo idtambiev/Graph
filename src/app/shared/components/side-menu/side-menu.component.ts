@@ -7,6 +7,7 @@ import { GraphsListComponent } from './components/graph/graphs-list/graphs-list.
 import { GraphService } from '@services/api/graph.service';
 import { SaveGraphDTO, SaveRelationDTO } from '@interfaces/DTOs/save-graph.dto';
 import { DeleteGraphComponent } from '@dialogs/delete-graph/delete-graph.component';
+import { AddVertexComponent } from '@dialogs/add-vertex/add-vertex.component';
 @Component({
   selector: 'app-side-menu',
   templateUrl: './side-menu.component.html',
@@ -58,7 +59,18 @@ export class SideMenuComponent implements OnInit {
   }
 
   addNewBlock(){
-    this.graphHelper.newBlock$.next(true);
+    //this.graphHelper.newBlock$.next(true);
+    this.ref.open(AddVertexComponent)
+    .afterClosed().subscribe((res) => {
+      if (res){
+        this.graphHelper.selectedGraphId$.next(res);
+      }
+    })
+
+  }
+
+  addRelation(){
+    this.graphHelper.addRelation$.next(true);
   }
 
   saveGraph(): void{

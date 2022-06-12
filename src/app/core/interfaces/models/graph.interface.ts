@@ -12,14 +12,16 @@ export interface GraphBlock{
     value: string;
     relations: Relation[];
     isNewBlock?: boolean;
+    number?: number;
 }
 
 export interface Relation{
     id: number
     relatedBlockId: number;
     type: RelationsType;
+    value: string;
     weight: number;
-    oriented?: boolean;
+    oriented: boolean;
     vectorId?: number;
     isNew: boolean;
 }

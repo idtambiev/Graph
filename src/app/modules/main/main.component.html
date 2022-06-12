@@ -4,8 +4,9 @@
 
   <div class="content-wrapper">
     <app-side-menu></app-side-menu>
-    <!-- <app-graph></app-graph> -->
+    <app-graph  *ngIf="showType != 3"></app-graph>
     <app-algorythm  *ngIf="showType == 2"></app-algorythm>
+    <app-features *ngIf="showType == 3"></app-features>
   </div>
 
 </div>
