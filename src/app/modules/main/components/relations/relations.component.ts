@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GraphEdgeModel } from '@interfaces/models/graph-edge.model';
 import { Graph } from '@interfaces/models/graph.interface';
+import { GraphService } from '@services/api/graph.service';
 import { GraphHelper } from '@services/graph/graph.helper';
 
 @Component({
@@ -12,16 +13,29 @@ export class RelationsComponent implements OnInit {
   graph: Graph | null = null;
   edges: GraphEdgeModel[] = [];
   displayedColumns: string[] = ['id', 'value', 'startVertex', 'endVertex', 'type', 'weight', 'actions'];
-  dataSource = this.edges;
+  dataSource: any;
 
-  constructor(private graphService: GraphHelper) { }
+  constructor(private graphHelper: GraphHelper, private graphService: GraphService) { }
 
   ngOnInit(): void {
-    this.graphService.selectedGraph$
+    this.graphHelper.selectedGraphId$
     .subscribe((res) => {
-      this.graph = res;
-      if (this.graph){
-        this.graph.blocks.forEach((block) => {
+      //this.graph = res;
+      console.log(res)
+      if (res){
+        this.edges = [];
+        this.loadGraph(res);
+      }
+    })
+
+  }
+
+  loadGraph(id: number){
+    this.graphService.getById(id)
+    .subscribe((res) => {
+      if (res){
+        this.graph = res;
+        this.graph?.blocks.forEach((block) => {
           block.relations.forEach((relation, index) => {
             this.edges.push(
               {
@@ -37,8 +51,11 @@ export class RelationsComponent implements OnInit {
               })
           })
         });
+
+        this.dataSource = this.edges;
       }
-  })
+    })
+
   }
 
 }
