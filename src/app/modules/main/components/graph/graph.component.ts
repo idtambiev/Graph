@@ -51,8 +51,6 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     private graphHelper: GraphHelper,
     private graphService: GraphService,
     private ref: ChangeDetectorRef,
-    private algorythmService: BellmanFordAlgorythmService,
-    private dialog: MatDialog,
     private vertexService: VertexService,
     private loadingService: LoadingService
   ) {
@@ -66,6 +64,12 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     .pipe(takeUntil(this.destroyed))
     .subscribe((id)=> {
       if (id){
+        this.oneTypeUndirectedLines = [];
+        this.oneTypeOrientedLines = [];
+        this.diverseUndirectedLines = [];
+        this.diverseOrientedLines = [];
+        this.multipleUndirectedVectorLines = [];
+        this.multipleOrientedVectorLines = [];
         this.loadGraph(id);
       }
     });
@@ -77,8 +81,6 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
         this.saveCoordinates();
       }
     })
-
-    //this.algorythmService.algorythm(this.graphBlocks);
   }
 
   saveCoordinates(): void{
@@ -93,15 +95,19 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     this.renderedBlocks.forEach((x) => {
       body.list.push({
         blockId: x.id,
-        xCoordinate: x.xCoordinate,
-        yCoordinate: x.yCoordinate
+        xCoordinate: Math.round(x.xCoordinate),
+        yCoordinate: Math.round(x.yCoordinate)
       })
     })
 
+    console.log(this.renderedBlocks)
     this.vertexService.saveCoordinates(body)
     .pipe(takeUntil(this.destroyed))
     .subscribe((res) => {
-      this.loadingService.loading$.next(false);
+      setTimeout(() => {
+        this.loadingService.loading$.next(false);
+      }, 600);
+
     })
   }
 
@@ -115,13 +121,11 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     this.graphService.getById(id)
     .pipe(takeUntil(this.destroyed))
     .subscribe((res) => {
-      console.log(res);
-
       this.graphBlocks = res;
       this.selectGraph();
 
       setTimeout(() => {
-        this.ngAfterViewInit()
+        this.ngAfterViewInit();
         this.loadingService.loading$.next(false);
       }, 100);
     });
@@ -144,13 +148,13 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
         if (d){
           const wrapper = document.getElementById('graph-wrapper');
           wrapper!.getBoundingClientRect();
-          console.log(wrapper)
           d.style.position = "absolute";
           d.style.left = (360 + x.xCoordinate)+'px';
           d.style.top = (85 + x.yCoordinate)+'px';
         }
       })
     }
+    this.createRelationLines();
     this.loadingService.loading$.next(false);
   }
 
@@ -237,6 +241,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.createLinesArrays();
     this.updateBlocksCoordinates();
+    //this.saveCoordinates()
   }
 
   ngAfterViewInit(): void{
@@ -259,8 +264,8 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
           height: div.height,
         })
       });
-      this.loadCoordinates()
-      this.createRelationLines();
+      this.loadCoordinates();
+
     } else {
       console.log('blocks doesnt exist')
     }
@@ -287,31 +292,68 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  // createRelationLines(): void{
+  //   this.createRelationsArray();
+  //   const wrapper = this.getWrapperCoordinates();
+  //   this.lines = [];
+  //   this.relations.forEach((relation, index) => {
+  //     let startBlock = this.getRelationBlockById(relation.startBlockId);
+  //     let endBlock = this.getRelationBlockById(relation.endBlockId);
+
+  //     if (startBlock?.xCoordinate && endBlock?.xCoordinate){
+  //       this.lines.push({
+  //         id: index + 1,
+  //         startBlockId: relation.startBlockId,
+  //         endBlockId: relation.endBlockId,
+
+  //         x1: startBlock!.xCoordinate < endBlock!.xCoordinate ?
+  //                       startBlock!.xCoordinate - wrapper!.x + startBlock!.width:
+  //                       startBlock!.xCoordinate - wrapper!.x,
+
+  //         y1: 85 + startBlock!.yCoordinate - wrapper!.y + startBlock!.height/2,
+
+  //         x2: startBlock!.xCoordinate > endBlock!.xCoordinate ?
+  //                       endBlock!.xCoordinate - wrapper!.x + endBlock!.width + (relation?.oriented ? this.markerWidth: 0) :
+  //                       endBlock!.xCoordinate - wrapper!.x - (relation?.oriented ? this.markerWidth: 0),
+
+  //         y2: 85 + endBlock!.yCoordinate - wrapper!.y + endBlock!.height/2,
+
+  //         type: relation.type,
+  //         oriented: relation.oriented,
+  //         vectorId: relation.vectorId
+  //       });
+  //     }
+
+
+  //     this.createLinesArrays();
+  //   });
+  // }
+
+
   createRelationLines(): void{
     this.createRelationsArray();
     const wrapper = this.getWrapperCoordinates();
     this.lines = [];
+    console.log(this.renderedBlocks)
     this.relations.forEach((relation, index) => {
-      let startBlock = this.getRelationBlockById(relation.startBlockId);
-      let endBlock = this.getRelationBlockById(relation.endBlockId);
-
+      console.log(relation)
+      let startBlock = this.coordinates?.list.find((x) => x.blockId == relation.startBlockId)
+      let endBlock = this.coordinates?.list.find((x) => x.blockId == relation.endBlockId)
+      //let endBlock = this.getRelationBlockById(relation.endBlockId);
+      console.log(startBlock)
       if (startBlock?.xCoordinate && endBlock?.xCoordinate){
         this.lines.push({
           id: index + 1,
           startBlockId: relation.startBlockId,
           endBlockId: relation.endBlockId,
 
-          x1: startBlock!.xCoordinate < endBlock!.xCoordinate ?
-                        startBlock!.xCoordinate - wrapper!.x + startBlock!.width:
-                        startBlock!.xCoordinate - wrapper!.x,
+          x1: startBlock!.xCoordinate,
 
-          y1: startBlock!.yCoordinate - wrapper!.y + startBlock!.height/2,
+          y1: startBlock!.yCoordinate,
 
-          x2: startBlock!.xCoordinate > endBlock!.xCoordinate ?
-                        endBlock!.xCoordinate - wrapper!.x + endBlock!.width + (relation?.oriented ? this.markerWidth: 0) :
-                        endBlock!.xCoordinate - wrapper!.x - (relation?.oriented ? this.markerWidth: 0),
+          x2: endBlock!.xCoordinate,
 
-          y2: endBlock!.yCoordinate - wrapper!.y + endBlock!.height/2,
+          y2: endBlock!.yCoordinate,
 
           type: relation.type,
           oriented: relation.oriented,
