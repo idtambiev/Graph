@@ -10,12 +10,13 @@
     <ng-container [ngSwitch]="showType">
       <ng-container *ngSwitchCase="0" >
         <mat-icon matTooltip="Add new graph" (click)="createNewgraph()">note_add</mat-icon>
+        <mat-icon matTooltip="Save Coordinates" (click)="saveGraphCoordinates()">save</mat-icon>
         <mat-icon matTooltip="Remove selected graph" (click)="deleteGraph()">delete</mat-icon>
       </ng-container>
       <ng-container *ngSwitchCase="1">
         <mat-icon matTooltip="Add new Vertex" (click)="addNewBlock()">add_circle</mat-icon>
         <mat-icon matTooltip="Add new Relation" (click)="addRelation()">add_circle</mat-icon>
-        <mat-icon matTooltip="Save Graph" (click)="saveGraph()">save</mat-icon>
+        <!-- <mat-icon matTooltip="Save Graph" (click)="saveGraph()">save</mat-icon> -->
         <mat-icon matTooltip="Remove selected block">delete</mat-icon>
       </ng-container>
     </ng-container>

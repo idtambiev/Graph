@@ -8,6 +8,7 @@ import { GraphService } from '@services/api/graph.service';
 import { SaveGraphDTO, SaveRelationDTO } from '@interfaces/DTOs/save-graph.dto';
 import { DeleteGraphComponent } from '@dialogs/delete-graph/delete-graph.component';
 import { AddVertexComponent } from '@dialogs/add-vertex/add-vertex.component';
+import { AddRelationDialogComponent } from '@dialogs/add-relation-dialog/add-relation-dialog.component';
 @Component({
   selector: 'app-side-menu',
   templateUrl: './side-menu.component.html',
@@ -46,6 +47,10 @@ export class SideMenuComponent implements OnInit {
     });
   }
 
+  saveGraphCoordinates(): void{
+    this.graphHelper.saveGraphCoordinates$.next(true)
+  }
+
   deleteGraph(): void{
     this.ref.open(DeleteGraphComponent,
       {
@@ -70,7 +75,13 @@ export class SideMenuComponent implements OnInit {
   }
 
   addRelation(){
-    this.graphHelper.addRelation$.next(true);
+    this.ref.open(AddRelationDialogComponent)
+    .afterClosed().subscribe((res) => {
+      if (res){
+        //this.graphHelper.selectedGraphId$.next(res);
+      }
+    })
+    //this.graphHelper.addRelation$.next(true);
   }
 
   saveGraph(): void{

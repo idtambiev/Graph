@@ -3,13 +3,16 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChi
 import { MatDialog } from '@angular/material/dialog';
 import { RelationsType } from '@core/enums/relations-types.enum';
 import { AddRelationDialogComponent } from '@dialogs/add-relation-dialog/add-relation-dialog.component';
+import { CoordinatesDTO } from '@interfaces/DTOs/save-coordinates.dto';
 import { Graph } from '@interfaces/models/graph.interface';
 import { Block } from '@interfaces/render-models/block.interface';
 import { Line } from '@interfaces/render-models/line.interface';
 import { RenderedRelation } from '@interfaces/render-models/rendered-relation.interface';
 import { GraphService } from '@services/api/graph.service';
+import { VertexService } from '@services/api/vertex.service';
 import { BellmanFordAlgorythmService } from '@services/graph/bellman-ford-algorythm.service';
 import { GraphHelper } from '@services/graph/graph.helper';
+import { Subject, takeUntil, takeWhile } from 'rxjs';
 
 @Component({
   selector: 'app-graph',
@@ -38,141 +41,19 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   graphBlocks: Graph | null = null;
-  // graphBlocks: Graph = {
-  //   id: 0,
-  //   name: '',
-  //   blocks: [
-  //     {
-  //       id: 0,
-  //       value: 'A',
-  //       relations: [{
-  //         id: 0,
-  //         relatedBlockId: 1,
-  //         type: 1,
-  //         weight: 0.1,
-  //         oriented: true,
-  //         isNew: false,
-  //       },
-  //       {
-  //         id: 1,
-  //         relatedBlockId: 3,
-  //         type: 1,
-  //         weight:  0.7,
-  //         oriented: true,
-  //         isNew: false,
-  //       },{
-  //         id: 2,
-  //         relatedBlockId: 2,
-  //         type: 1,
-  //         weight:  0.4,
-  //         oriented: true,
-  //         isNew: false,
-  //       }]
-  //     },
-  //     {
-  //       id: 1,
-  //       value: 'B',
-  //       relations: [{
-  //         id: 3,
-  //         relatedBlockId: 2,
-  //         type: 1,
-  //         weight:  0.1,
-  //         oriented: true,
-  //         isNew: false,
-  //       },{
-  //         id: 4,
-  //         relatedBlockId: 3,
-  //         type: 1,
-  //         weight:  0.5,
-  //         oriented: true,
-  //         isNew: false,
-  //       }]
-  //     },
-  //     {
-  //       id: 2,
-  //       value: 'C',
-  //       relations: [{
-  //         id: 5,
-  //         relatedBlockId: 3,
-  //         type: 1,
-  //         weight:  0.1,
-  //         oriented: true,
-  //         isNew: false,
-  //       }]
-  //     },
-  //     {
-  //       id: 3,
-  //       value: 'D',
-  //       relations:[]
-  //     }
-  //   ],
-  //   relationsCount: 4
-  // }
-  // graphBlocks: Graph = {
-  //   id: 0,
-  //   name: '',
-  //   blocks: [
-  //     {
-  //       id: 0,
-  //       value: 'A',
-  //       relations: [{
-  //         relatedBlockId: 1,
-  //         type: 1,
-  //         weight: 0.1,
-  //         oriented: true
-  //       },
-  //       {
-  //         relatedBlockId: 3,
-  //         type: 1,
-  //         weight:  0.7,
-  //         oriented: true
-  //       },{
-  //         relatedBlockId: 2,
-  //         type: 1,
-  //         weight:  0.4,
-  //         oriented: true
-  //       }]
-  //     },
-  //     {
-  //       id: 1,
-  //       value: 'B',
-  //       relations: [{
-  //         relatedBlockId: 2,
-  //         type: 1,
-  //         weight:  0.1,
-  //         oriented: true
-  //       },{
-  //         relatedBlockId: 3,
-  //         type: 1,
-  //         weight:  0.5,
-  //         oriented: true
-  //       }]
-  //     },
-  //     {
-  //       id: 2,
-  //       value: 'C',
-  //       relations: [{
-  //         relatedBlockId: 3,
-  //         type: 1,
-  //         weight:  0.1,
-  //         oriented: true
-  //       }]
-  //     },
-  //     {
-  //       id: 3,
-  //       value: 'D',
-  //       relations:[]
-  //     }
-  //   ],
-  //   relationsCount: 4
-  // }
+  coordinates: CoordinatesDTO | null = null;
+  globalWrapper: any = null;
+
+  private destroyed: Subject<void> = new Subject<void>();
 
   constructor(
     private graphHelper: GraphHelper,
     private graphService: GraphService,
     private ref: ChangeDetectorRef,
     private algorythmService: BellmanFordAlgorythmService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private vertexService: VertexService
+
   ) {
 
    }
@@ -180,13 +61,45 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.selectGraph();
 
-    this.graphHelper.selectedGraphId$.subscribe((id)=> {
+    this.graphHelper.selectedGraphId$
+    .pipe(takeUntil(this.destroyed))
+    .subscribe((id)=> {
       if (id){
         this.loadGraph(id);
       }
     });
 
+    this.graphHelper.saveGraphCoordinates$
+    .pipe(takeUntil(this.destroyed))
+    .subscribe((res) => {
+      if (res){
+        this.saveCoordinates();
+      }
+    })
+
     //this.algorythmService.algorythm(this.graphBlocks);
+  }
+
+  saveCoordinates(): void{
+    const graphId = this.graphHelper.selectedGraphId$.value;
+    this.updateBlocksCoordinates();
+    let body: CoordinatesDTO = {
+      list: [],
+      graphId: graphId
+    };
+
+    this.renderedBlocks.forEach((x) => {
+      body.list.push({
+        blockId: x.id,
+        xCoordinate: x.xCoordinate,
+        yCoordinate: x.yCoordinate
+      })
+    })
+
+    this.vertexService.saveCoordinates(body)
+    .pipe(takeUntil(this.destroyed))
+    .subscribe((res) => {
+    })
   }
 
   selectGraph(): void{
@@ -197,6 +110,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
   loadGraph(id: number): void{
     this.loading = true;
     this.graphService.getById(id)
+    .pipe(takeUntil(this.destroyed))
     .subscribe((res) => {
       console.log(res);
 
@@ -208,6 +122,29 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
         this.loading = false;
       }, 100);
     });
+  }
+
+  loadCoordinates(){
+    const graphId = this.graphHelper.selectedGraphId$.value;
+    this.vertexService.getCoordinates(graphId).subscribe((res)=>{
+      this.coordinates = res;
+      this.changeCoordinates();
+    })
+  }
+
+  changeCoordinates(): void{
+    if(this.coordinates){
+      this.coordinates.list.forEach((x) => {
+        let d = document.getElementById(x.blockId.toString());
+        if (d){
+          const wrapper = this.getWrapperCoordinates();
+          console.log(wrapper)
+          d.style.position = "absolute";
+          d.style.left = (wrapper.x - x.xCoordinate)+'px';
+          d.style.top = (wrapper.y - x.yCoordinate)+'px';
+        }
+      })
+    }
   }
 
   clickOnBlock(event: any, blockId: number): void{
@@ -315,6 +252,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
           height: div.height,
         })
       });
+      this.loadCoordinates()
       this.createRelationLines();
     } else {
       console.log('blocks doesnt exist')
@@ -437,6 +375,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   ngOnDestroy(): void {
-
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 }

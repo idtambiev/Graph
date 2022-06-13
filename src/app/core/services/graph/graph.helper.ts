@@ -25,7 +25,7 @@ export class GraphHelper {
   selectedVectorId$: BehaviorSubject<any> = new BehaviorSubject(null);
 
 
-
+  saveGraphCoordinates$: BehaviorSubject<any> = new BehaviorSubject(null);
   constructor() { }
 
   selectBlock(): void{
