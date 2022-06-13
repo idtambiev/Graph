@@ -7,21 +7,21 @@
     border-radius: 5px;
     width: 1300px;
     margin: 0 auto;
-    margin-left: 90px;
-    margin-top: 20px;
+    // margin-left: 90px;
+    // margin-top: 20px;
     .count-wrapper{
         color: white;
         font-size: 16pt;
     }
 
     .blocks-wrapper{
-        margin-top: 20px;
-        display: flex;
+        //margin-top: 20px;
+        // display: flex;
         flex-wrap: wrap;
 
         .graph-block{
-            margin-left: 100px;
-            margin-bottom: 50px;
+            // margin-left: 100px;
+            // margin-bottom: 50px;
             z-index: 5;
         }
     }

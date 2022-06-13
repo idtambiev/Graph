@@ -137,11 +137,12 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
       this.coordinates.list.forEach((x) => {
         let d = document.getElementById(x.blockId.toString());
         if (d){
-          const wrapper = this.getWrapperCoordinates();
+          const wrapper = document.getElementById('graph-wrapper');
+          wrapper!.getBoundingClientRect();
           console.log(wrapper)
           d.style.position = "absolute";
-          d.style.left = (wrapper.x - x.xCoordinate)+'px';
-          d.style.top = (wrapper.y - x.yCoordinate)+'px';
+          d.style.left = (360 + x.xCoordinate)+'px';
+          d.style.top = (85 + x.yCoordinate)+'px';
         }
       })
     }
