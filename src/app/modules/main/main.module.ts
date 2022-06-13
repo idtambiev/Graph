@@ -11,6 +11,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { AlgorythmComponent } from './components/algorythm/algorythm.component';
 import { FeaturesComponent } from './components/features/features.component';
 import { RelationsComponent } from './components/relations/relations.component';
+import { VerticesComponent } from './components/vertices/vertices.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { RelationsComponent } from './components/relations/relations.component';
     AlgorythmComponent,
     FeaturesComponent,
     RelationsComponent,
+    VerticesComponent,
   ],
   imports: [
     CommonModule,
