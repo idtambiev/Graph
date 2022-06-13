@@ -32,9 +32,7 @@ export class MainComponent implements OnInit {
   }
 
   addNewBlock(): void{
-    this.graphComponent.addNewBlock();
+   // this.graphComponent.addNewBlock();
   }
-
-
 
 }

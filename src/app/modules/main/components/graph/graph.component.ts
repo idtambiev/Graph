@@ -306,24 +306,6 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
 
       if (startBlock?.xCoordinate && endBlock?.xCoordinate){
         this.generateLinesCoordinates(startBlock, endBlock, index, relation);
-
-        // this.lines.push({
-        //   id: index + 1,
-        //   startBlockId: relation.startBlockId,
-        //   endBlockId: relation.endBlockId,
-
-        //   x1: startBlock!.xCoordinate,
-
-        //   y1: startBlock!.yCoordinate,
-
-        //   x2: endBlock!.xCoordinate,
-
-        //   y2: endBlock!.yCoordinate,
-
-        //   type: relation.type,
-        //   oriented: relation.oriented,
-        //   vectorId: relation.vectorId
-        // });
       }
       this.createLinesArrays();
     });
@@ -337,30 +319,6 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const width = 68;
     const height = 56;
-
-    // if (startBlock.yCoordinate < endBlock.yCoordinate ){
-    //   x1 = startBlock.xCoordinate + width/2;
-    //   y1 = startBlock.yCoordinate + height;
-    //   x2 = endBlock.xCoordinate + width/2;
-    //   y2 = endBlock.yCoordinate;
-    // }
-    // else if (startBlock.yCoordinate > endBlock.yCoordinate ){
-    //   x1 = startBlock.xCoordinate + width/2;
-    //   y1 = startBlock.yCoordinate;
-    //   x2 = endBlock.xCoordinate + width/2;
-    //   y2 = endBlock.yCoordinate + height;
-    // }
-    // else if (startBlock.xCoordinate < endBlock.xCoordinate){
-    //   x1 = startBlock.xCoordinate + width;
-    //   y1 = startBlock.yCoordinate + height/2;
-    //   x2 = endBlock.xCoordinate;
-    //   y2 = endBlock.yCoordinate + height/2;
-    // } else if (startBlock.xCoordinate > endBlock.xCoordinate){
-    //   x1 = startBlock.xCoordinate;
-    //   y1 = startBlock.yCoordinate + height/2;
-    //   x2 = endBlock.xCoordinate + width;
-    //   y2 = endBlock.yCoordinate + height;
-    // }
 
     // start higher
     if (startBlock.yCoordinate + height*3 < endBlock.yCoordinate){
@@ -385,7 +343,6 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
               y2 = endBlock.yCoordinate;
           }
         }
-
     }
 
     // start lower
@@ -435,15 +392,10 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
       id: index + 1,
       startBlockId: relation.startBlockId,
       endBlockId: relation.endBlockId,
-
       x1: x1,
-
       y1: y1,
-
-      x2: x2,
-
-      y2: y2,
-
+      x2: x2 - (relation?.oriented ? this.markerWidth: 0),
+      y2: y2 - (relation?.oriented ? this.markerWidth: 0),
       type: relation.type,
       oriented: relation.oriented,
       vectorId: relation.vectorId
@@ -484,23 +436,21 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log(line);
   }
 
-  addNewBlock(){
-    this.graphBlocks?.blocks.push({
-      id: this.graphBlocks.blocks.length+1,
-      value: `gv${this.graphBlocks.blocks.length+1}`,
-      relations: [],
-      isNewBlock: true
-    });
-    if (this.graphBlocks){
-      this.graphBlocks.relationsCount++;
-    }
-
-  }
+  // addNewBlock(){
+  //   this.graphBlocks?.blocks.push({
+  //     id: this.graphBlocks.blocks.length+1,
+  //     value: `gv${this.graphBlocks.blocks.length+1}`,
+  //     relations: [],
+  //     isNewBlock: true
+  //   });
+  //   if (this.graphBlocks){
+  //     this.graphBlocks.relationsCount++;
+  //   }
+  // }
 
   createLinesArrays(): void{
     this.oneTypeUndirectedLines = this.lines.filter((x) => !x.oriented && !x.vectorId);
     this.oneTypeOrientedLines = this.lines.filter((x) => x.oriented && !x.vectorId);
-   // console.log(this.lines)
     this.multipleUndirectedVectorLines = this.lines.filter((x) => !x.oriented && x.vectorId);
     this.multipleOrientedVectorLines = this.lines.filter((x) => x.oriented && x.vectorId);
   }
