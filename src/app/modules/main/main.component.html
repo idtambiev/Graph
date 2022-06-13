@@ -4,9 +4,11 @@
 
   <div class="content-wrapper">
     <app-side-menu></app-side-menu>
-    <app-graph  *ngIf="showType != 3"></app-graph>
-    <app-algorythm  *ngIf="showType == 2"></app-algorythm>
+    <app-graph  *ngIf="showType == 0"></app-graph>
+    <!-- <app-algorythm  *ngIf="showType == 2"></app-algorythm> -->
     <app-features *ngIf="showType == 3"></app-features>
+    <app-relations *ngIf="showType == 2"></app-relations>
+
 
   </div>
   <div class="loading" *ngIf="isLoading">

@@ -28,3 +28,11 @@
   align-items: center;
   z-index: 100;
 }
+app-relations{
+  width: 100%;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px;
+  max-height: 600px;
+  overflow-y: auto;
+}

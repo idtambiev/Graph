@@ -10,6 +10,7 @@ import { BlockComponent } from './components/block/block.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AlgorythmComponent } from './components/algorythm/algorythm.component';
 import { FeaturesComponent } from './components/features/features.component';
+import { RelationsComponent } from './components/relations/relations.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { FeaturesComponent } from './components/features/features.component';
     BlockComponent,
     AlgorythmComponent,
     FeaturesComponent,
+    RelationsComponent,
   ],
   imports: [
     CommonModule,
