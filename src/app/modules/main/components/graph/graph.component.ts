@@ -12,6 +12,7 @@ import { GraphService } from '@services/api/graph.service';
 import { VertexService } from '@services/api/vertex.service';
 import { BellmanFordAlgorythmService } from '@services/graph/bellman-ford-algorythm.service';
 import { GraphHelper } from '@services/graph/graph.helper';
+import { LoadingService } from '@services/loading.service';
 import { Subject, takeUntil, takeWhile } from 'rxjs';
 
 @Component({
@@ -52,8 +53,8 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     private ref: ChangeDetectorRef,
     private algorythmService: BellmanFordAlgorythmService,
     private dialog: MatDialog,
-    private vertexService: VertexService
-
+    private vertexService: VertexService,
+    private loadingService: LoadingService
   ) {
 
    }
@@ -81,6 +82,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveCoordinates(): void{
+    this.loadingService.loading$.next(true);
     const graphId = this.graphHelper.selectedGraphId$.value;
     this.updateBlocksCoordinates();
     let body: CoordinatesDTO = {
@@ -99,6 +101,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     this.vertexService.saveCoordinates(body)
     .pipe(takeUntil(this.destroyed))
     .subscribe((res) => {
+      this.loadingService.loading$.next(false);
     })
   }
 
@@ -108,7 +111,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadGraph(id: number): void{
-    this.loading = true;
+    this.loadingService.loading$.next(true);
     this.graphService.getById(id)
     .pipe(takeUntil(this.destroyed))
     .subscribe((res) => {
@@ -119,14 +122,16 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
 
       setTimeout(() => {
         this.ngAfterViewInit()
-        this.loading = false;
+        this.loadingService.loading$.next(false);
       }, 100);
     });
   }
 
   loadCoordinates(){
+    this.loadingService.loading$.next(true);
     const graphId = this.graphHelper.selectedGraphId$.value;
-    this.vertexService.getCoordinates(graphId).subscribe((res)=>{
+    this.vertexService.getCoordinates(graphId)
+    .subscribe((res)=>{
       this.coordinates = res;
       this.changeCoordinates();
     })
@@ -146,6 +151,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       })
     }
+    this.loadingService.loading$.next(false);
   }
 
   clickOnBlock(event: any, blockId: number): void{

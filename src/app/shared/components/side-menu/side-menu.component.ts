@@ -9,6 +9,7 @@ import { SaveGraphDTO, SaveRelationDTO } from '@interfaces/DTOs/save-graph.dto';
 import { DeleteGraphComponent } from '@dialogs/delete-graph/delete-graph.component';
 import { AddVertexComponent } from '@dialogs/add-vertex/add-vertex.component';
 import { AddRelationDialogComponent } from '@dialogs/add-relation-dialog/add-relation-dialog.component';
+import { LoadingService } from '@services/loading.service';
 @Component({
   selector: 'app-side-menu',
   templateUrl: './side-menu.component.html',
@@ -21,7 +22,8 @@ export class SideMenuComponent implements OnInit {
   showActions: boolean = false;
   constructor(private graphHelper: GraphHelper,
     private graphService: GraphService,
-    private ref: MatDialog) { }
+    private ref: MatDialog,
+    private loadingService: LoadingService) { }
 
   ngOnInit(): void {
     this.graphHelper.showSelected$
@@ -85,6 +87,7 @@ export class SideMenuComponent implements OnInit {
   }
 
   saveGraph(): void{
+    this.loadingService.loading$.next(true);
     const graph: Graph | null = this.graphHelper.selectedGraph$.value;
     if (graph){
 
@@ -116,6 +119,7 @@ export class SideMenuComponent implements OnInit {
       this.graphService.saveGraph(dto)
       .subscribe((res) => {
         console.log('save')
+        this.loadingService.loading$.next(false);
       })
     }
   }

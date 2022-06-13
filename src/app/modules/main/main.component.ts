@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Graph } from '@interfaces/models/graph.interface';
 import { GraphHelper, ShowTypes } from '@services/graph/graph.helper';
+import { LoadingService } from '@services/loading.service';
 import { GraphComponent } from './components/graph/graph.component';
 
 @Component({
@@ -11,8 +12,10 @@ import { GraphComponent } from './components/graph/graph.component';
 export class MainComponent implements OnInit {
   @ViewChild(GraphComponent) graphComponent!: GraphComponent;
   showType: ShowTypes = ShowTypes.Graphs;
+  isLoading = false;
 
-  constructor(private graphService: GraphHelper) { }
+  constructor(private graphService: GraphHelper,
+    private loadingService: LoadingService) { }
 
   ngOnInit(): void {
     this.graphService.showSelected$.subscribe((res)=>{
@@ -22,10 +25,16 @@ export class MainComponent implements OnInit {
     this.graphService.selectedGraph$.subscribe((res)=>{
       //console.log(res)
     })
+
+    this.loadingService.loading$.subscribe((res)=>{
+      this.isLoading = res;
+    })
   }
 
   addNewBlock(): void{
     this.graphComponent.addNewBlock();
   }
+
+
 
 }
