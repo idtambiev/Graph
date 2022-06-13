@@ -1,3 +1,13 @@
 table{
-  width: 100%;
+  width: 70%;
+}
+
+.actions{
+  display: flex;
+  flex-direction: row;
+  //justify-content: flex-end;
+  align-items: center;
+  div{
+    margin-left: 20px;
+  }
 }
