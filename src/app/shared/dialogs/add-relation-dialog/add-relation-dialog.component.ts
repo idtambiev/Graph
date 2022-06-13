@@ -10,6 +10,8 @@ import { GraphService } from '@services/api/graph.service';
 export class AddRelationDialogComponent implements OnInit {
   value: string ='';
   type: string ='';
+  oriented = false;
+  weight = 0;
 
   constructor(private dialogRef: MatDialogRef<AddRelationDialogComponent>,
     private graphService: GraphService) { }
@@ -18,7 +20,7 @@ export class AddRelationDialogComponent implements OnInit {
   }
 
   submit(){
-    this.dialogRef.close({value: this.value, type: this.type})
+    this.dialogRef.close({value: this.value, type: this.type, oriented: this.oriented, weight: this.weight});
   }
 
   close(): void{

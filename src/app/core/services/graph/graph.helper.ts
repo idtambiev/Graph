@@ -24,6 +24,8 @@ export class GraphHelper {
   selectedGraphId$: BehaviorSubject<any> = new BehaviorSubject(null);
   selectedVectorId$: BehaviorSubject<any> = new BehaviorSubject(null);
 
+  addRelationMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
 
   saveGraphCoordinates$: BehaviorSubject<any> = new BehaviorSubject(null);
   constructor() { }

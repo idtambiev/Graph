@@ -20,6 +20,7 @@ export class SideMenuComponent implements OnInit {
 
   showType: ShowTypes = ShowTypes.Graphs;
   showActions: boolean = false;
+  mode = false;
   constructor(private graphHelper: GraphHelper,
     private graphService: GraphService,
     private ref: MatDialog,
@@ -77,12 +78,14 @@ export class SideMenuComponent implements OnInit {
   }
 
   addRelation(){
-    this.ref.open(AddRelationDialogComponent)
-    .afterClosed().subscribe((res) => {
-      if (res){
-        //this.graphHelper.selectedGraphId$.next(res);
-      }
-    })
+    this.mode = !this.mode;
+    this.graphHelper.addRelationMode$.next(this.mode);
+    // this.ref.open(AddRelationDialogComponent)
+    // .afterClosed().subscribe((res) => {
+    //   if (res){
+    //     //this.graphHelper.selectedGraphId$.next(res);
+    //   }
+    // })
     //this.graphHelper.addRelation$.next(true);
   }
 

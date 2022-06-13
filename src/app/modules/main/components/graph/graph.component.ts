@@ -3,11 +3,13 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChi
 import { MatDialog } from '@angular/material/dialog';
 import { RelationsType } from '@core/enums/relations-types.enum';
 import { AddRelationDialogComponent } from '@dialogs/add-relation-dialog/add-relation-dialog.component';
+import { CreateEdgeDTO } from '@interfaces/DTOs/create-edge.dto';
 import { CoordinatesDTO, CoordinatesItem } from '@interfaces/DTOs/save-coordinates.dto';
 import { Graph } from '@interfaces/models/graph.interface';
 import { Block } from '@interfaces/render-models/block.interface';
 import { Line } from '@interfaces/render-models/line.interface';
 import { RenderedRelation } from '@interfaces/render-models/rendered-relation.interface';
+import { EdgeService } from '@services/api/edge.service';
 import { GraphService } from '@services/api/graph.service';
 import { VertexService } from '@services/api/vertex.service';
 import { BellmanFordAlgorythmService } from '@services/graph/bellman-ford-algorythm.service';
@@ -41,6 +43,8 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     y: 0
   }
 
+  createRelationMode = false;
+
   graphBlocks: Graph | null = null;
   coordinates: CoordinatesDTO | null = null;
   globalWrapper: any = null;
@@ -52,7 +56,9 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     private graphService: GraphService,
     private ref: ChangeDetectorRef,
     private vertexService: VertexService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private dialog: MatDialog,
+    private edgeService: EdgeService
   ) {
 
    }
@@ -83,6 +89,12 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
         this.saveCoordinates();
       }
     })
+
+    this.graphHelper.addRelationMode$
+    .pipe(takeUntil(this.destroyed))
+    .subscribe(res =>{
+      this.createRelationMode = res;
+    })
   }
 
   saveCoordinates(): void{
@@ -101,8 +113,6 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
         yCoordinate: Math.round(x.yCoordinate)
       })
     })
-
-    console.log(this.renderedBlocks)
     this.vertexService.saveCoordinates(body)
     .pipe(takeUntil(this.destroyed))
     .subscribe((res) => {
@@ -163,36 +173,40 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
   clickOnBlock(event: any, blockId: number): void{
     const block = this.renderedBlocks.find((x) => x.id == blockId)
 
-    if (this.renderedBlocks){
-
-    }
-    const relationType = this.graphHelper.addRelation$.value;
-    if (relationType != null){
+    if (this.createRelationMode){
       this.clickedBlocksCount++;
       if (this.clickedBlocksCount < 2){
         this.graphHelper.selectedFirstBlock$.next(blockId);
       } else {
-        this.createNewRelation(blockId, relationType);
+        this.createNewRelation(blockId);
       }
     }
   }
 
-  createNewRelation(secondBlockId: number, relationType: RelationsType): void{
-    if (this.graphBlocks){
-      const firstBlockId = this.graphHelper.selectedFirstBlock$.value;
-      const idx = this.graphBlocks.blocks.findIndex((val) => val.id == firstBlockId);
+  createNewRelation(secondBlockId: number): void{
+    const firstBlockId = this.graphHelper.selectedFirstBlock$.value;
+    this.dialog.open(AddRelationDialogComponent)
+    .afterClosed()
+    .subscribe((res) => {
+      if (res){
+        const body:CreateEdgeDTO = {
+          blockId: firstBlockId,
+          relatedId: secondBlockId,
+          value: res.value,
+          oriented: res.oriented,
+          type: res.type,
+          vectorId: this.graphHelper.selectedVectorId$.value ? this.graphHelper.selectedVectorId$.value: null,
+          weight: res.weight
+        }
 
-      this.graphBlocks.blocks[idx].relations.push({
-        id: this.relations.length+1,
-        relatedBlockId: secondBlockId,
-        type: relationType,
-        weight: 0,
-        isNew: true,
-        value: '',
-        vectorId: relationType == 5 ? this.graphHelper.selectedVectorId$.value: null,
-        oriented: false
-      });
-    }
+        this.edgeService.create(body)
+        .pipe(takeUntil(this.destroyed))
+        .subscribe((res)=>{
+          this.loadGraph(this.graphHelper.selectedGraphId$.value);
+        })
+      }
+    });
+
 
       this.selectGraph();
       this.graphHelper.selectedFirstBlock$.next(null);
@@ -226,6 +240,10 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
       x : 0,
       y : 0
     }
+
+    // this.saveCoordinates();
+    // this.loadCoordinates();
+    // this.createRelationLines();
   }
 
   changeRelationCoordinates(x: number, y: number, id: number): void{
@@ -325,7 +343,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
         if (startBlock.xCoordinate >= endBlock.xCoordinate){
           x1 = startBlock.xCoordinate + width/2;
           y1 = startBlock.yCoordinate + height;
-          if (endBlock.xCoordinate < startBlock.xCoordinate-width*3){
+          if (endBlock.xCoordinate < startBlock.xCoordinate-width*2){
               x2 = endBlock.xCoordinate + width;
               y2 = endBlock.yCoordinate + height/2;
           } else {
@@ -335,7 +353,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
         } else if (startBlock.xCoordinate < endBlock.xCoordinate){
           x1 = startBlock.xCoordinate + width/2;
           y1 = startBlock.yCoordinate + height;
-          if (endBlock.xCoordinate > startBlock.xCoordinate + width*3){
+          if (endBlock.xCoordinate > startBlock.xCoordinate + width*2){
               x2 = endBlock.xCoordinate;
               y2 = endBlock.yCoordinate + height/2;
           } else {
@@ -350,7 +368,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
       if (startBlock.xCoordinate >= endBlock.xCoordinate){
         x1 = startBlock.xCoordinate + width/2;
         y1 = startBlock.yCoordinate;
-        if (endBlock.xCoordinate < startBlock.xCoordinate-width*3){
+        if (endBlock.xCoordinate < startBlock.xCoordinate-width*2){
             x2 = endBlock.xCoordinate + width;
             y2 = endBlock.yCoordinate + height/2;
         } else {
@@ -360,7 +378,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
       } else if (startBlock.xCoordinate < endBlock.xCoordinate){
         x1 = startBlock.xCoordinate + width/2;
         y1 = startBlock.yCoordinate + height;
-        if (endBlock.xCoordinate > startBlock.xCoordinate + width*3){
+        if (endBlock.xCoordinate > startBlock.xCoordinate + width*2){
             x2 = endBlock.xCoordinate;
             y2 = endBlock.yCoordinate + height/2;
         } else {
@@ -395,7 +413,7 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
       x1: x1,
       y1: y1,
       x2: x2 - (relation?.oriented ? this.markerWidth: 0),
-      y2: y2 - (relation?.oriented ? this.markerWidth: 0),
+      y2: y2 - (relation?.oriented ? this.markerHeight: 0),
       type: relation.type,
       oriented: relation.oriented,
       vectorId: relation.vectorId

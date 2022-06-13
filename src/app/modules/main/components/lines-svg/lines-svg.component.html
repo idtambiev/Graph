@@ -12,7 +12,7 @@
   [attr.x2]="line.x2"
   [attr.y2]="line.y2"
   stroke="black"
-  stroke-width="2"/>
+  stroke-width="1"/>
 
   <line *ngFor="let line of oneTypeOrientedLines"
   [attr.x1]="line.x1"
@@ -20,7 +20,7 @@
   [attr.x2]="line.x2"
   [attr.y2]="line.y2"
   stroke="black"
-  stroke-width="2"
+  stroke-width="1"
   marker-end="url(#arrowhead)"/>
 
   <line *ngFor="let line of multipleUndirectedVectorLines"
@@ -29,7 +29,7 @@
   [attr.x2]="line.x2"
   [attr.y2]="line.y2"
   stroke="blue"
-  stroke-width="3"/>
+  stroke-width="2"/>
 
   <line *ngFor="let line of multipleOrientedVectorLines"
   [attr.x1]="line.x1"
@@ -37,6 +37,6 @@
   [attr.x2]="line.x2"
   [attr.y2]="line.y2"
   stroke="blue"
-  stroke-width="3"
+  stroke-width="2"
   marker-end="url(#arrowhead)"/>
 </svg>
