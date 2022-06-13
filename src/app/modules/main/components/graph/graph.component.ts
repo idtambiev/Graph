@@ -3,7 +3,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChi
 import { MatDialog } from '@angular/material/dialog';
 import { RelationsType } from '@core/enums/relations-types.enum';
 import { AddRelationDialogComponent } from '@dialogs/add-relation-dialog/add-relation-dialog.component';
-import { CoordinatesDTO } from '@interfaces/DTOs/save-coordinates.dto';
+import { CoordinatesDTO, CoordinatesItem } from '@interfaces/DTOs/save-coordinates.dto';
 import { Graph } from '@interfaces/models/graph.interface';
 import { Block } from '@interfaces/render-models/block.interface';
 import { Line } from '@interfaces/render-models/line.interface';
@@ -70,6 +70,8 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
         this.diverseOrientedLines = [];
         this.multipleUndirectedVectorLines = [];
         this.multipleOrientedVectorLines = [];
+        this.coordinates = null;
+        this.renderedBlocks = [];
         this.loadGraph(id);
       }
     });
@@ -292,43 +294,6 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  // createRelationLines(): void{
-  //   this.createRelationsArray();
-  //   const wrapper = this.getWrapperCoordinates();
-  //   this.lines = [];
-  //   this.relations.forEach((relation, index) => {
-  //     let startBlock = this.getRelationBlockById(relation.startBlockId);
-  //     let endBlock = this.getRelationBlockById(relation.endBlockId);
-
-  //     if (startBlock?.xCoordinate && endBlock?.xCoordinate){
-  //       this.lines.push({
-  //         id: index + 1,
-  //         startBlockId: relation.startBlockId,
-  //         endBlockId: relation.endBlockId,
-
-  //         x1: startBlock!.xCoordinate < endBlock!.xCoordinate ?
-  //                       startBlock!.xCoordinate - wrapper!.x + startBlock!.width:
-  //                       startBlock!.xCoordinate - wrapper!.x,
-
-  //         y1: 85 + startBlock!.yCoordinate - wrapper!.y + startBlock!.height/2,
-
-  //         x2: startBlock!.xCoordinate > endBlock!.xCoordinate ?
-  //                       endBlock!.xCoordinate - wrapper!.x + endBlock!.width + (relation?.oriented ? this.markerWidth: 0) :
-  //                       endBlock!.xCoordinate - wrapper!.x - (relation?.oriented ? this.markerWidth: 0),
-
-  //         y2: 85 + endBlock!.yCoordinate - wrapper!.y + endBlock!.height/2,
-
-  //         type: relation.type,
-  //         oriented: relation.oriented,
-  //         vectorId: relation.vectorId
-  //       });
-  //     }
-
-
-  //     this.createLinesArrays();
-  //   });
-  // }
-
 
   createRelationLines(): void{
     this.createRelationsArray();
@@ -336,33 +301,152 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     this.lines = [];
     console.log(this.renderedBlocks)
     this.relations.forEach((relation, index) => {
-      console.log(relation)
-      let startBlock = this.coordinates?.list.find((x) => x.blockId == relation.startBlockId)
-      let endBlock = this.coordinates?.list.find((x) => x.blockId == relation.endBlockId)
-      //let endBlock = this.getRelationBlockById(relation.endBlockId);
-      console.log(startBlock)
+      let startBlock = this.coordinates?.list.find((x) => x.blockId == relation.startBlockId);
+      let endBlock = this.coordinates?.list.find((x) => x.blockId == relation.endBlockId);
+
       if (startBlock?.xCoordinate && endBlock?.xCoordinate){
-        this.lines.push({
-          id: index + 1,
-          startBlockId: relation.startBlockId,
-          endBlockId: relation.endBlockId,
+        this.generateLinesCoordinates(startBlock, endBlock, index, relation);
 
-          x1: startBlock!.xCoordinate,
+        // this.lines.push({
+        //   id: index + 1,
+        //   startBlockId: relation.startBlockId,
+        //   endBlockId: relation.endBlockId,
 
-          y1: startBlock!.yCoordinate,
+        //   x1: startBlock!.xCoordinate,
 
-          x2: endBlock!.xCoordinate,
+        //   y1: startBlock!.yCoordinate,
 
-          y2: endBlock!.yCoordinate,
+        //   x2: endBlock!.xCoordinate,
 
-          type: relation.type,
-          oriented: relation.oriented,
-          vectorId: relation.vectorId
-        });
+        //   y2: endBlock!.yCoordinate,
+
+        //   type: relation.type,
+        //   oriented: relation.oriented,
+        //   vectorId: relation.vectorId
+        // });
+      }
+      this.createLinesArrays();
+    });
+  }
+
+  generateLinesCoordinates(startBlock: CoordinatesItem, endBlock:CoordinatesItem, index: number, relation: RenderedRelation): any{
+    let x1 = 0;
+    let y1 = 0;
+    let x2 = 0;
+    let y2 = 0;
+
+    const width = 68;
+    const height = 56;
+
+    // if (startBlock.yCoordinate < endBlock.yCoordinate ){
+    //   x1 = startBlock.xCoordinate + width/2;
+    //   y1 = startBlock.yCoordinate + height;
+    //   x2 = endBlock.xCoordinate + width/2;
+    //   y2 = endBlock.yCoordinate;
+    // }
+    // else if (startBlock.yCoordinate > endBlock.yCoordinate ){
+    //   x1 = startBlock.xCoordinate + width/2;
+    //   y1 = startBlock.yCoordinate;
+    //   x2 = endBlock.xCoordinate + width/2;
+    //   y2 = endBlock.yCoordinate + height;
+    // }
+    // else if (startBlock.xCoordinate < endBlock.xCoordinate){
+    //   x1 = startBlock.xCoordinate + width;
+    //   y1 = startBlock.yCoordinate + height/2;
+    //   x2 = endBlock.xCoordinate;
+    //   y2 = endBlock.yCoordinate + height/2;
+    // } else if (startBlock.xCoordinate > endBlock.xCoordinate){
+    //   x1 = startBlock.xCoordinate;
+    //   y1 = startBlock.yCoordinate + height/2;
+    //   x2 = endBlock.xCoordinate + width;
+    //   y2 = endBlock.yCoordinate + height;
+    // }
+
+    // start higher
+    if (startBlock.yCoordinate + height*3 < endBlock.yCoordinate){
+        if (startBlock.xCoordinate >= endBlock.xCoordinate){
+          x1 = startBlock.xCoordinate + width/2;
+          y1 = startBlock.yCoordinate + height;
+          if (endBlock.xCoordinate < startBlock.xCoordinate-width*3){
+              x2 = endBlock.xCoordinate + width;
+              y2 = endBlock.yCoordinate + height/2;
+          } else {
+              x2 = endBlock.xCoordinate + width/2;
+              y2 = endBlock.yCoordinate;
+          }
+        } else if (startBlock.xCoordinate < endBlock.xCoordinate){
+          x1 = startBlock.xCoordinate + width/2;
+          y1 = startBlock.yCoordinate + height;
+          if (endBlock.xCoordinate > startBlock.xCoordinate + width*3){
+              x2 = endBlock.xCoordinate;
+              y2 = endBlock.yCoordinate + height/2;
+          } else {
+              x2 = endBlock.xCoordinate + width/2;
+              y2 = endBlock.yCoordinate;
+          }
+        }
+
+    }
+
+    // start lower
+    if (startBlock.yCoordinate - height*3 > endBlock.yCoordinate){
+      if (startBlock.xCoordinate >= endBlock.xCoordinate){
+        x1 = startBlock.xCoordinate + width/2;
+        y1 = startBlock.yCoordinate;
+        if (endBlock.xCoordinate < startBlock.xCoordinate-width*3){
+            x2 = endBlock.xCoordinate + width;
+            y2 = endBlock.yCoordinate + height/2;
+        } else {
+            x2 = endBlock.xCoordinate + width/2;
+            y2 = endBlock.yCoordinate;
+        }
+      } else if (startBlock.xCoordinate < endBlock.xCoordinate){
+        x1 = startBlock.xCoordinate + width/2;
+        y1 = startBlock.yCoordinate + height;
+        if (endBlock.xCoordinate > startBlock.xCoordinate + width*3){
+            x2 = endBlock.xCoordinate;
+            y2 = endBlock.yCoordinate + height/2;
+        } else {
+            x2 = endBlock.xCoordinate + width/2;
+            y2 = endBlock.yCoordinate;
+        }
       }
 
+  }
 
-      this.createLinesArrays();
+
+    // start horizontal
+    if ( endBlock.yCoordinate <= startBlock.yCoordinate+height*3 && endBlock.yCoordinate >= startBlock.yCoordinate - height*3){
+      if (startBlock.xCoordinate >= endBlock.xCoordinate){
+        x1 = startBlock.xCoordinate;
+        y1 = startBlock.yCoordinate + height/2;
+        x2 = endBlock.xCoordinate + width;
+        y2 = endBlock.yCoordinate + height/2;
+      } else if (startBlock.xCoordinate < endBlock.xCoordinate){
+        x1 = startBlock.xCoordinate + width;
+        y1 = startBlock.yCoordinate + height/2;
+        x2 = endBlock.xCoordinate;
+        y2 = endBlock.yCoordinate+ height/2;
+      }
+
+  }
+
+    this.lines.push({
+      id: index + 1,
+      startBlockId: relation.startBlockId,
+      endBlockId: relation.endBlockId,
+
+      x1: x1,
+
+      y1: y1,
+
+      x2: x2,
+
+      y2: y2,
+
+      type: relation.type,
+      oriented: relation.oriented,
+      vectorId: relation.vectorId
     });
   }
 
