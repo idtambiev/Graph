@@ -79,6 +79,7 @@ export class FeaturesComponent implements OnInit {
     sendEdgesList(){
       this.edges=[]
       this.createEdgesList();
+      console.log(this.edges)
       const formData = new FormData();
       formData.append('edges', JSON.stringify(this.edges));
       formData.append('count', this.graph!.blocks.length.toString())
@@ -87,6 +88,8 @@ export class FeaturesComponent implements OnInit {
       this.pythonService.sendEdgesList(formData)
       .subscribe((res)=>{
         console.log(res)
+      }, err =>{
+        console.log(err.error)
       })
     }
 

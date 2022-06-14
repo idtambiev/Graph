@@ -16,6 +16,10 @@ class Edge():
     self.edgeEnd = edgeEnd
     self.weight = weight
 
+class Response():
+  def __init__(self, dist):
+    self.distance = dist
+
 def algorythm(count, start):
   verticesCount = count
   dist.clear()
@@ -32,7 +36,6 @@ def algorythm(count, start):
 
       if dist[u]!= math.inf and dist[u] + weight < dist[v]:
         dist[v] = dist[u] + weight
-
 
 
 class echoHandler(SimpleHTTPRequestHandler):
@@ -57,11 +60,14 @@ class echoHandler(SimpleHTTPRequestHandler):
       edges.extend(json.loads(new_Elements[0], object_hook=lambda d: Namespace(**d)))
       algorythm(count, start)
 
-    self.send_response(200)
+    self.send_response(301)
     self.send_header('content-type', 'text/html')
     self.send_header('Access-Control-Allow-Origin', '*')
     self.end_headers()
-    self.wfile.write(json.dumps(dist).encode())
+    response = Response(dist)
+    jsonStr = json.dumps(response.__dict__)
+    print(response.distance)
+    self.wfile.write(jsonStr.encode())
 
 
 def main():
