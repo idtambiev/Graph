@@ -52,7 +52,7 @@
   </div>
 
   <div class="column">
-    <table mat-table [dataSource]="resultDataSource" matSort  class="mat-elevation-z8">
+    <table mat-table [dataSource]="resultsTable" matSort  class="mat-elevation-z8">
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element;let i = index;">{{i+1}}</td>
@@ -60,17 +60,17 @@
 
       <ng-container matColumnDef="startVertex">
         <th mat-header-cell *matHeaderCellDef> Start Vertex </th>
-        <td mat-cell *matCellDef="let element"> {{element.radius}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.startVertex}} </td>
       </ng-container>
 
       <ng-container matColumnDef="endVertex">
         <th mat-header-cell *matHeaderCellDef> End Vertex </th>
-        <td mat-cell *matCellDef="let element"> {{element.diameter}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.endVertex}} </td>
       </ng-container>
 
       <ng-container matColumnDef="shortestPath">
         <th mat-header-cell *matHeaderCellDef> Shortest Path </th>
-        <td mat-cell *matCellDef="let element"> {{element.centralVertex}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.shortestPath}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="resultDisplayedColumns"></tr>

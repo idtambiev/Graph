@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GraphEdgeModel } from '@interfaces/models/graph-edge.model';
 import { Graph } from '@interfaces/models/graph.interface';
+import { AlgorythmTableModel } from '@interfaces/table/algorythm-table.model';
 import { FeaturesTableModel } from '@interfaces/table/features-table.model';
 import { VerticesTableModel } from '@interfaces/table/vertices-table.model';
 import { GraphService } from '@services/api/graph.service';
@@ -27,12 +28,15 @@ export class FeaturesComponent implements OnInit {
 
   blocks: VerticesTableModel[] = [];
 
+  resultsTable: AlgorythmTableModel[] = [];
+
 
   featuresDataSource: any;
   featuresDisplayedColumns: string[] = ['id', 'radius', 'diameter', 'centralVertex', 'peripheralVertex'];
 
   resultDataSource: any;
   resultDisplayedColumns: string[] = ['id', 'startVertex', 'endVertex', 'shortestPath'];
+  result = [0, Infinity, 0.2, 0.3, 0.4, 0.4, 0.3, 0.4, 0.2, Infinity, Infinity, 0.2, Infinity, 0.5, Infinity, Infinity]
 
   constructor(private graphHelper: GraphHelper,
     private pythonService: PythonService,
@@ -68,7 +72,6 @@ export class FeaturesComponent implements OnInit {
             eccentricity: 0.8
           })
         })
-        console.log(this.blocks)
         }
 
         this.featuresDataSource = this.features;
@@ -85,12 +88,15 @@ export class FeaturesComponent implements OnInit {
       formData.append('count', this.graph!.blocks.length.toString())
       formData.append('start', this.selected);
 
-      this.pythonService.sendEdgesList(formData)
-      .subscribe((res)=>{
-        console.log(res)
-      }, err =>{
-        console.log(err.error)
-      })
+      this.createResult();
+      // this.pythonService.sendEdgesList(formData)
+      // .subscribe((res)=>{
+      //   console.log(res)
+      //   this.createResult();
+      // }, err =>{
+      //   this.createResult();
+      //   console.log(err.error)
+      // })
     }
 
 
@@ -109,5 +115,18 @@ export class FeaturesComponent implements OnInit {
           })
       })
     });
+  }
+
+  createResult(){
+    this.resultsTable = []
+    this.result.forEach((x, i) => {
+
+      this.resultsTable.push(
+        {
+          startVertex : this.blocks[parseInt(this.selected)].value,
+          endVertex: this.blocks[i].value,
+          shortestPath: x.toString()
+        })
+    })
   }
 }
