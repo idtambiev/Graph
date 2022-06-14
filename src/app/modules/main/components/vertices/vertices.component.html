@@ -6,7 +6,9 @@
 
   <ng-container matColumnDef="value">
     <th mat-header-cell *matHeaderCellDef> Value </th>
-    <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+    <td mat-cell *matCellDef="let element">
+      <i>gv<sub>{{element.value!.split('gv')[1]}}</sub></i>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="weight">

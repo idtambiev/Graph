@@ -8,17 +8,22 @@
 
     <ng-container matColumnDef="value">
       <th mat-header-cell *matHeaderCellDef> Value </th>
-      <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+      <td mat-cell *matCellDef="let element">
+        <i>ge<sub>{{element.value!.split('ge')[1]}}</sub></i>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="startVertex">
       <th mat-header-cell *matHeaderCellDef> Start Vertex </th>
-      <td mat-cell *matCellDef="let element"> {{element.startValue}} </td>
+      <td mat-cell *matCellDef="let element">
+        <i>gv<sub>{{element.startValue!.split('gv')[1]}}</sub></i>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="endVertex">
       <th mat-header-cell *matHeaderCellDef> End Vertex </th>
-      <td mat-cell *matCellDef="let element"> {{element.endValue}} </td>
+      <td mat-cell *matCellDef="let element">
+        <i>gv<sub>{{element.endValue!.split('gv')[1]}}</sub></i> </td>
     </ng-container>
 
     <ng-container matColumnDef="type">

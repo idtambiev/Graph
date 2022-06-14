@@ -37,7 +37,9 @@
       <mat-select [(value)]="selected">
         <mat-option
         *ngFor="let block of blocks;let i = index"
-        [value]="i">{{block.value}}</mat-option>
+        [value]="i">
+        <i>gv<sub>{{block.value!.split('gv')[1]}}</sub></i>
+      </mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -60,12 +62,16 @@
 
       <ng-container matColumnDef="startVertex">
         <th mat-header-cell *matHeaderCellDef> Start Vertex </th>
-        <td mat-cell *matCellDef="let element"> {{element.startVertex}} </td>
+        <td mat-cell *matCellDef="let element">
+          <i>gv<sub>{{element.startVertex!.split('gv')[1]}}</sub></i>
+          </td>
       </ng-container>
 
       <ng-container matColumnDef="endVertex">
         <th mat-header-cell *matHeaderCellDef> End Vertex </th>
-        <td mat-cell *matCellDef="let element"> {{element.endVertex}} </td>
+        <td mat-cell *matCellDef="let element">
+          <i>gv<sub>{{element.endVertex!.split('gv')[1]}}</sub></i>
+         </td>
       </ng-container>
 
       <ng-container matColumnDef="shortestPath">

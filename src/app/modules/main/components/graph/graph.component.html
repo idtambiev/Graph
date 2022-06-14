@@ -3,7 +3,7 @@
         <div [id]="block.id"
         cdkDragBoundary=".graph-wrapper"
         class="graph-block"
-        *ngFor="let block of graphBlocks?.blocks;"
+        *ngFor="let block of graphBlocks?.blocks"
         (click)="clickOnBlock($event, block.id)"
         (cdkDragMoved)="movingBlock($event, block.id)"
         (cdkDragEnded)="endedMovingBlock($event, block.id)"
