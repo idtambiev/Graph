@@ -1,12 +1,28 @@
 .wrapper{
-  .row{
-    width: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  .column{
+    width: 40%;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    table{
-      width: 50%;
-    }
+    flex-direction: column;
+    margin-right: 30px;
   }
+}
+table{
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.button{
+    width: fit-content;
+    height: 30px;
+    color: white;
+    background-color: purple;
+    margin-right: 15px;
+    cursor: pointer;
+}
+.choose{
+  display: flex;
+  flex-direction: column;
 }

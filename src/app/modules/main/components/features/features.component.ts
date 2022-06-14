@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GraphEdgeModel } from '@interfaces/models/graph-edge.model';
 import { Graph } from '@interfaces/models/graph.interface';
 import { FeaturesTableModel } from '@interfaces/table/features-table.model';
+import { VerticesTableModel } from '@interfaces/table/vertices-table.model';
 import { GraphService } from '@services/api/graph.service';
 import { PythonService } from '@services/api/python.service';
 import { GraphHelper } from '@services/graph/graph.helper';
@@ -17,14 +18,21 @@ export class FeaturesComponent implements OnInit {
   diameter = 0;
   peripheralVertex = null;
   centralVertex = null;
+  selected = '';
 
   graph: Graph | null = null;
   edges: GraphEdgeModel[] = [];
 
   features: FeaturesTableModel[] =[];
 
+  blocks: VerticesTableModel[] = [];
+
+
   featuresDataSource: any;
   featuresDisplayedColumns: string[] = ['id', 'radius', 'diameter', 'centralVertex', 'peripheralVertex'];
+
+  resultDataSource: any;
+  resultDisplayedColumns: string[] = ['id', 'startVertex', 'endVertex', 'shortestPath'];
 
   constructor(private graphHelper: GraphHelper,
     private pythonService: PythonService,
@@ -51,6 +59,16 @@ export class FeaturesComponent implements OnInit {
             centralVertex: 1,
             peripheralVertex: 4
           })
+
+          this.graph?.blocks.forEach((block)=>{
+          this.blocks.push({
+            id: block.id,
+            value: block.value,
+            weight: 0.1,
+            eccentricity: 0.8
+          })
+        })
+        console.log(this.blocks)
         }
 
         this.featuresDataSource = this.features;
@@ -61,12 +79,15 @@ export class FeaturesComponent implements OnInit {
     sendEdgesList(){
       this.edges=[]
       this.createEdgesList();
-      console.log(this.edges)
       const formData = new FormData();
-      console.log(this.edges)
       formData.append('edges', JSON.stringify(this.edges));
       formData.append('count', this.graph!.blocks.length.toString())
-      formData.append('start', '0')
+      formData.append('start', this.selected);
+
+      this.pythonService.sendEdgesList(formData)
+      .subscribe((res)=>{
+        console.log(res)
+      })
     }
 
 
@@ -86,8 +107,4 @@ export class FeaturesComponent implements OnInit {
       })
     });
   }
-
-
-
-
 }

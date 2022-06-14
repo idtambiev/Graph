@@ -28,6 +28,8 @@ import { VectorItemsTableComponent } from './dialogs/select-vector/vector-items-
 import { AddFilterDialogComponent } from './dialogs/add-filter-dialog/add-filter-dialog.component';
 import { AddRelationDialogComponent } from './dialogs/add-relation-dialog/add-relation-dialog.component';
 import { AddVertexComponent } from './dialogs/add-vertex/add-vertex.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 @NgModule({
   declarations: [
     AuthInputComponent,
@@ -61,7 +63,8 @@ import { AddVertexComponent } from './dialogs/add-vertex/add-vertex.component';
     MatDialogModule,
     MatProgressSpinnerModule,
     MatSelectModule,
-    MatTableModule
+    MatTableModule,
+    MatFormFieldModule
   ],
   exports: [
     AuthInputComponent,
@@ -72,7 +75,9 @@ import { AddVertexComponent } from './dialogs/add-vertex/add-vertex.component';
     MatDialogModule,
     MatProgressSpinnerModule,
     MatTableModule,
-    AddRelationDialogComponent
+    AddRelationDialogComponent,
+    MatFormFieldModule,
+    MatSelectModule
   ]
 })
 export class SharedModule { }

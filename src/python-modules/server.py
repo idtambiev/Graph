@@ -57,7 +57,7 @@ class echoHandler(SimpleHTTPRequestHandler):
       edges.extend(json.loads(new_Elements[0], object_hook=lambda d: Namespace(**d)))
       algorythm(count, start)
 
-    self.send_response(301)
+    self.send_response(200)
     self.send_header('content-type', 'text/html')
     self.send_header('Access-Control-Allow-Origin', '*')
     self.end_headers()
