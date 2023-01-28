@@ -33,12 +33,12 @@ export class VerticesComponent implements OnInit {
       if (res){
         this.blocks = []
         this.graph = res;
-        this.graph?.blocks.forEach((block)=>{
+        this.graph?.blocks.forEach((block, i)=>{
           this.blocks.push({
             id: block.id,
             value: block.value,
             weight: 0.1,
-            eccentricity: 0.8
+            eccentricity: 0.1 * i+1
           })
         })
 

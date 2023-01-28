@@ -11,7 +11,7 @@ import { GraphComponent } from './components/graph/graph.component';
 })
 export class MainComponent implements OnInit {
   @ViewChild(GraphComponent) graphComponent!: GraphComponent;
-  showType: ShowTypes = ShowTypes.Graphs;
+  showType: ShowTypes = ShowTypes.Canvas;
   isLoading = false;
 
   constructor(private graphService: GraphHelper,

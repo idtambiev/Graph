@@ -12,6 +12,7 @@ import { AlgorythmComponent } from './components/algorythm/algorythm.component';
 import { FeaturesComponent } from './components/features/features.component';
 import { RelationsComponent } from './components/relations/relations.component';
 import { VerticesComponent } from './components/vertices/vertices.component';
+import { CanvasComponent } from './components/canvas/canvas.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { VerticesComponent } from './components/vertices/vertices.component';
     FeaturesComponent,
     RelationsComponent,
     VerticesComponent,
+    CanvasComponent,
   ],
   imports: [
     CommonModule,

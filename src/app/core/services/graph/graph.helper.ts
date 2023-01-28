@@ -7,7 +7,8 @@ export enum ShowTypes{
   Graphs = 0,
   Relations = 1,
   Algorythm = 2,
-  Features = 3
+  Features = 3,
+  Canvas = 4
 }
 @Injectable({
   providedIn: 'root'

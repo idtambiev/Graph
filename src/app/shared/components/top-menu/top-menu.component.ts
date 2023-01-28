@@ -10,7 +10,7 @@ export class TopMenuComponent implements OnInit {
   @Input() isGraphBlock: boolean = true;
   @Output() newBlockOutput = new EventEmitter<number>();
   show: boolean = false;
-  status: ShowTypes = ShowTypes.Graphs
+  status: ShowTypes = ShowTypes.Canvas
 
   constructor(
     private graphService: GraphHelper

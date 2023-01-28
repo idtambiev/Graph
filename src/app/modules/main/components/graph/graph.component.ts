@@ -16,6 +16,7 @@ import { BellmanFordAlgorythmService } from '@services/graph/bellman-ford-algory
 import { GraphHelper } from '@services/graph/graph.helper';
 import { LoadingService } from '@services/loading.service';
 import { Subject, takeUntil, takeWhile } from 'rxjs';
+import { CreateVectorComponent } from 'src/app/shared/components/side-menu/components/vector/create-vector/create-vector.component';
 
 @Component({
   selector: 'app-graph',
@@ -70,6 +71,10 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     .pipe(takeUntil(this.destroyed))
     .subscribe((id)=> {
       if (id){
+        // this.dialog.open(CreateVectorComponent,{
+        //   width: '630px',
+        //   height: '550px'
+        // })
         this.oneTypeUndirectedLines = [];
         this.oneTypeOrientedLines = [];
         this.diverseUndirectedLines = [];
@@ -89,6 +94,8 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
         this.saveCoordinates();
       }
     })
+
+
 
     this.graphHelper.addRelationMode$
     .pipe(takeUntil(this.destroyed))
@@ -335,8 +342,8 @@ export class GraphComponent implements OnInit, AfterViewInit, OnDestroy {
     let x2 = 0;
     let y2 = 0;
 
-    const width = 68;
-    const height = 56;
+    const width = 46;
+    const height = 48;
 
     // start higher
     if (startBlock.yCoordinate + height*3 < endBlock.yCoordinate){

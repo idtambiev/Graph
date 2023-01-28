@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { AddFilterDialogComponent } from '@dialogs/add-filter-dialog/add-filter-dialog.component';
 import { GraphEdgeModel } from '@interfaces/models/graph-edge.model';
 import { Graph } from '@interfaces/models/graph.interface';
 import { AlgorythmTableModel } from '@interfaces/table/algorythm-table.model';
@@ -40,7 +42,8 @@ export class FeaturesComponent implements OnInit {
 
   constructor(private graphHelper: GraphHelper,
     private pythonService: PythonService,
-    private graphService: GraphService) { }
+    private graphService: GraphService,
+    private dialog: MatDialog) { }
 
     ngOnInit(): void {
       this.graphHelper.selectedGraphId$
@@ -49,6 +52,8 @@ export class FeaturesComponent implements OnInit {
           this.loadGraph(res);
         }
       })
+
+      //this.dialog.open(AddFilterDialogComponent);
     }
 
     loadGraph(id: number){
